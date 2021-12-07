@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class GradePK implements Serializable{
 
-
+	// TODO do compareTo
 	private static final long serialVersionUID = 1L;
 
 	private Exam exam;
