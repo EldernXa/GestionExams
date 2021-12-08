@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.gestion.exams.entity.Authentification;
 
 @Repository
-public interface AuthentificiationRepository extends JpaRepository<Authentification, String>{
+public interface AuthentificationRepository extends JpaRepository<Authentification, String>{
 
 }
