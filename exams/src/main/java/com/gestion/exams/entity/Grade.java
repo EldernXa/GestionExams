@@ -4,12 +4,7 @@ import javax.persistence.Basic;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
-@Getter
-@Setter
 public class Grade {
 
 	@EmbeddedId
@@ -26,6 +21,18 @@ public class Grade {
 		super();
 		this.gradePK = new GradePK(exam, student);
 		this.value = value;
+	}
+
+	public int getValue() {
+		return value;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
+	}
+
+	public GradePK getGradePK() {
+		return gradePK;
 	}
 
 

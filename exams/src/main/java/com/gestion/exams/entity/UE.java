@@ -9,12 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
-@Getter
-@Setter
 public class UE {
 
 	@Id
@@ -45,6 +40,46 @@ public class UE {
 		this.credit = credit;
 		this.durationExam = durationExam;
 		this.discipline = discipline;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getCredit() {
+		return credit;
+	}
+
+	public void setCredit(int credit) {
+		this.credit = credit;
+	}
+
+	public int getDurationExam() {
+		return durationExam;
+	}
+
+	public void setDurationExam(int durationExam) {
+		this.durationExam = durationExam;
+	}
+
+	public Discipline getDiscipline() {
+		return discipline;
+	}
+
+	public void setDiscipline(Discipline discipline) {
+		this.discipline = discipline;
+	}
+
+	public List<Inscription> getInscriptions() {
+		return inscriptions;
+	}
+
+	public List<Exam> getExams() {
+		return exams;
 	}
 
 
