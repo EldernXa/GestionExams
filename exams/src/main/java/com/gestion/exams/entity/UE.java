@@ -39,14 +39,11 @@ public class UE {
 		super();
 	}
 
-	public UE(String name, int credit, int durationExam, List<Inscription> inscriptions, List<Exam> exams,
-			Discipline discipline) {
+	public UE(String name, int credit, int durationExam, Discipline discipline) {
 		super();
 		this.name = name;
 		this.credit = credit;
 		this.durationExam = durationExam;
-		this.inscriptions = inscriptions;
-		this.exams = exams;
 		this.discipline = discipline;
 	}
 
