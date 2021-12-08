@@ -11,12 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
-@Getter
-@Setter
 public class Student {
 
 	@Id
@@ -33,7 +28,7 @@ public class Student {
 	private String email;
 
 	// TODO verify mappedBy.
-	@OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "gradePK.student", fetch = FetchType.LAZY)
 	private List<Grade> grades = new ArrayList<>();
 
 	@OneToMany(mappedBy = "student")
@@ -47,6 +42,42 @@ public class Student {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.email = email;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public long getIdStudent() {
+		return idStudent;
+	}
+
+	public List<Grade> getGrades() {
+		return grades;
+	}
+
+	public List<Inscription> getInscriptions() {
+		return inscriptions;
+	}
+
+	public void setEmail(String email) {
 		this.email = email;
 	}
 

@@ -3,19 +3,21 @@ package com.gestion.exams.entity;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
-
-import lombok.Getter;
-import lombok.Setter;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Embeddable
-@Getter
-@Setter
 public class GradePK implements Serializable{
 
 	// TODO do compareTo
 	private static final long serialVersionUID = 1L;
 
+	@ManyToOne
+	@JoinColumn
 	private Exam exam;
+
+	@ManyToOne
+	@JoinColumn
 	private Student student;
 
 	public GradePK() {
@@ -26,6 +28,26 @@ public class GradePK implements Serializable{
 		super();
 		this.exam = exam;
 		this.student = student;
+	}
+
+	public Exam getExam() {
+		return exam;
+	}
+
+	public void setExam(Exam exam) {
+		this.exam = exam;
+	}
+
+	public Student getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 

@@ -12,12 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
-@Getter
-@Setter
 public class Period {
 
 	@Id
@@ -45,6 +40,38 @@ public class Period {
 		this.beginDatePeriod = beginDatePeriod;
 		this.endDatePeriod = endDatePeriod;
 		this.name = name;
+	}
+
+	public Date getBeginDatePeriod() {
+		return beginDatePeriod;
+	}
+
+	public void setBeginDatePeriod(Date beginDatePeriod) {
+		this.beginDatePeriod = beginDatePeriod;
+	}
+
+	public Date getEndDatePeriod() {
+		return endDatePeriod;
+	}
+
+	public void setEndDatePeriod(Date endDatePeriod) {
+		this.endDatePeriod = endDatePeriod;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public List<Exam> getExams() {
+		return exams;
 	}
 
 
