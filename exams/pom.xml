@@ -54,6 +54,33 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-spec</artifactId>
+			<version>1.2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-impl</artifactId>
+			<version>1.2.5</version>
+		</dependency>
+		<!-- Pour Vue.js -->
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>vue</artifactId>
+			<version>3.2.19</version>
+		</dependency>
+		<!-- Pour Axios -->
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>axios</artifactId>
+			<version>0.22.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>4.6.0-1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
