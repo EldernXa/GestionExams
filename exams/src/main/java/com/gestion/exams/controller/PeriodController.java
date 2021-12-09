@@ -13,13 +13,13 @@ import com.gestion.exams.entity.Period;
 import com.gestion.exams.services.PeriodService;
 
 @Controller
-@RequestMapping("/period_list")
+@RequestMapping
 public class PeriodController {
 
 	@Autowired
 	private PeriodService periodService;
 
-	@GetMapping
+	@GetMapping("/periodList")
 	public ResponseEntity<List<Period>> getListPeriod(){
 		return new ResponseEntity<>(periodService.getListPeriod(), HttpStatus.OK);
 	}
