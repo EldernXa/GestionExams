@@ -1,6 +1,5 @@
 const periodListApp = {
     data() {
-        console.log("data");
         return{
             listPeriod : [],
             axios : null
@@ -8,14 +7,12 @@ const periodListApp = {
     },
 
     mounted(){
-        console.log("début du début");
         this.axios = axios.create({
             baseURL: 'http://localhost:8080/',
             timeout: 1000,
             headers: {'Content-Type' : 'application/json'}
         });
         this.refresh();
-        console.log("fin du début");
     },
 
     methods: {
@@ -28,7 +25,7 @@ const periodListApp = {
 
         refreshPeriod: function(){
             for(let i = 0; i < this.listPeriod.length; i++){
-                let ind = i+1;
+                let ind = this.listPeriod.at(i).id;
                 this.axios.get("/periodList/" + ind +"/beginDate").then(r=>{
                     this.listPeriod.at(i).beginDatePeriod = r.data;
                 });

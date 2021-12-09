@@ -7,9 +7,14 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller()
 public class PeriodViewController {
 
-	@RequestMapping(value = "/period")
+	@RequestMapping(value = "/periodDisplay")
 	public ModelAndView period() {
 		return new ModelAndView("displayPeriod");
+	}
+
+	@RequestMapping(value = "/periodSave")
+	public ModelAndView newPeriod() {
+		return new ModelAndView("formPeriod");
 	}
 
 }
