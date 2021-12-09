@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Period {
 
@@ -29,6 +31,7 @@ public class Period {
 	private String name;
 
 	@OneToMany(mappedBy = "period")
+	@JsonIgnore
 	private List<Exam> exams = new ArrayList<>();
 
 	public Period() {
