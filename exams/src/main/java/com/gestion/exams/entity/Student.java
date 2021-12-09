@@ -31,7 +31,7 @@ public class Student {
 	@OneToMany(mappedBy = "gradePK.student", fetch = FetchType.LAZY)
 	private List<Grade> grades = new ArrayList<>();
 
-	@OneToMany(mappedBy = "student")
+	@OneToMany(mappedBy = "inscriptionPK.student")
 	private List<Inscription> inscriptions = new ArrayList<>();
 
 	public Student() {

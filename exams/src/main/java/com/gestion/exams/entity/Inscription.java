@@ -3,29 +3,21 @@ package com.gestion.exams.entity;
 import java.io.Serializable;
 
 import javax.persistence.Basic;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class Inscription implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	private long idStudent;
-
-	@ManyToOne
-	@JoinColumn
-	private Student student;
+	@EmbeddedId
+	private InscriptionPK inscriptionPK;
 
 	@Basic(optional = false)
 	private int year;
 
-	@ManyToOne
-	@JoinColumn
-	private UE ue;
+
 
 	public Inscription() {
 		super();
@@ -33,18 +25,16 @@ public class Inscription implements Serializable{
 
 	public Inscription(Student student, int year, UE ue) {
 		super();
-		this.idStudent = student.getIdStudent();
-		this.student = student;
+		this.inscriptionPK = new InscriptionPK(ue, student);
 		this.year = year;
-		this.ue = ue;
 	}
 
 	public Student getStudent() {
-		return student;
+		return this.inscriptionPK.getStudent();
 	}
 
 	public void setStudent(Student student) {
-		this.student = student;
+		this.inscriptionPK.setStudent(student);
 	}
 
 	public int getYear() {
@@ -56,11 +46,11 @@ public class Inscription implements Serializable{
 	}
 
 	public UE getUe() {
-		return ue;
+		return this.inscriptionPK.getUe();
 	}
 
 	public void setUe(UE ue) {
-		this.ue = ue;
+		this.inscriptionPK.setUe(ue);
 	}
 
 	public static long getSerialversionuid() {

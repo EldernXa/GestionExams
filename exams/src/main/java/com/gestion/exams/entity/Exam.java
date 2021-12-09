@@ -130,6 +130,10 @@ public class Exam {
 		return supervisors;
 	}
 
+	public void addSupervisor(String supervisor) {
+		this.supervisors.add(supervisor);
+	}
+
 	public List<Grade> getGrades() {
 		return grades;
 	}

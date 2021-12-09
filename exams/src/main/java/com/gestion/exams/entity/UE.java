@@ -21,7 +21,7 @@ public class UE {
 	@Basic(optional = false)
 	private int durationExam;
 
-	@OneToMany(mappedBy = "ue")
+	@OneToMany(mappedBy = "inscriptionPK.ue")
 	private List<Inscription> inscriptions = new ArrayList<>();
 
 	@OneToMany(mappedBy = "ue")
