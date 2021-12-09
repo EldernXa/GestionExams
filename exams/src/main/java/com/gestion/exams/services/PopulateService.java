@@ -29,7 +29,7 @@ import com.gestion.exams.repository.StudentRepository;
 import com.gestion.exams.repository.UERepository;
 
 @Service
-public class PopulateService {
+public class PopulateService{
 
 	@Autowired
 	private RoomRepository roomRepository;
@@ -54,6 +54,8 @@ public class PopulateService {
 
 	@Autowired
 	private GradeRepository gradeRepository;
+
+	private Random random = new Random();
 
 	@PostConstruct
 	public void populate() {
@@ -148,7 +150,6 @@ public class PopulateService {
 
 	private void populateGrade() {
 		Student student = studentRepository.findAll().get(0);
-		Random random = new Random();
 		for(Exam exam : examRepository.findAll()) {
 			Grade grade = new Grade(student, exam, random.nextInt()*20);
 			gradeRepository.save(grade);
