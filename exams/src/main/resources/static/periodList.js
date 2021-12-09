@@ -22,8 +22,21 @@ const periodListApp = {
         refresh: function(){
             this.axios.get("/periodList").then(r=>{
                 this.listPeriod = r.data;
+                this.refreshPeriod();
             });
         },
+
+        refreshPeriod: function(){
+            for(let i = 0; i < this.listPeriod.length; i++){
+                let ind = i+1;
+                this.axios.get("/periodList/" + ind +"/beginDate").then(r=>{
+                    this.listPeriod.at(i).beginDatePeriod = r.data;
+                });
+                this.axios.get("/periodList/" + ind + "/endDate").then(r=>{
+                    this.listPeriod.at(i).endDatePeriod = r.data;
+                });
+            }
+        }
     },
 }
 
