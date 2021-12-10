@@ -15,8 +15,8 @@ const appPeriodForm = {
     },
     methods: {
         submitPeriod: function(){
+            window.location.replace("http://localhost:8080/periodDisplay");
             this.axios.post("/period", this.period).then(()=>{
-                
             });
         }
     }
