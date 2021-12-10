@@ -17,8 +17,14 @@ public class GradeController {
     @Autowired
     GradeService gradeService;
 
+//    @GetMapping(path="/exam{id}")
+//    public List<Grade> getAllGradesByExam(@PathVariable("id") int idExam){
+//        List<Grade> grades = gradeService.getAllGradesByExam(idExam);
+//        return grades;
+//    }
+
     @GetMapping(path="/exam{id}")
-    public List<Grade> getAllGradesByExam(@PathVariable("id") int idExam){
+    public List<Grade> getAllGradesByExam(@PathVariable("id") long idExam){
         List<Grade> grades = gradeService.getAllGradesByExam(idExam);
         return grades;
     }

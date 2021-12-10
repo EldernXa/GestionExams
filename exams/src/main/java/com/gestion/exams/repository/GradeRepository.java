@@ -14,6 +14,6 @@ import java.util.List;
 public interface GradeRepository extends JpaRepository<Grade, GradePK>{
 
     @Query("SELECT g FROM Grade g WHERE ( g.gradePK.exam.idExam = :searchValue ) ")
-    List<Grade> searchGradeByExam(@Param("searchValue") int idExam);
+    List<Grade> searchGradeByExam(@Param("searchValue") long idExam);
 
 }

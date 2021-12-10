@@ -24,7 +24,7 @@ public class GradeService {
         return gradeRepository.save(grade);
     }
 
-    public List<Grade> getAllGradesByExam(int idExam){
+    public List<Grade> getAllGradesByExam(long idExam){
         return gradeRepository.searchGradeByExam(idExam);
     }
 
