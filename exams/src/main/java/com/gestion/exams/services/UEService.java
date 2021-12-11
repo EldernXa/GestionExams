@@ -33,4 +33,9 @@ public class UEService {
     public List<UE> getAllUE(){
         return ueRepository.findAll();
     }
+
+    public UE getUeByName(String name){
+        UE ue = ueRepository.getUEByName(name);
+        return ue;
+    }
 }
