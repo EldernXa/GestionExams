@@ -47,7 +47,7 @@ public class UEController {
         return modelMapper.map(ue, UeDTO.class);
     }
 
-    @PutMapping("/{name}")
+    @PutMapping("/update/{name}")
     public UeDTO updateUe(@PathVariable String name, @RequestBody UE ue){
         ModelMapper modelMapper = new ModelMapper();
         UE ueToBeUpdated = ueService.getUeByName(name);
