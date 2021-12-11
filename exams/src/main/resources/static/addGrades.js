@@ -1,12 +1,11 @@
-const myApp = {
+const gradeApp = {
 
     // Préparation des données
     data() {
         return {
-            axios: null,
-            students : null,
-            idExam : null,
-            grades : null,
+            axios : null,
+            hash : null,
+            idExam : 0,
         }
     },
 
@@ -17,33 +16,26 @@ const myApp = {
     },
 
     methods: {
-
         initAxios() {
-            var headers;
-            headers = {'Content-Type': 'application/json'}
             this.axios = axios.create({
                 baseURL: 'http://localhost:8080/',
                 timeout: 1000,
-                headers: headers
+                headers: {'Content-Type' : 'application/json'}
             });
         },
         initData() {
-
-            this.students = [];
-            this.idExam = 1;
-            this.grades = [];
-
-            this.axios.get('/grade/exam'+this.idExam, {params: {id : id}}).then(
+            this.hash = new Map();
+            this.axios.get('/grade/exam'+this.idExam, this.idExam).then(
                 result => {
-                    this.grades = result.data;
+                    this.hash = result.data;
                 }
             );
-            console.log("data initialized.");
+
         },
         addGrades() {
-            this.axios.post('/grade/exam'+this.idExam, {params: {id : id, grades : grades}});
+            this.axios.post('/grade/exam'+this.idExam, this.idExam, this.hash.values());
         }
     }
 }
 
-Vue.createApp(myApp).mount('#myApp');
+Vue.createApp(gradeApp).mount('#gradeApp');
