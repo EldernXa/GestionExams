@@ -22,16 +22,26 @@ public class GradeService {
     @Autowired
     StudentRepository studentRepository;
 
-    public Grade addGrade(Grade grade){
+    public Grade createGrade(Grade grade){
         return gradeRepository.save(grade);
     }
 
-    public Grade addGrade(long idExam, long idStudent, int gradeValue){
+    public Grade createGrade(long idExam, long idStudent, int gradeValue){
         Optional<Student> student = studentRepository.findById(idStudent);
         Optional<Exam> exam = examRepository.findById(idExam);
         if(student.isPresent() && exam.isPresent())
-            return new Grade(student.get(), exam.get(), gradeValue);
+            return gradeRepository.save(new Grade(student.get(), exam.get(), gradeValue));
         return null;
+    }
+
+    public Grade updateGrade(Grade g1, Grade g2){
+        g1.setValue(g2.getValue());
+        return gradeRepository.save(g1);
+    }
+
+    public void deleteGrade(Student s, Exam e){
+        Grade g = gradeRepository.getGradeByStudentAndExam(s.getIdStudent(),e.getIdExam()).get();
+        gradeRepository.delete(g);
     }
 
     public Optional<Grade> getGradeByStudentAndExam(long idStudent, long idExam){

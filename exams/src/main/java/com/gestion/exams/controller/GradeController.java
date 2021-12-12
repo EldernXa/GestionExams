@@ -36,7 +36,7 @@ public class GradeController {
     @PostMapping(path="/exam{id}")
     public void addGrades(@PathVariable("id") long idExam, @RequestBody List<Grade> grades){
         for(Grade g : grades)
-            gradeService.addGrade(g);
+            gradeService.createGrade(g);
     }
 
 //    @PostMapping(path="/exam{id}")
