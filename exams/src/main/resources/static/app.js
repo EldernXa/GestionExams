@@ -7,7 +7,15 @@ const myApp = {
             UeByName : null,
             updatedUE : null,
             UeToBeAdded : null,
+            editclick : false,
+            add : false,
             UeToBeUpdated:{
+                name : "",
+                credit : "",
+                durationExam : "",
+                discipline : "",
+            },
+            UeToBeAdded:{
                 name : "",
                 credit : "",
                 durationExam : "",
@@ -30,6 +38,31 @@ const myApp = {
     },
 
     methods : {
+
+        initializeUeToAdd: function () {
+            this.add = true;
+        },
+        addUe : function (){
+            this.axios.post('/add/', this.UeToBeAdded).then(r =>{this.UeToBeAdded = r.data
+                window.location.href = 'UE';})
+        },
+
+        getUeToForm : function (id) {
+            this.axios.get(id)
+                .then(r => {
+                    this.UeToBeUpdated = r.data
+                    console.log(this.UeToBeUpdated)
+                });
+            this.editclick = true
+            console.log(this.editclick)
+        },
+
+        submitEditUE : function (name) {
+            this.axios.put('/update/' + name, this.UeToBeUpdated)
+            console.log(this.UeToBeUpdated)
+            window.location.href = 'UE';
+        },
+
         getAllUe : function (){
             this.axios.get('/allUE').then(r => {
                 console.log(r);
@@ -48,13 +81,6 @@ const myApp = {
             this.axios.delete('/name/'+name)
         },
 
-        updateUe : function (name){
-            this.axios.put('/update/name'+name).then(r =>{
-                this.updatedUE = r.data;
-                console.log(this.updatedUE);
-            })
-        },
-
         createUe : function (){
             this.axios.post('/add', this.UeToBeAdded).then(r =>{
                 this.UeToBeAdded = r.data;
@@ -62,5 +88,4 @@ const myApp = {
         },
     }
 }
-
 Vue.createApp(myApp).mount('#myApp');
