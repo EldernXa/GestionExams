@@ -2,8 +2,8 @@ const myApp = {
     data(){
         console.log("data");
         return{
-            axois : null,
-            ueList : [],
+            axios : null,
+            ueList : null,
             UeByName : null,
             updatedUE : null,
             UeToBeAdded : null,
@@ -25,6 +25,8 @@ const myApp = {
                 'Content-Type': 'application/json',
             },
         });
+
+        this.getAllUe();
     },
 
     methods : {

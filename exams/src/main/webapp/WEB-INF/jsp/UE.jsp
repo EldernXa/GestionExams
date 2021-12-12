@@ -1,5 +1,6 @@
 <%@ include file="header.jsp"%>
-<script src="../../../resources/static/app.js" ></script>
+<!--<script src="app.js" ></script>-->
+<c:url var="app" value="/app.js" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div id="myApp">
 
@@ -11,11 +12,11 @@
             <th>descipline</th>
         </tr>
 
-        <tr v-for="ue in ueList">
-            <td>{{ue.name}}</td>
-            <td>{{ue.credit}}</td>
-            <td>{{ue.durationExam}}</td>
-            <td>{{ue.discipline}}</td>
+        <tr v-for="element in ueList">
+            <td>{{element.name}}</td>
+            <td>{{element.credit}}</td>
+            <td>{{element.durationExam}}</td>
+            <td>{{element.discipline}}</td>
         </tr>
     </table>
 
