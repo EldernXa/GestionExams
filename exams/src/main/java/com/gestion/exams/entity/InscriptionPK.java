@@ -1,7 +1,11 @@
 package com.gestion.exams.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,9 +17,10 @@ public class InscriptionPK implements Serializable{
 
 	@ManyToOne
 	@JoinColumn
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private UE ue;
 
-	@ManyToOne
+	@ManyToOne( cascade = CascadeType.ALL)
 	@JoinColumn
 	private Student student;
 

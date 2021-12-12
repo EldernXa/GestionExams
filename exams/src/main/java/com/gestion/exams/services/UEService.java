@@ -1,6 +1,11 @@
 package com.gestion.exams.services;
 
+import com.gestion.exams.entity.Exam;
+import com.gestion.exams.entity.Grade;
+import com.gestion.exams.entity.GradePK;
 import com.gestion.exams.entity.UE;
+import com.gestion.exams.repository.ExamRepository;
+import com.gestion.exams.repository.GradeRepository;
 import com.gestion.exams.repository.UERepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +18,10 @@ public class UEService {
 
     @Autowired
     UERepository ueRepository;
+    @Autowired
+    ExamRepository examRepository;
+    @Autowired
+    GradeRepository gradeRepository;
 
     @Transactional
     public UE createUE(UE ue){
@@ -20,12 +29,13 @@ public class UEService {
     }
 
     @Transactional
-    public UE updateUE(UE ue, UE ue1){
-        ue.setName(ue1.getName());
-        ue.setCredit(ue1.getCredit());
-        ue.setDurationExam(ue1.getDurationExam());
-        ue.setDiscipline(ue1.getDiscipline());
-        return ueRepository.save(ue);
+    public UE updateUE(UE ue, String name){
+        UE ue1 = ueRepository.getUEByName(name);
+        ue1.setName(ue.getName());
+        ue1.setCredit(ue.getCredit());
+        ue1.setDurationExam(ue.getDurationExam());
+        ue1.setDiscipline(ue.getDiscipline());
+        return ueRepository.save(ue1);
     }
 
     @Transactional

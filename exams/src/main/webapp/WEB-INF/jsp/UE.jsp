@@ -17,6 +17,7 @@
             <td>{{element.credit}}</td>
             <td>{{element.durationExam}}</td>
             <td>{{element.discipline}}</td>
+
         </tr>
     </table>
 

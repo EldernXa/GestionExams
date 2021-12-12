@@ -37,7 +37,8 @@ public class UEController {
 
     @DeleteMapping("/{name}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUe(@PathVariable String name) {
+    @Transactional
+    public void deleteUe(@PathVariable String name){
         ueService.deleteUE(name);
     }
 
@@ -53,7 +54,7 @@ public class UEController {
     public UeDTO updateUe(@PathVariable String name, @RequestBody UE ue){
         ModelMapper modelMapper = new ModelMapper();
         UE ueToBeUpdated = ueService.getUeByName(name);
-        ueService.updateUE(ueToBeUpdated, ue);
+        ueService.updateUE(ue, name);
         return modelMapper.map(ue,UeDTO.class);
     }
 }
