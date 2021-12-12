@@ -151,7 +151,8 @@ public class PopulateService{
 	private void populateGrade() {
 		Student student = studentRepository.findAll().get(0);
 		for(Exam exam : examRepository.findAll()) {
-			Grade grade = new Grade(student, exam, random.nextInt()*20);
+			//Grade grade = new Grade(student, exam, random.nextInt()*20);
+			Grade grade = new Grade(student, exam, 13);
 			gradeRepository.save(grade);
 		}
 	}

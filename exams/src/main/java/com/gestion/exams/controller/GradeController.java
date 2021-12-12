@@ -2,6 +2,7 @@ package com.gestion.exams.controller;
 
 import com.gestion.exams.entity.Exam;
 import com.gestion.exams.entity.Grade;
+import com.gestion.exams.entity.Inscription;
 import com.gestion.exams.entity.Student;
 import com.gestion.exams.services.GradeService;
 import com.gestion.exams.services.StudentService;
@@ -25,11 +26,13 @@ public class GradeController {
     StudentService studentService;
 
     @GetMapping(path="/exam{id}")
-    public ResponseEntity<HashMap<Student,Grade>> getStudentsAndGradesByExam(@PathVariable("id") long idExam){
-        HashMap<Student,Grade> hash = new HashMap<>();
+    public ResponseEntity<HashMap<Student,Integer>> getStudentsAndGradesByExam(@PathVariable("id") long idExam){
+        HashMap<Student,Integer> hash = new HashMap<>();
         List<Student> students = studentService.getStudentsByExamId(idExam);
-        for(Student s : students)
-            hash.put(s, gradeService.getGradeByStudentAndExam(s.getIdStudent(), idExam).get() );
+        for(Student s : students) {
+            hash.put(s, gradeService.getGradeByStudentAndExam(s.getIdStudent(), idExam).get().getValue());
+            System.out.println(s.getFirstName() + " : note = " + hash.get(s));
+        }
         return new ResponseEntity<>(hash, HttpStatus.OK);
     }
 

@@ -1,6 +1,5 @@
 package com.gestion.exams.services;
 
-import com.gestion.exams.entity.Grade;
 import com.gestion.exams.entity.Student;
 import com.gestion.exams.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
