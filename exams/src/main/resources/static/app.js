@@ -23,14 +23,8 @@ const myApp = {
             timeout: 1000,
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('user-token')
             },
         });
-        if (localStorage.getItem('user-token')) {
-            this.token = localStorage.getItem('user-token');
-            this.authenticated = true
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('user-token');
-        }
     },
 
     methods : {
@@ -66,3 +60,5 @@ const myApp = {
         },
     }
 }
+
+Vue.createApp(myApp).mount('#myApp');

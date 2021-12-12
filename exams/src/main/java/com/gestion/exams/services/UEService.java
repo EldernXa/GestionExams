@@ -5,6 +5,7 @@ import com.gestion.exams.repository.UERepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -13,10 +14,12 @@ public class UEService {
     @Autowired
     UERepository ueRepository;
 
+    @Transactional
     public UE createUE(UE ue){
         return ueRepository.save(ue);
     }
 
+    @Transactional
     public UE updateUE(UE ue, UE ue1){
         ue.setName(ue1.getName());
         ue.setCredit(ue1.getCredit());
@@ -25,6 +28,7 @@ public class UEService {
         return ueRepository.save(ue);
     }
 
+    @Transactional
     public void deleteUE(String name){
         UE ue = ueRepository.getUEByName(name);
         ueRepository.delete(ue);

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +48,7 @@ public class UEController {
         return modelMapper.map(ue, UeDTO.class);
     }
 
+    @Transactional
     @PutMapping("/update/{name}")
     public UeDTO updateUe(@PathVariable String name, @RequestBody UE ue){
         ModelMapper modelMapper = new ModelMapper();
