@@ -1,6 +1,5 @@
 package com.gestion.exams.services;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -17,14 +16,6 @@ public class PeriodService {
 	@Autowired
 	private PeriodRepository periodRepository;
 
-	public List<Period> getListPeriod(){
-		return periodRepository.findAll();
-	}
-
-	public Period getPeriod(long id) {
-		return periodRepository.getById(id);
-	}
-
 	public String beginDatePeriodToString(long id) {
 		Period period = periodRepository.getById(id);
 		Calendar cal = Calendar.getInstance();
@@ -39,10 +30,18 @@ public class PeriodService {
 		return cal.get(Calendar.DATE) + " - " + cal.get(Calendar.MONTH) + " - " + cal.get(Calendar.YEAR);
 	}
 
+	public List<Period> getListPeriod(){
+		return periodRepository.findAll();
+	}
+
+	public Period getPeriod(long id) {
+		return periodRepository.getById(id);
+	}
+
 	public Period getPeriodFromMap(Map<String, String> mapPeriod) {
 		try {
-			return new Period(new SimpleDateFormat("yyyy-MM-dd").parse(mapPeriod.get("beginDatePeriod")),
-					new SimpleDateFormat("yyyy-MM-dd").parse(mapPeriod.get("endDatePeriod")), mapPeriod.get("name"));
+			return new Period(DateService.convertStringDateToDateClass(mapPeriod.get("beginDatePeriod")),
+					DateService.convertStringDateToDateClass(mapPeriod.get("endDatePeriod")), mapPeriod.get("name"));
 		}catch(Exception exception)
 		{
 			return null;
