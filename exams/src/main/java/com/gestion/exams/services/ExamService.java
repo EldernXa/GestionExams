@@ -2,6 +2,7 @@ package com.gestion.exams.services;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,28 @@ public class ExamService {
 	@Autowired
 	private UERepository ueRepository;
 
+	public List<Exam> getAllExams(){
+		return examRepository.findAll();
+	}
+
+	public String getBeginDateExam(long id) {
+		try {
+			Exam exam = examRepository.getById(id);
+			return DateService.convertDateClassToStringDate(exam.getBeginDateExam());
+		}catch(Exception exception) {
+			return null;
+		}
+	}
+
+	public String getEndDateExam(long id) {
+		try {
+			Exam exam = examRepository.getById(id);
+			return DateService.convertDateClassToStringDate(exam.getEndDateExam());
+		}catch(Exception exception) {
+			return null;
+		}
+	}
+
 	private Exam getExamFromMap(Map<String, String> mapExam) {
 		Room room = roomRepository.getById(mapExam.get("nameRoom"));
 		Period period = periodRepository.getById(Long.parseLong(mapExam.get("idPeriod")));
@@ -42,6 +65,15 @@ public class ExamService {
 					Integer.parseInt(mapExam.get("year")), room, period, ue);
 		}
 		catch(ParseException exception) {
+			return null;
+		}
+	}
+
+	public String getNameUE(long id) {
+		try {
+			Exam exam = examRepository.getById(id);
+			return exam.getUe().getName();
+		}catch(Exception exception) {
 			return null;
 		}
 	}
