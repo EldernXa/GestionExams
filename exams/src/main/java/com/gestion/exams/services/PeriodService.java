@@ -1,6 +1,5 @@
 package com.gestion.exams.services;
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -17,17 +16,21 @@ public class PeriodService {
 	private PeriodRepository periodRepository;
 
 	public String beginDatePeriodToString(long id) {
-		Period period = periodRepository.getById(id);
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(period.getBeginDatePeriod());
-		return cal.get(Calendar.DATE) + " - " + cal.get(Calendar.MONTH) + " - " + cal.get(Calendar.YEAR);
+		try {
+			Period period = periodRepository.getById(id);
+			return DateService.convertDateClassToStringDate(period.getBeginDatePeriod());
+		}catch(Exception exception) {
+			return null;
+		}
 	}
 
 	public String endDatePeriodToString(long id) {
-		Period period = periodRepository.getById(id);
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(period.getEndDatePeriod());
-		return cal.get(Calendar.DATE) + " - " + cal.get(Calendar.MONTH) + " - " + cal.get(Calendar.YEAR);
+		try {
+			Period period = periodRepository.getById(id);
+			return DateService.convertDateClassToStringDate(period.getEndDatePeriod());
+		}catch(Exception exception) {
+			return null;
+		}
 	}
 
 	public List<Period> getListPeriod(){
