@@ -1,5 +1,6 @@
 package com.gestion.exams.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +40,15 @@ public class PeriodController {
 			return new ResponseEntity<>(str, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+	@GetMapping("/periodListName")
+	public ResponseEntity<List<String>> getListNamePeriod(){
+		List<String> listNamePeriod = new ArrayList<>();
+		for(Period period : periodService.getListPeriod()) {
+			listNamePeriod.add(period.getName());
+		}
+		return new ResponseEntity<>(listNamePeriod, HttpStatus.OK);
 	}
 
 	@GetMapping("/periodList")

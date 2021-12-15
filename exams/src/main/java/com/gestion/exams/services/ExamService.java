@@ -79,8 +79,11 @@ public class ExamService {
 	}
 
 	public Exam saveNewExam(Map<String, String> mapExam) {
-
-		return examRepository.save(getExamFromMap(mapExam));
+		Exam exam = getExamFromMap(mapExam);
+		if(exam != null) {
+			return examRepository.save(exam);
+		}
+		return null;
 
 	}
 

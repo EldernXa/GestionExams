@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Affichage des périodes</title>
+<title>Affichage des différents Examens</title>
 <script src="https://unpkg.com/vue@next"></script>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
