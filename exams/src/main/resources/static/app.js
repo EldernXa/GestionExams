@@ -43,8 +43,10 @@ const myApp = {
             this.add = true;
         },
         addUe : function (){
-            this.axios.post('/add/', this.UeToBeAdded).then(r =>{this.UeToBeAdded = r.data
-                window.location.href = 'UE';})
+            this.axios.post('/add/', this.UeToBeAdded).then(
+                r =>{
+                    this.UeToBeAdded = r.data
+                })
         },
 
         getUeToForm : function (id) {
@@ -60,7 +62,6 @@ const myApp = {
         submitEditUE : function (name) {
             this.axios.put('/update/' + name, this.UeToBeUpdated)
             console.log(this.UeToBeUpdated)
-            window.location.href = 'UE';
         },
 
         getAllUe : function (){
