@@ -18,12 +18,30 @@
 		<form id="appNewExam" method = "post">
 			<div class="form-group">
 				<label>Le nom de l'UE :</label><br />
-				<select id="selectGettingUE" name="UE"></select>
-				
-				<br />
-				
+				<select v-model="exam.nameUE" id="selectGettingUE" name="UE"></select>
+			</div>
+			<br />
+			
+			<div class="form-group">
 				<label>Le nom de la période :</label><br />
-				<select id="selectGettingPeriod" name="Period"></select>
+				<select v-model="exam.namePeriod" id="selectGettingPeriod" name="Period"></select>
+			</div>			
+			
+			<br/>
+			
+			<div class="form-group">
+				<label>La session :</label>
+				<input v-model="exam.session" type="number" min="1" max="2" step="1"/>
+			</div>
+			
+			<div class="form-group">
+				<label>L'année :</label>
+				<input v-model="exam.year" type="number" min="2000" step="1"/>
+			</div>
+			
+			<div class="form-group">
+				<button v-on:click.prevent="submitExam()" class="btn btn-primary">
+                    Enregistrer l'examen.</button>
 			</div>
 		</form>
 	</div>

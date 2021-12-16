@@ -43,11 +43,9 @@ public class PeriodController {
 	}
 
 	@GetMapping("/periodListName")
-	public ResponseEntity<List<String>> getListNamePeriod(){
-		List<String> listNamePeriod = new ArrayList<>();
-		for(Period period : periodService.getListPeriod()) {
-			listNamePeriod.add(period.getName());
-		}
+	public ResponseEntity<List<Period>> getListNamePeriod(){
+		List<Period> listNamePeriod = new ArrayList<>();
+		listNamePeriod.addAll(periodService.getListPeriod());
 		return new ResponseEntity<>(listNamePeriod, HttpStatus.OK);
 	}
 

@@ -17,22 +17,22 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Period {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-
 	@Column(nullable = false)
 	private Date beginDatePeriod;
 
 	@Column(nullable = false)
 	private Date endDatePeriod;
 
-	@Basic(optional = false)
-	private String name;
-
 	@OneToMany(mappedBy = "period")
 	@JsonIgnore
 	private List<Exam> exams = new ArrayList<>();
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
+
+	@Basic(optional = false)
+	private String name;
 
 	public Period() {
 		super();
@@ -49,32 +49,32 @@ public class Period {
 		return beginDatePeriod;
 	}
 
-	public void setBeginDatePeriod(Date beginDatePeriod) {
-		this.beginDatePeriod = beginDatePeriod;
-	}
-
 	public Date getEndDatePeriod() {
 		return endDatePeriod;
 	}
 
-	public void setEndDatePeriod(Date endDatePeriod) {
-		this.endDatePeriod = endDatePeriod;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	public List<Exam> getExams() {
+		return exams;
 	}
 
 	public long getId() {
 		return id;
 	}
 
-	public List<Exam> getExams() {
-		return exams;
+	public String getName() {
+		return name;
+	}
+
+	public void setBeginDatePeriod(Date beginDatePeriod) {
+		this.beginDatePeriod = beginDatePeriod;
+	}
+
+	public void setEndDatePeriod(Date endDatePeriod) {
+		this.endDatePeriod = endDatePeriod;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 

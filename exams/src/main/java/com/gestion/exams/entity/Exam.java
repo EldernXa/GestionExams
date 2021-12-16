@@ -19,10 +19,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Exam {
 
-	@Basic(optional = false)
+	@Basic()
 	private Date beginDateExam;
 
-	@Basic(optional = false)
+	@Basic()
 	private Date endDateExam;
 
 	@OneToMany(mappedBy = "gradePK.exam")
@@ -65,6 +65,14 @@ public class Exam {
 		this.session = session;
 		this.year = year;
 		this.room = room;
+		this.period = period;
+		this.ue = ue;
+	}
+
+	public Exam(int session, int year, Period period, UE ue) {
+		super();
+		this.session = session;
+		this.year = year;
 		this.period = period;
 		this.ue = ue;
 	}
