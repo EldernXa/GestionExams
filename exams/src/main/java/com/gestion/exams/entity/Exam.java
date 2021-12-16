@@ -69,14 +69,6 @@ public class Exam {
 		this.ue = ue;
 	}
 
-	public Exam(int session, int year, Period period, UE ue) {
-		super();
-		this.session = session;
-		this.year = year;
-		this.period = period;
-		this.ue = ue;
-	}
-
 	public void addSupervisor(String supervisor) {
 		this.supervisors.add(supervisor);
 	}

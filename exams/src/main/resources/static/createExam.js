@@ -51,8 +51,7 @@ const appExamCreate = {
 		submitExam: function(){
 			this.exam.nameUE = this.listUE.at(this.exam.nameUE-1);
 			this.exam.namePeriod = this.listPeriod.at(this.exam.namePeriod-1).id;
-			window.location.href = "http://localhost:8080/exam";
-			console.log(this.exam);
+			window.location.href = "http://localhost:8080/exam"; 
 			this.axios.post("/exam/add", this.exam);
 		}
 	}

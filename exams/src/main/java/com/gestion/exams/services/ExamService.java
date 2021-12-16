@@ -52,10 +52,10 @@ public class ExamService {
 	}
 
 	private Exam getExamFromMap(Map<String, String> mapExam) {
-		Period period = periodRepository.getById(Long.parseLong(mapExam.get("namePeriod")));
-		UE ue = ueRepository.getById(mapExam.get("nameUE"));
-		return new Exam(Integer.parseInt(mapExam.get("session")),
-				Integer.parseInt(mapExam.get("year")), period, ue);
+		Period period = periodRepository.findById(Long.parseLong(mapExam.get("namePeriod"))).get();
+		UE ue = ueRepository.findById(mapExam.get("nameUE")).get();
+		return new Exam(null, null, Integer.parseInt(mapExam.get("session")),
+				Integer.parseInt(mapExam.get("year")) , null, period, ue);
 
 	}
 
@@ -70,10 +70,7 @@ public class ExamService {
 
 	public Exam saveNewExam(Map<String, String> mapExam) {
 		Exam exam = getExamFromMap(mapExam);
-		if(exam != null) {
-			return examRepository.save(exam);
-		}
-		return null;
+		return examRepository.save(exam);
 
 	}
 
