@@ -1,7 +1,5 @@
 package com.gestion.exams.services;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +15,24 @@ public class PeriodService {
 	@Autowired
 	private PeriodRepository periodRepository;
 
+	public String beginDatePeriodToString(long id) {
+		try {
+			Period period = periodRepository.getById(id);
+			return DateService.convertDateClassToStringDate(period.getBeginDatePeriod());
+		}catch(Exception exception) {
+			return null;
+		}
+	}
+
+	public String endDatePeriodToString(long id) {
+		try {
+			Period period = periodRepository.getById(id);
+			return DateService.convertDateClassToStringDate(period.getEndDatePeriod());
+		}catch(Exception exception) {
+			return null;
+		}
+	}
+
 	public List<Period> getListPeriod(){
 		return periodRepository.findAll();
 	}
@@ -25,24 +41,10 @@ public class PeriodService {
 		return periodRepository.getById(id);
 	}
 
-	public String beginDatePeriodToString(long id) {
-		Period period = periodRepository.getById(id);
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(period.getBeginDatePeriod());
-		return cal.get(Calendar.DATE) + " - " + cal.get(Calendar.MONTH) + " - " + cal.get(Calendar.YEAR);
-	}
-
-	public String endDatePeriodToString(long id) {
-		Period period = periodRepository.getById(id);
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(period.getEndDatePeriod());
-		return cal.get(Calendar.DATE) + " - " + cal.get(Calendar.MONTH) + " - " + cal.get(Calendar.YEAR);
-	}
-
 	public Period getPeriodFromMap(Map<String, String> mapPeriod) {
 		try {
-			return new Period(new SimpleDateFormat("yyyy-MM-dd").parse(mapPeriod.get("beginDatePeriod")),
-					new SimpleDateFormat("yyyy-MM-dd").parse(mapPeriod.get("endDatePeriod")), mapPeriod.get("name"));
+			return new Period(DateService.convertStringDateToDateClass(mapPeriod.get("beginDatePeriod")),
+					DateService.convertStringDateToDateClass(mapPeriod.get("endDatePeriod")), mapPeriod.get("name"));
 		}catch(Exception exception)
 		{
 			return null;
