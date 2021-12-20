@@ -1,5 +1,7 @@
 package com.gestion.exams.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +31,11 @@ public class Student {
 
 	// TODO verify mappedBy.
 	@OneToMany(mappedBy = "gradePK.student", fetch = FetchType.LAZY)
+	@JsonIgnore
 	private List<Grade> grades = new ArrayList<>();
 
 	@OneToMany(mappedBy = "inscriptionPK.student")
+	@JsonIgnore
 	private List<Inscription> inscriptions = new ArrayList<>();
 
 	public Student() {

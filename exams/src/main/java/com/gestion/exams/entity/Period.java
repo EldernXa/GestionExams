@@ -1,5 +1,8 @@
 package com.gestion.exams.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +32,7 @@ public class Period {
 	private String name;
 
 	@OneToMany(mappedBy = "period")
+	@JsonIgnore
 	private List<Exam> exams = new ArrayList<>();
 
 	public Period() {

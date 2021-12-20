@@ -1,5 +1,8 @@
 package com.gestion.exams.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +25,12 @@ public class UE {
 	private int durationExam;
 
 	@OneToMany(mappedBy = "inscriptionPK.ue")
+	@Column
+	@JsonIgnore
 	private List<Inscription> inscriptions = new ArrayList<>();
 
 	@OneToMany(mappedBy = "ue")
+	@JsonIgnore
 	private List<Exam> exams = new ArrayList<>();
 
 	@Column(nullable = false)

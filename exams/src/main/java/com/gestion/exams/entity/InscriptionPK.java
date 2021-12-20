@@ -1,5 +1,7 @@
 package com.gestion.exams.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
