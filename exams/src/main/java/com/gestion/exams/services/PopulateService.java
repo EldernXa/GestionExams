@@ -2,6 +2,7 @@ package com.gestion.exams.services;
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -140,20 +141,36 @@ public class PopulateService{
 	}
 
 	private void populateInscription() {
-		Student student = studentRepository.findAll().get(0);
+		Student student1 = studentRepository.findAll().get(0);
+		Student student2 = studentRepository.findAll().get(1);
+		Student student3 = studentRepository.findAll().get(2);
+		List<Student> students = new ArrayList<>();
+		students.add(student1);
+		students.add(student2);
+		students.add(student3);
 		List<UE> listUE = ueRepository.findAll();
 		for (UE element : listUE) {
-			Inscription inscription = new Inscription(student, 2021, element);
-			inscriptionRepository.save(inscription);
+			for(Student s : students) {
+				Inscription inscription = new Inscription(s, 2021, element);
+				inscriptionRepository.save(inscription);
+			}
 		}
 	}
 
 	private void populateGrade() {
-		Student student = studentRepository.findAll().get(0);
+		Student student1 = studentRepository.findAll().get(0);
+		Student student2 = studentRepository.findAll().get(1);
+		Student student3 = studentRepository.findAll().get(2);
+		List<Student> students = new ArrayList<>();
+		students.add(student1);
+		students.add(student2);
+		students.add(student3);
 		for(Exam exam : examRepository.findAll()) {
 			//Grade grade = new Grade(student, exam, random.nextInt()*20);
-			Grade grade = new Grade(student, exam, 13);
-			gradeRepository.save(grade);
+			for(Student s : students) {
+				Grade grade = new Grade(s, exam, 0);
+				gradeRepository.save(grade);
+			}
 		}
 	}
 

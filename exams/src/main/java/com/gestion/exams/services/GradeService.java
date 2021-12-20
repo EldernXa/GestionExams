@@ -23,6 +23,10 @@ public class GradeService {
     StudentRepository studentRepository;
 
     public Grade createGrade(Grade grade){
+        if(grade.getValue()<0)
+            grade.setValue(0);
+        else if(grade.getValue()>20)
+            grade.setValue(20);
         System.out.println(grade + " : new value : " + grade.getValue());
         return gradeRepository.save(grade);
     }
@@ -40,8 +44,8 @@ public class GradeService {
         return gradeRepository.save(g1);
     }
 
-    public void deleteGrade(Student s, Exam e){
-        Grade g = gradeRepository.getGradeByStudentAndExam(s.getIdStudent(),e.getIdExam()).get();
+    public void deleteGrade(Grade g){
+        //Grade g = gradeRepository.getGradeByStudentAndExam(s.getIdStudent(),e.getIdExam()).get();
         gradeRepository.delete(g);
     }
 
