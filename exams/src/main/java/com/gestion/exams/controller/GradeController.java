@@ -1,22 +1,23 @@
 package com.gestion.exams.controller;
 
-import com.gestion.exams.entity.Exam;
+import com.gestion.exams.DTO.GradeDTO;
+import com.gestion.exams.DTO.StudentDTO;
+import com.gestion.exams.DTO.mapper.GradeMapper;
+import com.gestion.exams.DTO.mapper.StudentMapper;
 import com.gestion.exams.entity.Grade;
-import com.gestion.exams.entity.Inscription;
 import com.gestion.exams.entity.Student;
+import com.gestion.exams.services.ExamService;
 import com.gestion.exams.services.GradeService;
 import com.gestion.exams.services.StudentService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping("/grade")
 public class GradeController {
 
@@ -24,27 +25,36 @@ public class GradeController {
     GradeService gradeService;
     @Autowired
     StudentService studentService;
+    @Autowired
+    ExamService examService;
 
     @GetMapping(path="/exam{id}")
-    public ResponseEntity<HashMap<Student,Integer>> getStudentsAndGradesByExam(@PathVariable("id") long idExam){
-        HashMap<Student,Integer> hash = new HashMap<>();
+    public List<StudentDTO> getStudentsAndGradesByExam(@PathVariable("id") long idExam){
+        List<StudentDTO> studentsDTO = new ArrayList<>();
         List<Student> students = studentService.getStudentsByExamId(idExam);
         for(Student s : students) {
-            hash.put(s, gradeService.getGradeByStudentAndExam(s.getIdStudent(), idExam).get().getValue());
-            System.out.println(s.getFirstName() + " : note = " + hash.get(s));
+            System.out.println("getting");
+            studentsDTO.add(StudentMapper.studentToStudentDTO(s, idExam));
         }
-        return new ResponseEntity<>(hash, HttpStatus.OK);
-    }
-
-    @PostMapping(path="/exam{id}")
-    public void addGrades(@PathVariable("id") long idExam, @RequestBody List<Grade> grades){
-        for(Grade g : grades)
-            gradeService.createGrade(g);
+        return studentsDTO;
     }
 
 //    @PostMapping(path="/exam{id}")
-//    public void addGrade(@PathVariable("id") long idExam, @RequestBody long idStudent, @RequestBody int gradeValue ){
-//            gradeService.addGrade(idExam, idStudent, gradeValue);
+//    public void addGrades(@PathVariable("id") long idExam, @RequestBody List<Grade> grades){
+//        for(Grade g : grades)
+//            gradeService.createGrade(g);
 //    }
+
+//    @PostMapping(path="/exam{id}")
+//    public void addGrade(@PathVariable("id") long idExam, @RequestBody long idStudent, @RequestBody double gradeValue ){
+//            gradeService.createGrade(idExam, idStudent, gradeValue);
+//    }
+    @PostMapping(path="/exam{id}")
+    public void addGrade(@PathVariable("id") long idExam, @RequestBody Grade g ){
+        System.out.println("controller");
+        gradeService.createGrade(g);
+        //gradeService.createGrade(GradeMapper.gradeDTOToGrade(g));
+    }
+
 
 }

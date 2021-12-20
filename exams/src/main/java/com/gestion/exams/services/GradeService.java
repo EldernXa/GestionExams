@@ -23,10 +23,11 @@ public class GradeService {
     StudentRepository studentRepository;
 
     public Grade createGrade(Grade grade){
+        System.out.println(grade + " : new value : " + grade.getValue());
         return gradeRepository.save(grade);
     }
 
-    public Grade createGrade(long idExam, long idStudent, int gradeValue){
+    public Grade createGrade(long idExam, long idStudent, double gradeValue){
         Optional<Student> student = studentRepository.findById(idStudent);
         Optional<Exam> exam = examRepository.findById(idExam);
         if(student.isPresent() && exam.isPresent())
