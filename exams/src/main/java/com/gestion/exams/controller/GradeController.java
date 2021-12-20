@@ -50,10 +50,16 @@ public class GradeController {
 //            gradeService.createGrade(idExam, idStudent, gradeValue);
 //    }
     @PostMapping(path="/exam{id}")
-    public void addGrade(@PathVariable("id") long idExam, @RequestBody Grade g ){
+    public Grade addGrade(@PathVariable("id") long idExam, @RequestBody Grade g ){
         System.out.println("controller");
         gradeService.createGrade(g);
+        return g;
         //gradeService.createGrade(GradeMapper.gradeDTOToGrade(g));
+    }
+
+    @DeleteMapping(path="/exam{id}")
+    public void deleteGrade(@PathVariable("id") long idExam, @RequestBody Grade g){
+        gradeService.deleteGrade(g);
     }
 
 

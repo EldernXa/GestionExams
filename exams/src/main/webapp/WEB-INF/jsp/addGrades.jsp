@@ -3,9 +3,11 @@
     <div class="card-header bg-primary text-white h3">{{s.firstName}} {{s.lastName}}</div>
     <div class="card-body">
         <div class="w-100 card-title d-flex justify-content-between">
-            <label class="mt-auto mb-auto h5" for="grade">Note :</label>
-            <input v-model="students[index].grade.value" type="number" class="form-control m-3 w-25" id="grade" name="grade">
-            <small><button class="btn btn-info m-3" v-on:click="saveGrade(index)">OK</button></small>
+            <input v-model="students[index].grade.value" type="number" placeholder="Note" min="0" max="20" class="form-control m-3 w-25" id="grade" name="grade">
+            <small><button class="btn btn-info m-3" v-on:click="saveGrade(index)">SAVE</button></small>
         </div>
     </div>
+</div>
+<div class="d-flex justify-content-center">
+    <small><button class="btn btn-info m-3 " v-on:click="saveAllGrade()">SAVE ALL</button></small>
 </div>
