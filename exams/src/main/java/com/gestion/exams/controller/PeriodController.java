@@ -1,6 +1,5 @@
 package com.gestion.exams.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gestion.exams.dto.PeriodDTO;
 import com.gestion.exams.entity.Period;
 import com.gestion.exams.services.PeriodService;
 
@@ -42,15 +42,8 @@ public class PeriodController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
-	@GetMapping("/periodListName")
-	public ResponseEntity<List<Period>> getListNamePeriod(){
-		List<Period> listNamePeriod = new ArrayList<>();
-		listNamePeriod.addAll(periodService.getListPeriod());
-		return new ResponseEntity<>(listNamePeriod, HttpStatus.OK);
-	}
-
 	@GetMapping("/periodList")
-	public ResponseEntity<List<Period>> getListPeriod(){
+	public ResponseEntity<List<PeriodDTO>> getListPeriod(){
 		return new ResponseEntity<>(periodService.getListPeriod(), HttpStatus.OK);
 	}
 

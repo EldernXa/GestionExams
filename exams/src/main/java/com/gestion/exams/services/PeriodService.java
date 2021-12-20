@@ -1,11 +1,15 @@
 package com.gestion.exams.services;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gestion.exams.dto.PeriodDTO;
 import com.gestion.exams.entity.Period;
 import com.gestion.exams.repository.PeriodRepository;
 
@@ -14,6 +18,8 @@ public class PeriodService {
 
 	@Autowired
 	private PeriodRepository periodRepository;
+
+	private ModelMapper modelMapper = new ModelMapper();
 
 	public String beginDatePeriodToString(long id) {
 		try {
@@ -33,8 +39,30 @@ public class PeriodService {
 		}
 	}
 
-	public List<Period> getListPeriod(){
-		return periodRepository.findAll();
+	public List<PeriodDTO> getListPeriod(){
+		List<PeriodDTO> listPeriodDTO = new ArrayList<>();
+
+		for(Period period : periodRepository.findAll()) {
+			listPeriodDTO.add(convertToDTO(period));
+		}
+
+		return listPeriodDTO;
+	}
+
+	public PeriodDTO convertToDTO(Period period) {
+		PeriodDTO periodDTO = modelMapper.map(period, PeriodDTO.class);
+		periodDTO.setBeginDatePeriod(period.getBeginDatePeriod());
+		periodDTO.setEndDatePeriod(period.getEndDatePeriod());
+		return periodDTO;
+	}
+
+	public Period convertToEntity(PeriodDTO periodDTO) throws ParseException{
+		Period period = modelMapper.map(periodDTO, Period.class);
+		period.setBeginDatePeriod(periodDTO.getBeginDatePeriod());
+		period.setEndDatePeriod(periodDTO.getEndDatePeriod());
+		period.setId(periodDTO.getId());
+
+		return period;
 	}
 
 	public Period getPeriod(long id) {
