@@ -71,10 +71,13 @@ public class PeriodService {
 
 	public Period getPeriodFromMap(Map<String, String> mapPeriod) {
 		try {
-			return new Period(DateService.convertStringDateToDateClass(mapPeriod.get("beginDatePeriod")),
-					DateService.convertStringDateToDateClass(mapPeriod.get("endDatePeriod")), mapPeriod.get("name"));
+			System.err.println(mapPeriod.get("beginDatePeriod"));
+			System.err.println(mapPeriod.get("endDatePeriod"));
+			return new Period(DateService.convertStringDateYearFirstToDateClass(mapPeriod.get("beginDatePeriod")),
+					DateService.convertStringDateYearFirstToDateClass(mapPeriod.get("endDatePeriod")), mapPeriod.get("name"));
 		}catch(Exception exception)
 		{
+			exception.printStackTrace();
 			return null;
 		}
 	}

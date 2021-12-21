@@ -28,7 +28,6 @@ public class PeriodController {
 	public ResponseEntity<String> getBeginDatePeriod(@PathVariable long id){
 		String str = periodService.beginDatePeriodToString(id);
 		if(str != null) {
-			System.err.println(str);
 			return new ResponseEntity<>(str, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -46,7 +45,6 @@ public class PeriodController {
 	@GetMapping("/periodList")
 	public ResponseEntity<List<PeriodDTO>> getListPeriod(){
 		List<PeriodDTO> listPeriodDTO = periodService.getListPeriod();
-		System.err.println("okok");
 		return new ResponseEntity<>(listPeriodDTO, HttpStatus.OK);
 	}
 

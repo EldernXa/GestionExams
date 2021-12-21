@@ -20,6 +20,10 @@ public class DateService {
 		return new SimpleDateFormat("dd/MM/yyyy").parse(str);
 	}
 
+	public static Date convertStringDateYearFirstToDateClass(String str) throws ParseException {
+		return new SimpleDateFormat("yyyy-MM-dd").parse(str);
+	}
+
 	private DateService() {
 
 	}
