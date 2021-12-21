@@ -7,11 +7,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { PeriodService } from './service/period-service.service';
+import { PeriodFormComponent } from './component/period-form/period-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PeriodListComponent
+    PeriodListComponent,
+    PeriodFormComponent
   ],
   imports: [
     BrowserModule,

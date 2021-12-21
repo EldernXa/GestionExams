@@ -22,6 +22,10 @@ export class PeriodService {
     return list;
   }
 
+  public savePeriod(period: Period){
+    return this.http.post<Period>(this.usersUrl+"period", period);
+  }
+
   public getHttp() :HttpClient {
     return this.http;
   }
