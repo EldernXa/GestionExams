@@ -6,18 +6,18 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.exams.dto.PeriodDTO;
 import com.gestion.exams.entity.Period;
 import com.gestion.exams.services.PeriodService;
 
-@Controller
+@RestController
 @RequestMapping
 public class PeriodController {
 
@@ -28,6 +28,7 @@ public class PeriodController {
 	public ResponseEntity<String> getBeginDatePeriod(@PathVariable long id){
 		String str = periodService.beginDatePeriodToString(id);
 		if(str != null) {
+			System.err.println(str);
 			return new ResponseEntity<>(str, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -44,7 +45,9 @@ public class PeriodController {
 
 	@GetMapping("/periodList")
 	public ResponseEntity<List<PeriodDTO>> getListPeriod(){
-		return new ResponseEntity<>(periodService.getListPeriod(), HttpStatus.OK);
+		List<PeriodDTO> listPeriodDTO = periodService.getListPeriod();
+		System.err.println("okok");
+		return new ResponseEntity<>(listPeriodDTO, HttpStatus.OK);
 	}
 
 	@PostMapping("/period")
