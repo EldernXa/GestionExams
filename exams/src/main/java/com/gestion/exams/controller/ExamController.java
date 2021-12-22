@@ -19,6 +19,7 @@ import com.gestion.exams.entity.Exam;
 import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.UERepository;
 import com.gestion.exams.services.ExamService;
+import com.gestion.exams.services.PeriodService;
 
 @Controller
 @RequestMapping("/exam")
@@ -26,6 +27,9 @@ public class ExamController {
 
 	@Autowired
 	private ExamService examService;
+
+	@Autowired
+	private PeriodService periodService;
 
 	@Autowired
 	private UERepository ueRepository; // TODO to remove.
@@ -74,6 +78,18 @@ public class ExamController {
 		for(UE ue : ueRepository.findAll()) {
 			listUE.add(ue.getName());
 		}
+		return new ResponseEntity<>(listUE, HttpStatus.OK);
+	}
+
+	@GetMapping("/listUE/{id}")
+	public ResponseEntity<List<String>> getListUEThatAreNotInAPeriod(@PathVariable long id){
+		List<String> listUE = new ArrayList<>();
+		for(UE ue : ueRepository.findAll()) {
+			if(!periodService.verifyIfExamAlreadyExist(ue, id)) {
+				listUE.add(ue.getName());
+			}
+		}
+		System.out.println(listUE.size());
 		return new ResponseEntity<>(listUE, HttpStatus.OK);
 	}
 

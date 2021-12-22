@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gestion.exams.dto.PeriodDTO;
+import com.gestion.exams.entity.Exam;
 import com.gestion.exams.entity.Period;
+import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.PeriodRepository;
 
 @Service
@@ -37,6 +39,16 @@ public class PeriodService {
 		}catch(Exception exception) {
 			return null;
 		}
+	}
+
+	public boolean verifyIfExamAlreadyExist(UE ue, long id) {
+		Period period = getPeriod(id);
+		for(Exam exam: period.getExams()) {
+			if(exam.getUe().getName().compareTo(ue.getName())==0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public List<PeriodDTO> getListPeriod(){
