@@ -1,11 +1,14 @@
 package com.gestion.exams.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gestion.exams.dto.ExamDTO;
 import com.gestion.exams.entity.Exam;
 import com.gestion.exams.entity.Period;
 import com.gestion.exams.entity.UE;
@@ -26,11 +29,35 @@ public class ExamService {
 	@Autowired
 	private RoomRepository roomRepository;
 
+	private ModelMapper modelMapper = new ModelMapper();
+
 	@Autowired
 	private UERepository ueRepository;
 
 	public List<Exam> getAllExams(){
 		return examRepository.findAll();
+	}
+
+	public List<ExamDTO> getAllExamsFromPeriod(long id){
+		Period period = periodRepository.findById(id).get();
+		List<Exam> listExam = period.getExams();
+		List<ExamDTO> listExamDTO = new ArrayList<>();
+		for(Exam exam : listExam) {
+			listExamDTO.add(convertToDTO(exam));
+		}
+		return listExamDTO;
+	}
+
+	public ExamDTO convertToDTO(Exam exam) {
+		ExamDTO examDTO = modelMapper.map(exam, ExamDTO.class);
+		examDTO.setUe(exam.getUe().getName());
+		return examDTO;
+	}
+
+	public Exam convertToEntity(ExamDTO examDTO) {
+		Exam exam = modelMapper.map(examDTO, Exam.class);
+		exam.setUe(ueRepository.findById(examDTO.getUe()).get());
+		return exam;
 	}
 
 	public String getBeginDateExam(long id) {

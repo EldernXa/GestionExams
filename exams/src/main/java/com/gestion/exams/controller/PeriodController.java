@@ -48,6 +48,15 @@ public class PeriodController {
 		return new ResponseEntity<>(listPeriodDTO, HttpStatus.OK);
 	}
 
+	@GetMapping("/period/{id}")
+	public ResponseEntity<Period> getPeriod(@PathVariable long id){
+		Period period = periodService.getPeriod(id);
+		if(period != null) {
+			return new ResponseEntity<>(period, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
 	@PostMapping("/period")
 	public Period postPeriod(@RequestBody Map<String, String> mapPeriod) {
 		Period period = periodService.getPeriodFromMap(mapPeriod);

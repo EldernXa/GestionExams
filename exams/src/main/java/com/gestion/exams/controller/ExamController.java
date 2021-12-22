@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gestion.exams.dto.ExamDTO;
 import com.gestion.exams.entity.Exam;
 import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.UERepository;
@@ -41,6 +42,11 @@ public class ExamController {
 	@GetMapping("/list")
 	public ResponseEntity<List<Exam>> getAllExams(){
 		return new ResponseEntity<>(examService.getAllExams(), HttpStatus.OK);
+	}
+
+	@GetMapping("/list/{id}")
+	public ResponseEntity<List<ExamDTO>> getAllExamsFromPeriod(@PathVariable long id){
+		return new ResponseEntity<>(examService.getAllExamsFromPeriod(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}/beginDate")

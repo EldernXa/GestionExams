@@ -66,7 +66,7 @@ public class PeriodService {
 	}
 
 	public Period getPeriod(long id) {
-		return periodRepository.getById(id);
+		return periodRepository.findById(id).get();
 	}
 
 	public Period getPeriodFromMap(Map<String, String> mapPeriod) {
