@@ -15,6 +15,7 @@
             <td>{{ period.name }}</td>
             <td>{{ period.beginDatePeriod }}</td>
             <td>{{ period.endDatePeriod }}</td>
+            <td><a [routerLink]="['/period', period.id]" class="btn btn-info">Détails</a></td>
           </tr>
         </tbody>
       </table>

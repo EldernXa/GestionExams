@@ -13,10 +13,6 @@ export class PeriodService {
   }
 
   public findAll() : Observable<Period[]>{
-    this.http.get(this.usersUrl+"periodList/1/beginDate", {responseType: 'text'}).subscribe(data=>{
-      console.log(data);
-    });
-
     let list = this.http.get<Period[]>(this.usersUrl + "periodList");
 
     return list;
@@ -24,6 +20,10 @@ export class PeriodService {
 
   public savePeriod(period: Period){
     return this.http.post<Period>(this.usersUrl+"period", period);
+  }
+
+  public getPeriod(index: number): Observable<Period>{
+    return this.http.get<Period>(this.usersUrl + "period/" + index);
   }
 
   public getHttp() :HttpClient {
