@@ -89,7 +89,6 @@ public class ExamController {
 				listUE.add(ue.getName());
 			}
 		}
-		System.out.println(listUE.size());
 		return new ResponseEntity<>(listUE, HttpStatus.OK);
 	}
 

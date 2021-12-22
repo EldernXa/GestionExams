@@ -30,7 +30,7 @@ export class ExamManagementComponent implements OnInit {
   }
 
   onSubmit(){
-
+    
   }
 
 }
