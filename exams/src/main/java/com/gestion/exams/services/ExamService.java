@@ -79,8 +79,8 @@ public class ExamService {
 	}
 
 	private Exam getExamFromMap(Map<String, String> mapExam) {
-		Period period = periodRepository.findById(Long.parseLong(mapExam.get("namePeriod"))).get();
-		UE ue = ueRepository.findById(mapExam.get("nameUE")).get();
+		Period period = periodRepository.findById(Long.parseLong(mapExam.get("idPeriod"))).get();
+		UE ue = ueRepository.findById(mapExam.get("ue")).get();
 		return new Exam(null, null, Integer.parseInt(mapExam.get("session")),
 				Integer.parseInt(mapExam.get("year")) , null, period, ue);
 
