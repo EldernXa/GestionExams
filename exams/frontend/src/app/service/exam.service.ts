@@ -19,4 +19,8 @@ export class ExamService {
   public findAllUeNameForCreatingExam(id:number):Observable<string[]>{
     return this.http.get<string[]>(this.usersUrl+"listUE/"+id);
   }
+
+  public save(exam: Exam){
+    return this.http.post<Exam>(this.usersUrl + "add", exam);
+  }
 }
