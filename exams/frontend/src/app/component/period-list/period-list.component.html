@@ -1,0 +1,23 @@
+<div class="card my-5">
+    <div class="card-body">
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">begin date period</th>
+            <th scope="col">end date period</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let period of periods">
+            <td>{{ period.id }}</td>
+            <td>{{ period.name }}</td>
+            <td>{{ period.beginDatePeriod }}</td>
+            <td>{{ period.endDatePeriod }}</td>
+            <td><a [routerLink]="['/period', period.id]" class="btn btn-info">Détails</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
