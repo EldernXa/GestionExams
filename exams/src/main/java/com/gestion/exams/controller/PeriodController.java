@@ -1,23 +1,23 @@
 package com.gestion.exams.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.gestion.exams.dto.PeriodDTO;
 import com.gestion.exams.entity.Period;
 import com.gestion.exams.services.PeriodService;
 
-@Controller
+@RestController
 @RequestMapping
 public class PeriodController {
 
@@ -42,16 +42,19 @@ public class PeriodController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
-	@GetMapping("/periodListName")
-	public ResponseEntity<List<Period>> getListNamePeriod(){
-		List<Period> listNamePeriod = new ArrayList<>();
-		listNamePeriod.addAll(periodService.getListPeriod());
-		return new ResponseEntity<>(listNamePeriod, HttpStatus.OK);
+	@GetMapping("/periodList")
+	public ResponseEntity<List<PeriodDTO>> getListPeriod(){
+		List<PeriodDTO> listPeriodDTO = periodService.getListPeriod();
+		return new ResponseEntity<>(listPeriodDTO, HttpStatus.OK);
 	}
 
-	@GetMapping("/periodList")
-	public ResponseEntity<List<Period>> getListPeriod(){
-		return new ResponseEntity<>(periodService.getListPeriod(), HttpStatus.OK);
+	@GetMapping("/period/{id}")
+	public ResponseEntity<Period> getPeriod(@PathVariable long id){
+		Period period = periodService.getPeriod(id);
+		if(period != null) {
+			return new ResponseEntity<>(period, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 	@PostMapping("/period")
