@@ -1,12 +1,18 @@
 package com.gestion.exams.services;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import javax.transaction.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,6 +21,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.gestion.exams.dto.ExamDTO;
 import com.gestion.exams.entity.Exam;
 import com.gestion.exams.entity.Period;
 import com.gestion.exams.entity.Room;
@@ -93,5 +100,75 @@ class ExamServiceTest {
 		});
 	}
 
+	@Test
+	void testConvertToDTO() {
+		ExamDTO examDTO = examService.convertToDTO(exam);
+		assertEquals(exam.getIdExam(), examDTO.getIdExam());
+		assertEquals(exam.getUe().getName(), examDTO.getUe());
+		assertEquals(exam.getPeriod().getId(), examDTO.getPeriod().getId());
+	}
+
+	@Test
+	void testConvertToEntity() {
+		ExamDTO examDTO = examService.convertToDTO(exam);
+		Exam newExam = examService.convertToEntity(examDTO);
+		assertEquals(exam.getIdExam(), newExam.getIdExam());
+		assertEquals(exam.getUe().getName(), newExam.getUe().getName());
+		assertEquals(exam.getPeriod().getId(), newExam.getPeriod().getId());
+	}
+
+	@Test
+	void testGettingBeginDateExam() {
+		assertEquals(DateService.convertDateClassToStringDate(beginDate), examService.getBeginDateExam(exam.getIdExam()));
+	}
+
+	@Test
+	void testGettingBeginDateExamForAnExamWhoDoesntExist() {
+		assertNull(examService.getBeginDateExam(-1));
+	}
+
+	@Test
+	void testGettingEndDateExam() {
+		assertEquals(DateService.convertDateClassToStringDate(endDate), examService.getEndDateExam(exam.getIdExam()));
+	}
+
+	@Test
+	void testGettingEndDateExamForAnExamWhoDoesntExist() {
+		assertNull(examService.getEndDateExam(-1));
+	}
+
+	@Test
+	void testGettingNameUE() {
+		assertEquals(ue.getName(), examService.getNameUE(exam.getIdExam()));
+	}
+
+	@Test
+	void testGettingNameUEWhenExamDoesntExist() {
+		assertNull(examService.getNameUE(-1));
+	}
+
+	@Test
+	void testSaveNewExam() {
+		Map<String, String> mapExam = new HashMap<>();
+		mapExam.put("idPeriod", String.valueOf(period.getId()));
+		mapExam.put("ue", ue.getName());
+		mapExam.put("session", String.valueOf(session));
+		mapExam.put("year", String.valueOf(year));
+		Exam newExam = examService.saveNewExam(mapExam);
+		assertEquals(exam.getPeriod().getId(), newExam.getPeriod().getId());
+		assertEquals(exam.getUe().getName(), newExam.getUe().getName());
+		assertTrue(newExam.getIdExam()>0);
+	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
