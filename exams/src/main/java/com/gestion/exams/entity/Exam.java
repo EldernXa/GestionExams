@@ -89,6 +89,10 @@ public class Exam {
 		return idExam;
 	}
 
+	public void setIdExam(long idExam) {
+		this.idExam = idExam;
+	}
+
 	public Period getPeriod() {
 		return period;
 	}
