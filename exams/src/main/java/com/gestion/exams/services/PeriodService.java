@@ -78,7 +78,11 @@ public class PeriodService {
 	}
 
 	public Period getPeriod(long id) {
-		return periodRepository.findById(id).get();
+		try {
+			return periodRepository.findById(id).get();
+		}catch(Exception exception) {
+			return null;
+		}
 	}
 
 	public Period getPeriodFromMap(Map<String, String> mapPeriod) {
