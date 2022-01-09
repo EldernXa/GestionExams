@@ -1,18 +1,13 @@
 package com.gestion.exams.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Basic;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -49,10 +44,11 @@ public class Exam {
 
 	@ManyToOne
 	@JoinColumn
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private UE ue;
 
-	@Basic(optional = false)
-	private int year;
+	@OneToMany(mappedBy = "gradePK.exam", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Grade> grades = new ArrayList<>();
 
 	public Exam() {
 		super();

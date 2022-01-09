@@ -25,11 +25,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-rest</artifactId>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.springframework.boot</groupId>
+
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>-->
+
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
+
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-devtools</artifactId>
@@ -72,9 +77,98 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>-->
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>2.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-spec</artifactId>
+			<version>1.2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-impl</artifactId>
+			<version>1.2.5</version>
+		</dependency>
+		<!-- Pour Vue.js -->
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>vue</artifactId>
+			<version>3.2.19</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>4.6.0-1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>webjars-locator</artifactId>
+			<version>0.30</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>webjars-locator</artifactId>
+			<version>0.30</version>
+		</dependency>
+		<!-- Pour Axios -->
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>axios</artifactId>
+			<version>0.22.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>4.6.0-1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<version>9.0.54</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-launcher</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
