@@ -12,12 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Period {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
 
 	@Column(nullable = false)
 	private Date beginDatePeriod;
@@ -25,11 +23,16 @@ public class Period {
 	@Column(nullable = false)
 	private Date endDatePeriod;
 
+	@OneToMany(mappedBy = "period")
+	@JsonIgnore
+	private List<Exam> exams = new ArrayList<>();
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
+
 	@Basic(optional = false)
 	private String name;
-
-	@OneToMany(mappedBy = "period")
-	private List<Exam> exams = new ArrayList<>();
 
 	public Period() {
 		super();
@@ -42,36 +45,40 @@ public class Period {
 		this.name = name;
 	}
 
-	public Date getBeginDatePeriod() {
-		return beginDatePeriod;
+	public void setId(long id) {
+		this.id = id;
 	}
 
-	public void setBeginDatePeriod(Date beginDatePeriod) {
-		this.beginDatePeriod = beginDatePeriod;
+	public Date getBeginDatePeriod() {
+		return beginDatePeriod;
 	}
 
 	public Date getEndDatePeriod() {
 		return endDatePeriod;
 	}
 
-	public void setEndDatePeriod(Date endDatePeriod) {
-		this.endDatePeriod = endDatePeriod;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	public List<Exam> getExams() {
+		return exams;
 	}
 
 	public long getId() {
 		return id;
 	}
 
-	public List<Exam> getExams() {
-		return exams;
+	public String getName() {
+		return name;
+	}
+
+	public void setBeginDatePeriod(Date beginDatePeriod) {
+		this.beginDatePeriod = beginDatePeriod;
+	}
+
+	public void setEndDatePeriod(Date endDatePeriod) {
+		this.endDatePeriod = endDatePeriod;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 

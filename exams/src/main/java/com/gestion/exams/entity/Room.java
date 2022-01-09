@@ -8,17 +8,20 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Room {
-
-	@Id
-	private String name;
 
 	@Basic(optional = false)
 	private int capacity;
 
 	@OneToMany(mappedBy = "room")
+	@JsonIgnore
 	private List<Exam> exams = new ArrayList<>();
+
+	@Id
+	private String name;
 
 	public Room() {
 		super();
@@ -30,24 +33,24 @@ public class Room {
 		this.capacity = capacity;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public int getCapacity() {
 		return capacity;
+	}
+
+	public List<Exam> getExams() {
+		return exams;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
 
-	public List<Exam> getExams() {
-		return exams;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 
