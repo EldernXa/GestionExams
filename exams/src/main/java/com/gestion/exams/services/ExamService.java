@@ -1,5 +1,6 @@
 package com.gestion.exams.services;
 
+import com.gestion.exams.dto.ExamDTO;
 import com.gestion.exams.entity.Exam;
 import com.gestion.exams.repository.ExamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.gestion.exams.dto.ExamDTO;
-import com.gestion.exams.entity.Exam;
 import com.gestion.exams.entity.Period;
 import com.gestion.exams.entity.UE;
-import com.gestion.exams.repository.ExamRepository;
 import com.gestion.exams.repository.PeriodRepository;
 import com.gestion.exams.repository.RoomRepository;
 import com.gestion.exams.repository.UERepository;
@@ -45,8 +40,8 @@ public class ExamService {
 	}
 
 	public Optional<Exam> getExamById(long idExam){
-        return examRepository.findById(idExam);
-    }
+		return examRepository.findById(idExam);
+	}
 
 	public List<ExamDTO> getAllExamsFromPeriod(long id){
 		Period period = periodRepository.findById(id).get();

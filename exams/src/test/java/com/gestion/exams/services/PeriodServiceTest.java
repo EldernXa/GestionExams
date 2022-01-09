@@ -28,8 +28,6 @@ import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.ExamRepository;
 import com.gestion.exams.repository.PeriodRepository;
 import com.gestion.exams.repository.UERepository;
-import com.gestion.exams.services.DateService;
-import com.gestion.exams.services.PeriodService;
 
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
