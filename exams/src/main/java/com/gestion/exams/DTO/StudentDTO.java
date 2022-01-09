@@ -1,31 +1,29 @@
-package com.gestion.exams.DTO;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+package com.gestion.exams.dto;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
+
 public class StudentDTO {
 
-    @NotNull
-    long id;
+	@NotNull
+	long id;
 
-    @NotEmpty
-    String firstName;
+	@NotEmpty
+	String firstName;
 
-    @NotEmpty
-    String lastName;
+	@NotEmpty
+	String lastName;
 
-    @NotEmpty
-    String email;
+	@NotEmpty
+	String email;
 
-    //List<GradeDTO> grades;
+	//List<GradeDTO> grades;
 
-    GradeDTO grade;
+	GradeDTO grade;
+
+	public void setGrade(GradeDTO grade) {
+		this.grade = grade;
+	}
+
 }
