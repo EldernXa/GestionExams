@@ -14,9 +14,16 @@ public class StudentMapper {
     private static final ModelMapper modelMapper = new ModelMapper() ;
 
     public static StudentDTO studentToStudentDTO(Student student, long idExam){
+        System.out.println("entrering in student mapper");
         StudentDTO studentDTO = modelMapper.map(student, StudentDTO.class);
         List<GradeDTO> grades = new ArrayList<>();
+        if(student.getGrades().size() == 0) {
+            GradeDTO gradedto = new GradeDTO();
+            gradedto.setValue(-1);
+            studentDTO.setGrade(gradedto);
+        }
         for(Grade g : student.getGrades()){
+            System.out.println("entering in grade boucle");
             //System.out.println("database:"+g.toString());
             //GradeDTO gradeDTO = modelMapper.map(g, GradeDTO.class);
             //grades.add(gradeDTO);

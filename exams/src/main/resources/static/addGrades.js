@@ -31,6 +31,15 @@ const gradeApp = {
                 }
             );
         },
+        createGrade(idStudent) {
+            console.log("entring in createGrade");
+            this.axios.post('/exam'+this.idExam+"/create", this.students[idStudent].id).then(
+                result => {
+                    this.students[idStudent].grade = result.data;
+                }
+            );
+
+        },
         saveGrade(idStudent) {
             console.log("entring in saveGrade");
             this.axios.post('/exam'+this.idExam, this.students[idStudent].grade).then(

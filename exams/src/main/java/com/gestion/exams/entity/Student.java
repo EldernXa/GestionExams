@@ -85,5 +85,11 @@ public class Student {
 		this.email = email;
 	}
 
+	public boolean hasGradeForExam(Exam exam){
+		for(Grade g: grades)
+			if(g.getGradePK().getExam().getIdExam() == exam.getIdExam())
+				return true;
+		return false;
+	}
 
 }

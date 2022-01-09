@@ -67,7 +67,7 @@ public class PopulateService{
 		populateAuthentification();
 		populateExam();
 		populateInscription();
-		populateGrade();
+		//populateGrade();
 	}
 
 	private void populateRoom() {
@@ -173,7 +173,6 @@ public class PopulateService{
 			}
 		}
 	}
-
 }
 
 

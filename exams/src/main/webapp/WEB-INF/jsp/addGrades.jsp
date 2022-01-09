@@ -3,8 +3,13 @@
     <div class="card-header bg-primary text-white h3">{{s.firstName}} {{s.lastName}}</div>
     <div class="card-body">
         <div class="w-100 card-title d-flex justify-content-between">
-            <input v-model="students[index].grade.value" type="number" placeholder="Note" min="0" max="20" class="form-control m-3 w-25" id="grade" name="grade">
-            <small><button class="btn btn-info m-3" v-on:click="saveGrade(index)">SAVE</button></small>
+            <div v-if="students[index].grade.value != -1">
+                <input v-model="students[index].grade.value" type="number" placeholder="Note" min="0" max="20" class="form-control m-3 w-25" id="grade" name="grade">
+                <small><button class="btn btn-info m-3" v-on:click="saveGrade(index)">SAVE</button></small>
+            </div>
+            <div v-else>
+                <small><button class="btn btn-info m-3" v-on:click="createGrade(index)">CREATE GRADE</button></small>
+            </div>
         </div>
     </div>
 </div>
