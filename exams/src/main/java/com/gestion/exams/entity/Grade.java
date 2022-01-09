@@ -11,23 +11,23 @@ public class Grade {
 	private GradePK gradePK;
 
 	@Basic(optional = false)
-	private int value;
+	private double value;
 
 	public Grade() {
 		super();
 	}
 
-	public Grade(Student student, Exam exam, int value) {
+	public Grade(Student student, Exam exam, double value) {
 		super();
 		this.gradePK = new GradePK(exam, student);
 		this.value = value;
 	}
 
-	public int getValue() {
+	public double getValue() {
 		return value;
 	}
 
-	public void setValue(int value) {
+	public void setValue(double value) {
 		this.value = value;
 	}
 

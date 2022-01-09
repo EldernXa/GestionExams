@@ -1,6 +1,7 @@
 package com.gestion.exams.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,8 @@ public class UE {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "inscriptionPK.ue")
+	@Column
+	@JsonIgnore
 	private List<Inscription> inscriptions = new ArrayList<>();
 
 

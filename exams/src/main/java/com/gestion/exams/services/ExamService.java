@@ -1,5 +1,11 @@
 package com.gestion.exams.services;
 
+import com.gestion.exams.entity.Exam;
+import com.gestion.exams.repository.ExamRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +43,10 @@ public class ExamService {
 	public List<Exam> getAllExams(){
 		return examRepository.findAll();
 	}
+
+	public Optional<Exam> getExamById(long idExam){
+        return examRepository.findById(idExam);
+    }
 
 	public List<ExamDTO> getAllExamsFromPeriod(long id){
 		Period period = periodRepository.findById(id).get();

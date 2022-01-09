@@ -1,5 +1,8 @@
 package com.gestion.exams.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

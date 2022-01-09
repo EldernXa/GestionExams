@@ -1,5 +1,8 @@
 package com.gestion.exams.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -8,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -48,6 +50,7 @@ public class Exam {
 	private UE ue;
 
 	@OneToMany(mappedBy = "gradePK.exam", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
 	private List<Grade> grades = new ArrayList<>();
 
 	public Exam() {

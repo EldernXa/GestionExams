@@ -1,5 +1,7 @@
 package com.gestion.exams.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,10 +34,12 @@ public class Student {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "gradePK.student", fetch = FetchType.LAZY)
+	@JsonIgnore
 	private List<Grade> grades = new ArrayList<>();
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "inscriptionPK.student")
+	@JsonIgnore
 	private List<Inscription> inscriptions = new ArrayList<>();
 
 	public Student() {
@@ -85,5 +89,11 @@ public class Student {
 		this.email = email;
 	}
 
+	public boolean hasGradeForExam(Exam exam){
+		for(Grade g: grades)
+			if(g.getGradePK().getExam().getIdExam() == exam.getIdExam())
+				return true;
+		return false;
+	}
 
 }
