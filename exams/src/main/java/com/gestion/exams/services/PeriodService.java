@@ -78,13 +78,15 @@ public class PeriodService {
 	}
 
 	public Period getPeriod(long id) {
-		return periodRepository.findById(id).get();
+		try {
+			return periodRepository.findById(id).get();
+		}catch(Exception exception) {
+			return null;
+		}
 	}
 
 	public Period getPeriodFromMap(Map<String, String> mapPeriod) {
 		try {
-			System.err.println(mapPeriod.get("beginDatePeriod"));
-			System.err.println(mapPeriod.get("endDatePeriod"));
 			return new Period(DateService.convertStringDateYearFirstToDateClass(mapPeriod.get("beginDatePeriod")),
 					DateService.convertStringDateYearFirstToDateClass(mapPeriod.get("endDatePeriod")), mapPeriod.get("name"));
 		}catch(Exception exception)

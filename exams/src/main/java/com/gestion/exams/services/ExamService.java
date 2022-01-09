@@ -56,6 +56,7 @@ public class ExamService {
 
 	public Exam convertToEntity(ExamDTO examDTO) {
 		Exam exam = modelMapper.map(examDTO, Exam.class);
+		exam.setIdExam(examDTO.getIdExam());
 		exam.setUe(ueRepository.findById(examDTO.getUe()).get());
 		return exam;
 	}
