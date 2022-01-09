@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Student {
 
@@ -29,11 +31,13 @@ public class Student {
 	@Basic(optional = false)
 	private String email;
 
-	// TODO verify mappedBy.
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "gradePK.student", fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<Grade> grades = new ArrayList<>();
-
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "inscriptionPK.student")
 	@JsonIgnore
 	private List<Inscription> inscriptions = new ArrayList<>();

@@ -2,6 +2,8 @@ package com.gestion.exams.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 
@@ -17,6 +19,7 @@ public class GradePK implements Serializable{
 
 	@ManyToOne
 	@JoinColumn
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Exam exam;
 
 	@ManyToOne

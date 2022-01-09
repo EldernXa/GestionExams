@@ -12,4 +12,9 @@ public class VueController {
         return new ModelAndView("app");
     }
 
+    @RequestMapping(value = "/ueView")
+    public ModelAndView hello() {
+        System.out.println("test");
+        return new ModelAndView("UE");
+    }
 }
