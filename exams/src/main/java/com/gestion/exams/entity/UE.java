@@ -1,5 +1,7 @@
 package com.gestion.exams.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,26 +11,37 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class UE {
-
-	@Id
-	private String name;
 
 	@Basic(optional = false)
 	private int credit;
 
+	@Column(nullable = false)
+	private Discipline discipline;
+
 	@Basic(optional = false)
 	private int durationExam;
 
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "inscriptionPK.ue")
 	private List<Inscription> inscriptions = new ArrayList<>();
 
+
+
 	@OneToMany(mappedBy = "ue")
+	@JsonIgnore
 	private List<Exam> exams = new ArrayList<>();
 
-	@Column(nullable = false)
-	private Discipline discipline;
+	@OneToMany(mappedBy = "inscriptionPK.ue")
+	@JsonIgnore
+	private List<Inscription> inscriptions = new ArrayList<>();
+
+	@Id
+	private String name;
 
 	public UE() {
 		super();
@@ -42,44 +55,44 @@ public class UE {
 		this.discipline = discipline;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public int getCredit() {
 		return credit;
-	}
-
-	public void setCredit(int credit) {
-		this.credit = credit;
-	}
-
-	public int getDurationExam() {
-		return durationExam;
-	}
-
-	public void setDurationExam(int durationExam) {
-		this.durationExam = durationExam;
 	}
 
 	public Discipline getDiscipline() {
 		return discipline;
 	}
 
-	public void setDiscipline(Discipline discipline) {
-		this.discipline = discipline;
+	public int getDurationExam() {
+		return durationExam;
+	}
+
+	public List<Exam> getExams() {
+		return exams;
 	}
 
 	public List<Inscription> getInscriptions() {
 		return inscriptions;
 	}
 
-	public List<Exam> getExams() {
-		return exams;
+	public String getName() {
+		return name;
+	}
+
+	public void setCredit(int credit) {
+		this.credit = credit;
+	}
+
+	public void setDiscipline(Discipline discipline) {
+		this.discipline = discipline;
+	}
+
+	public void setDurationExam(int durationExam) {
+		this.durationExam = durationExam;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 

@@ -9,35 +9,38 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Exam {
+
+	@Basic()
+	private Date beginDateExam;
+
+	@Basic()
+	private Date endDateExam;
+
+	@OneToMany(mappedBy = "gradePK.exam")
+	@JsonIgnore
+	private List<Grade> grades = new ArrayList<>();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long idExam;
 
-	@Basic(optional = false)
-	private Date beginDateExam;
+	@ManyToOne
+	@JoinColumn
+	private Period period;
 
-	@Basic(optional = false)
-	private Date endDateExam;
+	@ManyToOne
+	@JoinColumn
+	private Room room;
 
 	@Basic(optional = false)
 	private int session;
 
 	@ElementCollection
 	private List<String> supervisors = new ArrayList<>();
-
-	@Basic(optional = false)
-	private int year;
-
-	@ManyToOne
-	@JoinColumn
-	private Room room;
-
-	@ManyToOne
-	@JoinColumn
-	private Period period;
 
 	@ManyToOne
 	@JoinColumn
@@ -62,76 +65,76 @@ public class Exam {
 		this.ue = ue;
 	}
 
-	public Date getBeginDateExam() {
-		return beginDateExam;
+	public void addSupervisor(String supervisor) {
+		this.supervisors.add(supervisor);
 	}
 
-	public void setBeginDateExam(Date beginDateExam) {
-		this.beginDateExam = beginDateExam;
+	public Date getBeginDateExam() {
+		return beginDateExam;
 	}
 
 	public Date getEndDateExam() {
 		return endDateExam;
 	}
 
-	public void setEndDateExam(Date endDateExam) {
-		this.endDateExam = endDateExam;
-	}
-
-	public int getSession() {
-		return session;
-	}
-
-	public void setSession(int session) {
-		this.session = session;
-	}
-
-	public int getYear() {
-		return year;
-	}
-
-	public void setYear(int year) {
-		this.year = year;
-	}
-
-	public Room getRoom() {
-		return room;
-	}
-
-	public void setRoom(Room room) {
-		this.room = room;
-	}
-
-	public Period getPeriod() {
-		return period;
-	}
-
-	public void setPeriod(Period period) {
-		this.period = period;
-	}
-
-	public UE getUe() {
-		return ue;
-	}
-
-	public void setUe(UE ue) {
-		this.ue = ue;
+	public List<Grade> getGrades() {
+		return grades;
 	}
 
 	public long getIdExam() {
 		return idExam;
 	}
 
+	public Period getPeriod() {
+		return period;
+	}
+
+	public Room getRoom() {
+		return room;
+	}
+
+	public int getSession() {
+		return session;
+	}
+
 	public List<String> getSupervisors() {
 		return supervisors;
 	}
 
-	public void addSupervisor(String supervisor) {
-		this.supervisors.add(supervisor);
+	public UE getUe() {
+		return ue;
 	}
 
-	public List<Grade> getGrades() {
-		return grades;
+	public int getYear() {
+		return year;
+	}
+
+	public void setBeginDateExam(Date beginDateExam) {
+		this.beginDateExam = beginDateExam;
+	}
+
+	public void setEndDateExam(Date endDateExam) {
+		this.endDateExam = endDateExam;
+	}
+
+	public void setPeriod(Period period) {
+		this.period = period;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+
+	public void setSession(int session) {
+		this.session = session;
+	}
+
+	public void setUe(UE ue) {
+		this.ue = ue;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
 	}
 
 }
