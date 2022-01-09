@@ -26,7 +26,8 @@ public class UE {
 	@JsonIgnore
 	@OneToMany(mappedBy = "inscriptionPK.ue")
 	private List<Inscription> inscriptions = new ArrayList<>();
-
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "ue")
 	private List<Exam> exams = new ArrayList<>();
 

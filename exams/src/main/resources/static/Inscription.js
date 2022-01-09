@@ -18,10 +18,19 @@ const myApp = {
             timeout: 1000,
             headers: {
                 'Content-Type': 'application/json',
+                
             },
-        });
+            
+               });
 
-
+			this.axios.get('/all/'+'email0')
+                .then(r => {
+                    console.log(r)
+                    this.inscriptions = r.data;
+              
+                    this.connected='email0';
+                	console.log(this.connected);
+                });
 
 
     },
