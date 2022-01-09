@@ -19,6 +19,7 @@ public class InscriptionController {
     InscriptionService inscriptionService ;
     @Autowired
     StudentRepository studentRepository;
+    
 
 @GetMapping("/all/{email}")
 public List<Inscription> showInscriptionsOfStudent(@PathVariable String email){ //student will be replaced with Principal
