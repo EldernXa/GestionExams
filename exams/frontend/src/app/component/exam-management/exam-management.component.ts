@@ -36,7 +36,7 @@ export class ExamManagementComponent implements OnInit {
     this.exam.idPeriod = this.id;
     console.log(this.exam.ue);
     console.log(this.exam.year);
-    console.log(this.exam.idPeriod);
+    console.log(this.exam.idPeriod); // TODO : remove
     this.examService.save(this.exam).subscribe(result => {
       this.redirectTo('/periodManagement/'+this.id);
     });

@@ -3,6 +3,7 @@ package com.gestion.exams.dto;
 public class ExamDTO {
 
 	private long idExam;
+	private String nameRoom;
 	private PeriodDTO period;
 	private int session;
 	private String ue;
@@ -44,6 +45,12 @@ public class ExamDTO {
 	}
 	public void setYear(int year) {
 		this.year = year;
+	}
+	public String getNameRoom() {
+		return nameRoom;
+	}
+	public void setNameRoom(String nameRoom) {
+		this.nameRoom = nameRoom;
 	}
 
 
