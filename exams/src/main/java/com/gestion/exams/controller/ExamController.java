@@ -38,7 +38,6 @@ public class ExamController {
 	public ResponseEntity<Exam> addNewExams(@RequestBody Map<String, String> mapNewExam){
 		Exam exam = examService.saveNewExam(mapNewExam);
 		if(exam != null) {
-			System.err.println("okok");
 			return new ResponseEntity<>(exam,HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

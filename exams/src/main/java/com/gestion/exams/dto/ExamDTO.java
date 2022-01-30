@@ -18,19 +18,33 @@ public class ExamDTO {
 	private int year;
 
 	public Date getBeginDateExam() throws ParseException {
+		if(beginDateExam.compareTo("")==0) {
+			return null;
+		}
 		return DateService.convertStringDateToDateClass(beginDateExam);
 	}
 
 	public void setBeginDateExam(Date date) {
-		this.beginDateExam = DateService.convertDateClassToStringDate(date);
+		if(date == null) {
+			this.beginDateExam = "";
+		}else {
+			this.beginDateExam = DateService.convertDateClassToStringDate(date);
+		}
 	}
 
 	public Date getEndDateExam() throws ParseException {
+		if(endDateExam.compareTo("")==0) {
+			return null;
+		}
 		return DateService.convertStringDateToDateClass(endDateExam);
 	}
 
 	public void setEndDateExam(Date date) {
-		this.endDateExam = DateService.convertDateClassToStringDate(date);
+		if(date == null) {
+			this.endDateExam = "";
+		}else {
+			this.endDateExam = DateService.convertDateClassToStringDate(date);
+		}
 	}
 
 	public long getIdExam() {

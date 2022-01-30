@@ -22,8 +22,24 @@ export class ExamManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
+    console.log(this.id);
     this.examService.findAllExamFromPeriod(this.id).subscribe(data => {
+      console.log("okok");
       this.listExam = data;
+      for(let i=0; i<this.listExam.length; i++){
+        
+        this.examService.getNewBeginDate(this.listExam[i].idExam).subscribe(
+          data2=>{
+            this.listExam[i].beginDateExam = data2;
+          }
+        );
+
+        this.examService.getNewEndDate(this.listExam[i].idExam).subscribe(
+          data2=>{
+            this.listExam[i].endDateExam = data2;
+          }
+        );
+      }
     });
 
     this.examService.findAllUeNameForCreatingExam(this.id).subscribe(data=>{
@@ -37,6 +53,9 @@ export class ExamManagementComponent implements OnInit {
     console.log(this.exam.ue);
     console.log(this.exam.year);
     console.log(this.exam.idPeriod); // TODO : remove
+    this.exam.beginDateExam = "";
+    this.exam.endDateExam = "";
+    this.exam.nameRoom = "";
     this.examService.save(this.exam).subscribe(result => {
       this.redirectTo('/periodManagement/'+this.id);
     });

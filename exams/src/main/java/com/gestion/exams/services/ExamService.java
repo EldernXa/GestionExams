@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,12 +51,23 @@ public class ExamService {
 		for(Exam exam : listExam) {
 			listExamDTO.add(convertToDTO(exam));
 		}
+		if(listExamDTO.size()>0) {
+			try {
+				System.err.println(listExamDTO.get(0).getBeginDateExam());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return listExamDTO;
 	}
 
 	public ExamDTO convertToDTO(Exam exam) {
 		ExamDTO examDTO = modelMapper.map(exam, ExamDTO.class);
 		examDTO.setUe(exam.getUe().getName());
+		examDTO.setBeginDateExam(null);
+		examDTO.setEndDateExam(null);
+		examDTO.setNameRoom("Pas de salle pour l'instant");
 		return examDTO;
 	}
 
