@@ -1,14 +1,37 @@
 package com.gestion.exams.dto;
 
+import java.text.ParseException;
+import java.util.Date;
+
+import com.gestion.exams.services.DateService;
+
 public class ExamDTO {
 
 	private long idExam;
 	private String nameRoom;
+	private String beginDateExam;
+	private String endDateExam;
 	private PeriodDTO period;
 	private int session;
 	private String ue;
 	private String[] supervisors;
 	private int year;
+
+	public Date getBeginDateExam() throws ParseException {
+		return DateService.convertStringDateToDateClass(beginDateExam);
+	}
+
+	public void setBeginDateExam(Date date) {
+		this.beginDateExam = DateService.convertDateClassToStringDate(date);
+	}
+
+	public Date getEndDateExam() throws ParseException {
+		return DateService.convertStringDateToDateClass(endDateExam);
+	}
+
+	public void setEndDateExam(Date date) {
+		this.endDateExam = DateService.convertDateClassToStringDate(date);
+	}
 
 	public long getIdExam() {
 		return idExam;
