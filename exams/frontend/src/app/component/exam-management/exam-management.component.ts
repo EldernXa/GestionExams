@@ -22,12 +22,9 @@ export class ExamManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
-    console.log(this.id);
     this.examService.findAllExamFromPeriod(this.id).subscribe(data => {
-      console.log("okok");
       this.listExam = data;
       for(let i=0; i<this.listExam.length; i++){
-        
         this.examService.getNewBeginDate(this.listExam[i].idExam).subscribe(
           data2=>{
             this.listExam[i].beginDateExam = data2;
