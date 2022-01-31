@@ -26,7 +26,7 @@
   
   <div class="card-body" *ngIf="listUE.length>0">
     <p>Nouvelle exam : </p>
-    <form (ngSubmit)="onSubmit()" #periodForm="ngForm">
+    <form #periodForm="ngForm">
       <div class="form-group">
         <label for="name">Nom de l'UE</label>
         <select class="custom-select form-control" [(ngModel)]="exam.ue" id="ueName" name="ueName" required #ueName="ngModel">
@@ -55,7 +55,8 @@
               required #year="ngModel">
           <div [hidden]="!year.pristine" class="alert alert-danger">L'année est requise.</div>
       </div>
-      <button type="submit" [disabled]="!periodForm.form.valid" 
+      <button (click)="onSubmit()" [disabled]="!periodForm.form.valid" 
         class="btn btn-info">Submit</button>
     </form>
   </div>
+  <button (click)="onPlan()" class="btn btn-info">Planifier les salles et les horaires</button>

@@ -31,4 +31,8 @@ export class ExamService {
   public getNewEndDate(idExam: number){
     return this.http.get(this.usersUrl + idExam + "/endDate", {responseType: 'text'});
   }
+
+  public updatePlanning(idPeriod: number){
+    return this.http.put("http://localhost:8080/period/" + idPeriod,idPeriod);
+  }
 }

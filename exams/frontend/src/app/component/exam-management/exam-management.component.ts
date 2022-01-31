@@ -58,6 +58,11 @@ export class ExamManagementComponent implements OnInit {
     });
   }
 
+  onPlan(){
+    console.log("okok");
+    this.examService.updatePlanning(this.id).subscribe(result=>{console.log("ssss");});
+  }
+
   redirectTo(uri:string){
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
     this.router.navigate([uri]));
