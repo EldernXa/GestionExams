@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -52,14 +51,6 @@ public class ExamService {
 		List<ExamDTO> listExamDTO = new ArrayList<>();
 		for(Exam exam : listExam) {
 			listExamDTO.add(convertToDTO(exam));
-		}
-		if(listExamDTO.size()>0) {
-			try {
-				System.err.println(listExamDTO.get(0).getBeginDateExam());
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 		return listExamDTO;
 	}

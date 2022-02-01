@@ -68,7 +68,10 @@ public class PeriodController {
 	@CrossOrigin
 	@PutMapping("/period/{id}")
 	public ResponseEntity<Period> updatePlanning(@PathVariable long id){
-		periodService.planRoomAndDateOfExams(id);
+		Period periodToPlan = periodService.planRoomAndDateOfExams(id);
+		if(periodToPlan != null) {
+			return new ResponseEntity<>(periodToPlan, HttpStatus.OK);
+		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 

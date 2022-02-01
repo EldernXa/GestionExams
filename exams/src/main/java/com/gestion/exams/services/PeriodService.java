@@ -23,9 +23,12 @@ public class PeriodService {
 
 	private ModelMapper modelMapper = new ModelMapper();
 
-	public void planRoomAndDateOfExams(long id) {
-		List<Exam> listExamFromAPeriod = periodRepository.getById(id).getExams();
+	public Period planRoomAndDateOfExams(long id) {
+		Period periodToPlan = periodRepository.getById(id);
+		List<Exam> listExamFromAPeriod = periodToPlan.getExams();
 		listExamFromAPeriod.forEach(exam->{System.err.println(exam.getUe().getName());});
+
+		return periodToPlan;
 	}
 
 	public String beginDatePeriodToString(long id) {
