@@ -7,6 +7,7 @@ const myApp = {
             axios: null,
             inscriptions: [],
             connected: null,
+            inscription:null
         }
     },
     // Mise en place de l'application
@@ -46,6 +47,31 @@ const myApp = {
                     window.location.href = 'inscription';
                 });
         },
+
+        registerStudentToUE : function (id,year,nameUE){
+            this.axios.post('/register/'+id+'/'+year+'/'+nameUE)
+                .then(r => {
+                    console.log(r)
+                    this.inscription = r.data;
+                    window.location.href = 'inscription';
+                });
+        },
+
+        unsubscribeStudentFromInscription : function (id , year , nameUE){
+            this.axios.delete('/unsubscribe/'+id+'/'+year+'/'+nameUE)
+                .then(r => {
+                    console.log(r)
+                    this.inscription = r.data;
+                    window.location.href = 'inscription';
+                });
+
+
+        },
+
+
+
+
+
 
 
     },

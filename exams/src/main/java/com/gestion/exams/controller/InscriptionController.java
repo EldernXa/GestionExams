@@ -5,6 +5,7 @@ import com.gestion.exams.entity.Student;
 import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.StudentRepository;
 import com.gestion.exams.services.InscriptionService;
+import com.gestion.exams.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,8 @@ public class InscriptionController {
     InscriptionService inscriptionService ;
     @Autowired
     StudentRepository studentRepository;
+    @Autowired
+    StudentService studentService ;
     
 
 @GetMapping("/all/{email}")
@@ -27,14 +30,14 @@ public List<Inscription> showInscriptionsOfStudent(@PathVariable String email){ 
     System.out.println("access");
     return inscriptionService.getInscriptionsOfStudent(student);
 }
-@PostMapping("/register")
-public Inscription registerStudentToUE(Student student , int year , UE ue){
-    return inscriptionService.registerStudentToUE(student,year,ue);
+@PostMapping("/register/{id}/{year}/{nameUE}")
+public Inscription registerStudentToUE(@PathVariable long id  ,@PathVariable int year , @PathVariable String nameUE,UE ue){
+    return inscriptionService.registerStudentToUE(id,year,nameUE);
 }
 
-@DeleteMapping("/unsubscribe")
-public void unsubscribeStudentFromInscription(Student student ,Inscription inscription){
-    inscriptionService.unsubscribeStudentFromInscription(student,inscription);
+@DeleteMapping("/unsubscribe/{id}/{year}/{nameUE}")
+public void unsubscribeStudentFromInscription(@PathVariable long id ,@PathVariable int year , @PathVariable String nameUE){
+    inscriptionService.unsubscribeStudentFromInscription(id, year, nameUE);
 }
 
 

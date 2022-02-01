@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="exams:war">
+    <output-path>$PROJECT_DIR$/exams/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>false</exploded>
+        <module>exams</module>
+        <packaging>war</packaging>
+        <unpackNestedArchives>false</unpackNestedArchives>
+      </options>
+    </properties>
+    <root id="archive" name="exams-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="exams:war exploded" />
+    </root>
+  </artifact>
+</component>

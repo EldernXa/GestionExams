@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/ue")
-@CrossOrigin(origins = "http://localhost:4200")
 public class UEController {
 
 	@Autowired

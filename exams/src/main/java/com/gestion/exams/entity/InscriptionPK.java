@@ -35,6 +35,8 @@ public class InscriptionPK implements Serializable{
 		this.student = student;
 	}
 
+
+
 	public UE getUe() {
 		return ue;
 	}
