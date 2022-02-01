@@ -33,12 +33,13 @@ public class InscriptionService {
         return student.getInscriptions();
     }
 
-    public  void unsubscribeStudentFromInscription(long id , int year , String nameUE ){
+   /* public  void unsubscribeStudentFromInscription(long id , int year , String nameUE ){
         UE ue = ueRepository.getUEByName(nameUE);
         Student student=studentRepository.getById(id);
-        Inscription inscription=inscriptionRepository.getInscriptionByStudentAndUeAndYear(student,year,ue);
+        InscriptionPK inscriptionPK = new InscriptionPK(ue,student);
+        Inscription inscription=inscriptionRepository.getInscriptionByInscriptionPKAndYear(inscriptionPK,year);
         student.getInscriptions().remove(inscription);
         studentRepository.save(student);
         inscriptionRepository.delete(inscription);
-    }
+    }*/
 }

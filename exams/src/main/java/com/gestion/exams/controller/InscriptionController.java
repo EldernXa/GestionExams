@@ -34,11 +34,11 @@ public List<Inscription> showInscriptionsOfStudent(@PathVariable String email){ 
 public Inscription registerStudentToUE(@PathVariable long id  ,@PathVariable int year , @PathVariable String nameUE,UE ue){
     return inscriptionService.registerStudentToUE(id,year,nameUE);
 }
-
+/*
 @DeleteMapping("/unsubscribe/{id}/{year}/{nameUE}")
 public void unsubscribeStudentFromInscription(@PathVariable long id ,@PathVariable int year , @PathVariable String nameUE){
     inscriptionService.unsubscribeStudentFromInscription(id, year, nameUE);
-}
+}*/
 
 
 
