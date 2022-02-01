@@ -3,20 +3,17 @@ package com.gestion.exams.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 public class Student {
 
 	@Id
+	@Column(name = "user_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long idStudent;
 
@@ -30,6 +27,8 @@ public class Student {
 	private String email;
 
 
+	private String password;
+
 	@OneToMany(mappedBy = "gradePK.student", fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<Grade> grades = new ArrayList<>();
@@ -38,15 +37,24 @@ public class Student {
 	@JsonIgnore
 	private List<Inscription> inscriptions = new ArrayList<>();
 
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(
+			name = "users_roles",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "role_id")
+	)
+	private Set<Role> roles = new HashSet<>();
+
 	public Student() {
 		super();
 	}
 
-	public Student(String firstName, String lastName, String email) {
+	public Student(String firstName, String lastName, String email,String password) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.password=password;
 	}
 
 	public String getEmail() {
@@ -94,4 +102,19 @@ public class Student {
 		return false;
 	}
 
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }

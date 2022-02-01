@@ -20,26 +20,29 @@ public class InscriptionService {
     StudentRepository studentRepository;
     UERepository ueRepository;
 
-    public Inscription registerStudentToUE(long id , int year , String nameUE){
+    public Inscription registerStudentToUE(long id, int year, String nameUE) {
         Student student = studentRepository.getById(id);
-        Inscription newInscription = new Inscription(student,year,ueRepository.getUEByName(nameUE));
+        Inscription newInscription = new Inscription(student, year, ueRepository.getUEByName(nameUE));
         inscriptionRepository.save(newInscription);
         student.getInscriptions().add(newInscription);
         studentRepository.save(student);
-        return newInscription ;
+        return newInscription;
     }
 
-  public  List<Inscription> getInscriptionsOfStudent(Student student){
+    public List<Inscription> getInscriptionsOfStudent(Student student) {
         return student.getInscriptions();
     }
 
-   /* public  void unsubscribeStudentFromInscription(long id , int year , String nameUE ){
-        UE ue = ueRepository.getUEByName(nameUE);
-        Student student=studentRepository.getById(id);
-        InscriptionPK inscriptionPK = new InscriptionPK(ue,student);
-        Inscription inscription=inscriptionRepository.getInscriptionByInscriptionPKAndYear(inscriptionPK,year);
+  /* public void unsubscribeStudentFromInscription(Inscription inscription) {
+        Student student = inscription.getStudent();
         student.getInscriptions().remove(inscription);
         studentRepository.save(student);
         inscriptionRepository.delete(inscription);
-    }*/
+
+    }
+     public Inscription getInscriptionByStudentAndUeAndYear(Student student,UE ue,int year){
+        return inscriptionRepository.getInscriptionByStudentAndUeAndYear(student,ue,year);
+     }*/
+
+
 }
