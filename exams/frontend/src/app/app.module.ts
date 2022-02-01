@@ -6,11 +6,11 @@ import { PeriodListComponent } from './component/period-list/period-list.compone
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { PeriodService } from './service/period-service.service';
+import { PeriodService } from './service/period/period-service.service';
 import { PeriodFormComponent } from './component/period-form/period-form.component';
 import { PeriodDetailsComponent } from './component/period-details/period-details.component';
 import { ExamManagementComponent } from './component/exam-management/exam-management.component';
-import { ExamService } from './service/exam.service';
+import { ExamService } from './service/exam/exam.service';
 
 @NgModule({
   declarations: [

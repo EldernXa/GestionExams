@@ -1,4 +1,4 @@
-import { Period } from "./period";
+import { Period } from "../period/period";
 
 export class Exam {
 
@@ -6,7 +6,7 @@ export class Exam {
         idPeriod: number = -1;
         session: number = 0;
         ue: string = "";
-        supervisors: string = ""; 
+        supervisors: string = "";
         year: number = 0;
 
 }

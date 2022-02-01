@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Period } from '../model/period';
+import { Period } from '../../model/period/period';
 import { map, Observable } from 'rxjs';
 
 @Injectable()

@@ -1,7 +1,7 @@
 export class Period {
 
     id: number = -1;
-    name: string = "";;
+    name: string = "";
     beginDatePeriod: string = "";
     endDatePeriod: string = "";
 
