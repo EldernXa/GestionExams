@@ -45,6 +45,10 @@ public class ExamService {
 		return examRepository.findById(idExam);
 	}
 
+	public Exam updateExam(Exam examToUpdate) {
+		return examRepository.save(examToUpdate);
+	}
+
 	public List<ExamDTO> getAllExamsFromPeriod(long id){
 		Period period = periodRepository.findById(id).get();
 		List<Exam> listExam = period.getExams();
@@ -58,9 +62,9 @@ public class ExamService {
 	public ExamDTO convertToDTO(Exam exam) {
 		ExamDTO examDTO = modelMapper.map(exam, ExamDTO.class);
 		examDTO.setUe(exam.getUe().getName());
-		examDTO.setBeginDateExam(null);
-		examDTO.setEndDateExam(null);
-		examDTO.setNameRoom("Pas de salle pour l'instant"); // TODO à changer
+		if(examDTO.getNameRoom() == null) {
+			examDTO.setNameRoom("Pas de salle pour l'instant"); // TODO à changer
+		}
 		return examDTO;
 	}
 

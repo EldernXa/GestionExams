@@ -1,5 +1,6 @@
 package com.gestion.exams.controller;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -67,8 +68,8 @@ public class PeriodController {
 
 	@CrossOrigin
 	@PutMapping("/period/{id}")
-	public ResponseEntity<Period> updatePlanning(@PathVariable long id){
-		Period periodToPlan = periodService.planRoomAndDateOfExams(id);
+	public ResponseEntity<PeriodDTO> updatePlanning(@PathVariable long id) throws ParseException{
+		PeriodDTO periodToPlan = periodService.planRoomAndDateOfExams(id);
 		if(periodToPlan != null) {
 			return new ResponseEntity<>(periodToPlan, HttpStatus.OK);
 		}

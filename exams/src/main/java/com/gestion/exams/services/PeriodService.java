@@ -2,6 +2,7 @@ package com.gestion.exams.services;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import com.gestion.exams.entity.Exam;
 import com.gestion.exams.entity.Period;
 import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.PeriodRepository;
+import com.gestion.exams.repository.RoomRepository;
 
 @Service
 public class PeriodService {
@@ -21,14 +23,32 @@ public class PeriodService {
 	@Autowired
 	private PeriodRepository periodRepository;
 
+	@Autowired
+	private ExamService examService;
+
+	@Autowired
+	private RoomRepository roomRepository; // TODO to remove
+
 	private ModelMapper modelMapper = new ModelMapper();
 
-	public Period planRoomAndDateOfExams(long id) {
+	public PeriodDTO planRoomAndDateOfExams(long id) throws ParseException {
 		Period periodToPlan = periodRepository.getById(id);
 		List<Exam> listExamFromAPeriod = periodToPlan.getExams();
 		listExamFromAPeriod.forEach(exam->{System.err.println(exam.getUe().getName());});
+		Date dateBegin = periodToPlan.getBeginDatePeriod();
+		for(Exam exam : listExamFromAPeriod) {
+			Date dateBeginWithHour = DateService.createDate(String.valueOf(DateService.getDay(dateBegin)),
+					String.valueOf(DateService.getMonth(dateBegin)), String.valueOf(DateService.getYear(dateBegin)), "08");
+			exam.setBeginDateExam(dateBeginWithHour);
+			exam.setEndDateExam(DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
+			System.err.println(exam.getBeginDateExam().toString());
+			System.err.println(exam.getEndDateExam().toString());
+			//			exam.setEndDateExam(calendar.getTime());
+			exam.setRoom(roomRepository.findAll().get(1));
+			examService.updateExam(exam);
+		}
 
-		return periodToPlan;
+		return convertToDTO(periodToPlan);
 	}
 
 	public String beginDatePeriodToString(long id) {

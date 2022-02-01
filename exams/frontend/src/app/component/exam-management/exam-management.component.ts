@@ -22,7 +22,12 @@ export class ExamManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
+    this.update();
+  }
+
+  update(){
     this.examService.findAllExamFromPeriod(this.id).subscribe(data => {
+      console.log(data);
       this.listExam = data;
       for(let i=0; i<this.listExam.length; i++){
         this.examService.getNewBeginDate(this.listExam[i].idExam).subscribe(
@@ -60,7 +65,8 @@ export class ExamManagementComponent implements OnInit {
 
   onPlan(){
     console.log("okok");
-    this.examService.updatePlanning(this.id).subscribe(result=>{console.log("ssss");});
+    this.examService.updatePlanning(this.id).subscribe(result=>{this.update();});
+    
   }
 
   redirectTo(uri:string){
