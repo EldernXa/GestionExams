@@ -45,13 +45,7 @@ public class PeriodService {
 					String.valueOf(DateService.getMonth(dateBegin)), String.valueOf(DateService.getYear(dateBegin)), "08");
 			exam.setBeginDateExam(dateBeginWithHour);
 			exam.setEndDateExam(DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
-			Room room = roomService.getAvailableRoom(exam.getBeginDateExam(), exam.getEndDateExam(), periodToPlan.getId());
-			if(room == null) {
-				exam.setRoom(null);
-			} else {
-				exam.setRoom(room);
-			}
-			examService.updateExam(exam);
+			setRoom(exam, periodToPlan);
 		}
 		Date dateBeginWithHour = DateService.createDate(String.valueOf(DateService.getDay(dateBegin)),
 				String.valueOf(DateService.getMonth(dateBegin)), String.valueOf(DateService.getYear(dateBegin)), "08");
@@ -60,26 +54,20 @@ public class PeriodService {
 		Exam exam = listExamFromAPeriod.get(1);
 		exam.setBeginDateExam(DateService.addHours(dateBeginWithHour, 5*60));
 		exam.setEndDateExam(DateService.addHours(dateBeginWithHour, 5*60+exam.getUe().getDurationExam()));
-		Room room = roomService.getAvailableRoom(exam.getBeginDateExam(), exam.getEndDateExam(), periodToPlan.getId());
-		if(room == null) {
-			exam.setRoom(null);
-		} else {
-			exam.setRoom(room);
-		}
-		examService.updateExam(exam);
+		setRoom(exam, periodToPlan);
 
 		exam = listExamFromAPeriod.get(2);
 		exam.setBeginDateExam(DateService.addHours(dateBeginWithHour, 5*60));
 		exam.setEndDateExam(DateService.addHours(dateBeginWithHour, 5*60+exam.getUe().getDurationExam()));
-		room = roomService.getAvailableRoom(exam.getBeginDateExam(), exam.getEndDateExam(), periodToPlan.getId());
-		if(room == null) {
-			exam.setRoom(null);
-		} else {
-			exam.setRoom(room);
-		}
-		examService.updateExam(exam);
+		setRoom(exam, periodToPlan);
 
 		return convertToDTO(periodToPlan);
+	}
+
+	private void setRoom(Exam exam, Period periodToPlan) {
+		Room room = roomService.getAvailableRoom(exam.getBeginDateExam(), exam.getEndDateExam(), periodToPlan.getId());
+		exam.setRoom(room);
+		examService.updateExam(exam);
 	}
 
 	public String beginDatePeriodToString(long id) {
