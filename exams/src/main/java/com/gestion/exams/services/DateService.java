@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class DateService {
 
+	public static boolean isBetweenDate(Date beginDate, Date endDate, Date dateToVerify) {
+		return !dateToVerify.before(beginDate) && !dateToVerify.after(endDate);
+	}
+
 	public static String convertDateClassToStringDate(Date date) {
 		return getDay(date) + "/" + getMonth(date) + "/" + getYear(date) + " " + getHour(date)+":00";
 	}

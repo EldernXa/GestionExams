@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.gestion.exams.dto.PeriodDTO;
 import com.gestion.exams.entity.Exam;
 import com.gestion.exams.entity.Period;
+import com.gestion.exams.entity.Room;
 import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.PeriodRepository;
 import com.gestion.exams.repository.RoomRepository;
@@ -29,6 +30,9 @@ public class PeriodService {
 	@Autowired
 	private RoomRepository roomRepository; // TODO to remove
 
+	@Autowired
+	private RoomService roomService;
+
 	private ModelMapper modelMapper = new ModelMapper();
 
 	public PeriodDTO planRoomAndDateOfExams(long id) throws ParseException {
@@ -41,10 +45,12 @@ public class PeriodService {
 					String.valueOf(DateService.getMonth(dateBegin)), String.valueOf(DateService.getYear(dateBegin)), "08");
 			exam.setBeginDateExam(dateBeginWithHour);
 			exam.setEndDateExam(DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
-			System.err.println(exam.getBeginDateExam().toString());
-			System.err.println(exam.getEndDateExam().toString());
-			//			exam.setEndDateExam(calendar.getTime());
-			exam.setRoom(roomRepository.findAll().get(1));
+			Room room = roomService.getAvailableRoom(exam.getBeginDateExam(), exam.getEndDateExam());
+			if(room == null) {
+				exam.setRoom(null);
+			} else {
+				exam.setRoom(room);
+			}
 			examService.updateExam(exam);
 		}
 
