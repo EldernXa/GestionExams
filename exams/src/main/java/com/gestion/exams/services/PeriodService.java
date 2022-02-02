@@ -45,7 +45,7 @@ public class PeriodService {
 					String.valueOf(DateService.getMonth(dateBegin)), String.valueOf(DateService.getYear(dateBegin)), "08");
 			exam.setBeginDateExam(dateBeginWithHour);
 			exam.setEndDateExam(DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
-			Room room = roomService.getAvailableRoom(exam.getBeginDateExam(), exam.getEndDateExam());
+			Room room = roomService.getAvailableRoom(exam.getBeginDateExam(), exam.getEndDateExam(), periodToPlan.getId());
 			if(room == null) {
 				exam.setRoom(null);
 			} else {
@@ -53,6 +53,31 @@ public class PeriodService {
 			}
 			examService.updateExam(exam);
 		}
+		Date dateBeginWithHour = DateService.createDate(String.valueOf(DateService.getDay(dateBegin)),
+				String.valueOf(DateService.getMonth(dateBegin)), String.valueOf(DateService.getYear(dateBegin)), "08");
+
+		// TEST TODO to remove this part
+		Exam exam = listExamFromAPeriod.get(1);
+		exam.setBeginDateExam(DateService.addHours(dateBeginWithHour, 5*60));
+		exam.setEndDateExam(DateService.addHours(dateBeginWithHour, 5*60+exam.getUe().getDurationExam()));
+		Room room = roomService.getAvailableRoom(exam.getBeginDateExam(), exam.getEndDateExam(), periodToPlan.getId());
+		if(room == null) {
+			exam.setRoom(null);
+		} else {
+			exam.setRoom(room);
+		}
+		examService.updateExam(exam);
+
+		exam = listExamFromAPeriod.get(2);
+		exam.setBeginDateExam(DateService.addHours(dateBeginWithHour, 5*60));
+		exam.setEndDateExam(DateService.addHours(dateBeginWithHour, 5*60+exam.getUe().getDurationExam()));
+		room = roomService.getAvailableRoom(exam.getBeginDateExam(), exam.getEndDateExam(), periodToPlan.getId());
+		if(room == null) {
+			exam.setRoom(null);
+		} else {
+			exam.setRoom(room);
+		}
+		examService.updateExam(exam);
 
 		return convertToDTO(periodToPlan);
 	}
