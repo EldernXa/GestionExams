@@ -1,6 +1,7 @@
 package com.gestion.exams.controller;
 
 import com.gestion.exams.entity.Inscription;
+import com.gestion.exams.entity.InscriptionPK;
 import com.gestion.exams.entity.Student;
 import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.StudentRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/inscription")
@@ -37,7 +39,15 @@ public Inscription registerStudentToUE(@PathVariable long id  ,@PathVariable int
 
 @DeleteMapping("/unsubscribe/{id}/{year}/{nameUE}")
 public void unsubscribeStudentFromInscription(@PathVariable long id ,@PathVariable int year , @PathVariable String nameUE){
-    inscriptionService.unsubscribeStudentFromInscription(id, year, nameUE);
+    Student student = studentRepository.getById(id);
+    List<Inscription> inscriptions = student.getInscriptions();
+    for (Inscription inscription : inscriptions) {
+        if((inscription.getInscriptionPK().getStudent().getIdStudent()==id)&&(Objects.equals(inscription.getInscriptionPK().getUe().getName(), nameUE))&&inscription.getYear()==year){
+            inscriptionService.unsubscribeStudentFromInscription(student,inscription);
+        }
+    }
+
+
 }
 
 

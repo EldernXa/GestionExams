@@ -17,7 +17,9 @@ public class InscriptionService {
 
     @Autowired
     InscriptionRepository inscriptionRepository;
+    @Autowired
     StudentRepository studentRepository;
+    @Autowired
     UERepository ueRepository;
 
     public Inscription registerStudentToUE(long id , int year , String nameUE){
@@ -33,12 +35,11 @@ public class InscriptionService {
         return student.getInscriptions();
     }
 
-    public  void unsubscribeStudentFromInscription(long id , int year , String nameUE ){
-        UE ue = ueRepository.getUEByName(nameUE);
-        Student student=studentRepository.getById(id);
-        Inscription inscription=inscriptionRepository.getInscriptionByStudentAndUeAndYear(student,year,ue);
+    public  void unsubscribeStudentFromInscription(Student student , Inscription inscription){
+
+        if(inscription.getInscriptionPK().getStudent()==student){
         student.getInscriptions().remove(inscription);
         studentRepository.save(student);
-        inscriptionRepository.delete(inscription);
+        inscriptionRepository.delete(inscription);}
     }
 }
