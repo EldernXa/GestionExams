@@ -1,7 +1,9 @@
 package com.gestion.exams.controller;
 
 import com.gestion.exams.dto.UeDTO;
+import com.gestion.exams.entity.Student;
 import com.gestion.exams.entity.UE;
+import com.gestion.exams.services.StudentService;
 import com.gestion.exams.services.UEService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +22,9 @@ public class UEController {
 
 	@Autowired
 	UEService ueService;
+	@Autowired
+	StudentService studentService;
+
 
 	@GetMapping("/allUE")
 	public List<UeDTO> getAllUE(){
@@ -42,9 +48,10 @@ public class UEController {
 	}
 
 	@PostMapping("/add")
-	public UeDTO addNewUe(@RequestBody UE ue){
-		ModelMapper modelMapper = new ModelMapper();
+	public UeDTO addNewUe(@RequestBody UE ue , Principal principal){
+		Student student = studentService.getStudentByEmail(principal.getName());
 		ueService.createUE(ue);
+		ModelMapper modelMapper = new ModelMapper();
 		return modelMapper.map(ue, UeDTO.class);
 	}
 

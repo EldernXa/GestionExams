@@ -2,10 +2,7 @@ package com.gestion.exams.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -26,8 +23,12 @@ public class Student {
 	@Basic(optional = false)
 	private String email;
 
-
 	private String password;
+	private String roles;
+	private String authorities;
+	private boolean isActive;
+	private boolean isNotLocked;
+
 
 	@OneToMany(mappedBy = "gradePK.student", fetch = FetchType.LAZY)
 	@JsonIgnore
@@ -37,24 +38,21 @@ public class Student {
 	@JsonIgnore
 	private List<Inscription> inscriptions = new ArrayList<>();
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(
-			name = "users_roles",
-			joinColumns = @JoinColumn(name = "user_id"),
-			inverseJoinColumns = @JoinColumn(name = "role_id")
-	)
-	private Set<Role> roles = new HashSet<>();
 
 	public Student() {
 		super();
 	}
 
-	public Student(String firstName, String lastName, String email,String password) {
+	public Student(String firstName, String lastName, String email,String password, String roles, String authorities, boolean isActive, boolean isNotLocked) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password=password;
+		this.roles = roles;
+		this.authorities = authorities;
+		this.isActive = isActive;
+		this.isNotLocked = isNotLocked;
 	}
 
 	public String getEmail() {
@@ -102,12 +100,36 @@ public class Student {
 		return false;
 	}
 
-	public Set<Role> getRoles() {
+	public void setRoles(String roles) {
+		this.roles = roles;
+	}
+
+	public void setAuthorities(String authorities) {
+		this.authorities = authorities;
+	}
+
+	public void setActive(boolean active) {
+		isActive = active;
+	}
+
+	public void setNotLocked(boolean notLocked) {
+		isNotLocked = notLocked;
+	}
+
+	public String getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
+	public String getAuthorities() {
+		return authorities;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public boolean isNotLocked() {
+		return isNotLocked;
 	}
 
 	public String getPassword() {

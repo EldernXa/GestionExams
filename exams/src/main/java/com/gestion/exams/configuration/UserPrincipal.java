@@ -1,41 +1,32 @@
 package com.gestion.exams.configuration;
 
-import java.util.*;
-
-import com.gestion.exams.entity.Role;
 import com.gestion.exams.entity.Student;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class MyUserDetails implements UserDetails {
+import java.util.Collection;
+
+public class UserPrincipal implements UserDetails {
 
     private Student student;
 
-    public MyUserDetails(Student user) {
-        this.student = user;
+    public UserPrincipal(Student student) {
+        this.student = student;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<Role> roles = student.getRoles();
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
-
-        return authorities;
+        return null;
     }
 
     @Override
     public String getPassword() {
-        return student.getPassword();
+        return this.student.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return student.getEmail();
+        return this.student.getEmail();
     }
 
     @Override
@@ -45,9 +36,8 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return this.student.isNotLocked();
     }
-
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
@@ -55,7 +45,6 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.student.isActive();
     }
-
 }

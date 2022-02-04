@@ -17,8 +17,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PopulateService{
-	@Autowired
-	PasswordEncoder passwordEncoder;
+
 	@Autowired
 	private RoomRepository roomRepository;
 
@@ -43,8 +42,7 @@ public class PopulateService{
 	@Autowired
 	private GradeRepository gradeRepository;
 
-	@Autowired
-	private RoleRepository roleRepository;
+
 
 	private Random random = new Random();
 
@@ -53,11 +51,11 @@ public class PopulateService{
 		populateRoom();
 		populateUE();
 		populatePeriod();
-		populateStudent();
+		//populateStudent();
 		populateAuthentification();
 		populateExam();
 		populateInscription();
-		populateRoles();
+
 		//populateGrade();
 	}
 
@@ -95,22 +93,15 @@ public class PopulateService{
 		}
 	}
 
-	private void populateStudent() {
+	/*private void populateStudent() {
 
 		for(int i=0; i<10; i++) {
-			Student student = new Student("firstName"+i, "lastName"+i, "email"+i,passwordEncoder.encode("123"));
-			student.getRoles().add(roleRepository.getRoleByName("STUDENT"));
+			Student student = new Student("firstName"+i, "lastName"+i, "email"+i,"123",);
 			studentRepository.save(student);
-
 		}
-	}
+	}*/
 
-	private void populateRoles(){
-		Role ADMIN = new Role("ADMIN");
-		Role STUDENT = new Role("STUDENT");
-		roleRepository.save(ADMIN);
-		roleRepository.save(STUDENT);
-	}
+
 
 	private void populateAuthentification() {
 		for(Student student : studentRepository.findAll()) {
