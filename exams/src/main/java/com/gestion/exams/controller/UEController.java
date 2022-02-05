@@ -8,6 +8,7 @@ import com.gestion.exams.services.UEService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -27,6 +28,7 @@ public class UEController {
 
 
 	@GetMapping("/allUE")
+	@PreAuthorize("hasRole('ROLE_STUDENT')")
 	public List<UeDTO> getAllUE(){
 		ModelMapper modelMapper = new ModelMapper();
 		List<UE> listUe = ueService.getAllUE();
@@ -48,6 +50,7 @@ public class UEController {
 	}
 
 	@PostMapping("/add")
+
 	public UeDTO addNewUe(@RequestBody UE ue , Principal principal){
 		Student student = studentService.getStudentByEmail(principal.getName());
 		ueService.createUE(ue);
@@ -63,4 +66,24 @@ public class UEController {
 		ueService.updateUE(ue, name);
 		return modelMapper.map(ue,UeDTO.class);
 	}
+
+	@GetMapping("/testadmin")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String testAdmin(){
+		return "Admin is connected";
+	}
+
+
+	@GetMapping("/teststudent")
+	@PreAuthorize("hasRole('ROLE_STUDENT')")
+	public String testStudent(){
+		return "Student is connected";
+	}
+
+	@GetMapping("/accessall")
+	public String testAccessAll(){
+		return "Anyone is connected";
+	}
+
+
 }

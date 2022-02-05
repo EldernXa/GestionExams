@@ -1,8 +1,8 @@
 package com.gestion.exams.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 public class Authentification {
@@ -13,18 +13,19 @@ public class Authentification {
 	@Basic(optional = false)
 	private String password;
 
-	@Basic(optional = false)
-	private String role;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	private Collection<Role> roles= new ArrayList<>();
 
 	public Authentification() {
 		super();
 	}
 
-	public Authentification(String email, String password, String role) {
+	public Authentification(String email, String password, Collection<Role> roles) {
 		super();
 		this.email = email;
 		this.password = password;
-		this.role = role;
+		this.roles = roles;
 	}
 
 	public String getEmail() {
@@ -43,12 +44,11 @@ public class Authentification {
 		this.password = password;
 	}
 
-	public String getRole() {
-		return role;
+	public Collection<Role> getRoles() {
+		return roles;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoles(Collection<Role> roles) {
+		this.roles = roles;
 	}
-
 }

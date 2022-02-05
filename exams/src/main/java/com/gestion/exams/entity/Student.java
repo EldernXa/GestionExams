@@ -2,15 +2,21 @@ package com.gestion.exams.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Student {
 
 	@Id
-	@Column(name = "user_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long idStudent;
 
@@ -23,12 +29,6 @@ public class Student {
 	@Basic(optional = false)
 	private String email;
 
-	private String password;
-	private String roles;
-	private String authorities;
-	private boolean isActive;
-	private boolean isNotLocked;
-
 
 	@OneToMany(mappedBy = "gradePK.student", fetch = FetchType.LAZY)
 	@JsonIgnore
@@ -38,21 +38,15 @@ public class Student {
 	@JsonIgnore
 	private List<Inscription> inscriptions = new ArrayList<>();
 
-
 	public Student() {
 		super();
 	}
 
-	public Student(String firstName, String lastName, String email,String password, String roles, String authorities, boolean isActive, boolean isNotLocked) {
+	public Student(String firstName, String lastName, String email) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.password=password;
-		this.roles = roles;
-		this.authorities = authorities;
-		this.isActive = isActive;
-		this.isNotLocked = isNotLocked;
 	}
 
 	public String getEmail() {
@@ -100,43 +94,4 @@ public class Student {
 		return false;
 	}
 
-	public void setRoles(String roles) {
-		this.roles = roles;
-	}
-
-	public void setAuthorities(String authorities) {
-		this.authorities = authorities;
-	}
-
-	public void setActive(boolean active) {
-		isActive = active;
-	}
-
-	public void setNotLocked(boolean notLocked) {
-		isNotLocked = notLocked;
-	}
-
-	public String getRoles() {
-		return roles;
-	}
-
-	public String getAuthorities() {
-		return authorities;
-	}
-
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public boolean isNotLocked() {
-		return isNotLocked;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 }

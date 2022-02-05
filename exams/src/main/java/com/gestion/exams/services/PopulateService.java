@@ -2,21 +2,24 @@ package com.gestion.exams.services;
 
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 
 import com.gestion.exams.entity.*;
 import com.gestion.exams.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PopulateService{
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private RoleRepository roleRepository;
 
 	@Autowired
 	private RoomRepository roomRepository;
@@ -51,7 +54,7 @@ public class PopulateService{
 		populateRoom();
 		populateUE();
 		populatePeriod();
-		//populateStudent();
+		populateStudent();
 		populateAuthentification();
 		populateExam();
 		populateInscription();
@@ -93,26 +96,39 @@ public class PopulateService{
 		}
 	}
 
-	/*private void populateStudent() {
+	private void populateStudent() {
 
 		for(int i=0; i<10; i++) {
-			Student student = new Student("firstName"+i, "lastName"+i, "email"+i,"123",);
+			Student student = new Student("firstName"+i, "lastName"+i, "email"+i);
 			studentRepository.save(student);
 		}
-	}*/
+
+
+
+	}
 
 
 
 	private void populateAuthentification() {
+		Role studentRole = new Role ();
+		studentRole.setName("STUDENT");
+		studentRole=roleRepository.save(studentRole);
+		Role adminRole = new Role ();
+		adminRole.setName("ADMIN");
+		adminRole=roleRepository.save(adminRole);
+
 		for(Student student : studentRepository.findAll()) {
-			Authentification auth = new Authentification(student.getEmail(), "password", "student");
+			Authentification auth = new Authentification(student.getEmail(), passwordEncoder.encode("password"),List.of(studentRole));
 			authRepo.save(auth);
 		}
 
 		for(int i=0; i<4; i++) {
-			Authentification auth = new Authentification("emailSchool"+i, "password2"+i, "education");
+			Authentification auth = new Authentification("emailSchool"+i, passwordEncoder.encode("password2"+i), List.of(adminRole));
 			authRepo.save(auth);
 		}
+
+		Authentification auth = new Authentification("test", passwordEncoder.encode("password"), new ArrayList<>());
+		authRepo.save(auth);
 	}
 
 	private void populateExam() {
