@@ -5,12 +5,14 @@ import { PeriodListComponent } from './component/period-list/period-list.compone
 import { PeriodFormComponent } from './component/period-form/period-form.component';
 import { PeriodDetailsComponent } from './component/period-details/period-details.component';
 import { ExamManagementComponent } from './component/exam-management/exam-management.component';
+import {GradeListComponent} from "./component/grade-list/grade-list.component";
 
 const routes: Routes = [
   { path: 'period', component: PeriodListComponent},
   { path: 'addperiod', component: PeriodFormComponent},
   { path: 'period/:id', component: PeriodDetailsComponent},
   { path: 'periodManagement/:id', component: ExamManagementComponent},
+  { path: 'grades/exam/:id', component: GradeListComponent},
 ];
 
 @NgModule({

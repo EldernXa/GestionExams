@@ -46,6 +46,4 @@ public class ExamDTO {
 		this.year = year;
 	}
 
-
-
 }

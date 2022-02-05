@@ -11,6 +11,8 @@ import { PeriodFormComponent } from './component/period-form/period-form.compone
 import { PeriodDetailsComponent } from './component/period-details/period-details.component';
 import { ExamManagementComponent } from './component/exam-management/exam-management.component';
 import { ExamService } from './service/exam/exam.service';
+import { GradeListComponent } from './component/grade-list/grade-list.component';
+import {GradeService} from "./service/grade/grade-service.service";
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { ExamService } from './service/exam/exam.service';
     PeriodListComponent,
     PeriodFormComponent,
     PeriodDetailsComponent,
-    ExamManagementComponent
+    ExamManagementComponent,
+    GradeListComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,7 +29,7 @@ import { ExamService } from './service/exam/exam.service';
     HttpClientModule,
     FormsModule
   ],
-  providers: [PeriodService, ExamService],
+  providers: [PeriodService, ExamService, GradeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
