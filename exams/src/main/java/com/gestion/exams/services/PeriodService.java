@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.exams.dto.PeriodDTO;
 import com.gestion.exams.entity.Exam;
+import com.gestion.exams.entity.Inscription;
 import com.gestion.exams.entity.Period;
 import com.gestion.exams.entity.Room;
+import com.gestion.exams.entity.Student;
 import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.PeriodRepository;
 import com.gestion.exams.repository.RoomRepository;
@@ -40,14 +42,50 @@ public class PeriodService {
 		List<Exam> listExamFromAPeriod = periodToPlan.getExams();
 		Date dateBegin = periodToPlan.getBeginDatePeriod();
 		for(Exam exam : listExamFromAPeriod) {
+			exam.setRoom(null);
+			exam.setBeginDateExam(null);
+			exam.setEndDateExam(null);
+			examService.updateExam(exam);
+		}
+		for(Exam exam : listExamFromAPeriod) {
 			Date dateBeginWithHour = DateService.createDate(String.valueOf(DateService.getDay(dateBegin)),
 					String.valueOf(DateService.getMonth(dateBegin)), String.valueOf(DateService.getYear(dateBegin)), "08");
+			Date newDate = lastDateAvailable(periodToPlan, exam, dateBeginWithHour, DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
+			// Do a loop
+			if(newDate != null) {
+				dateBeginWithHour = newDate;
+			}
 			exam.setBeginDateExam(dateBeginWithHour);
 			exam.setEndDateExam(DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
 			setRoom(exam, periodToPlan);
 		}
 
 		return convertToDTO(periodToPlan);
+	}
+
+	private Date lastDateAvailable(Period period, Exam exam, Date beginDate, Date endDate) {
+		for(Inscription inscription : exam.getUe().getInscriptions()) {
+			Date date = isStudentAvailable(inscription.getStudent(), period, beginDate, endDate);
+			if (date != null) {
+				return date;
+			}
+		}
+		return null;
+	}
+
+	private Date isStudentAvailable(Student student, Period period, Date beginDate, Date endDate) {
+		for(Exam exam : period.getExams()) {
+			if(examService.isExamDateBetweenOtherDate(exam, beginDate, endDate)) {
+				exam.getUe().getInscriptions().get(0).getStudent();
+				for(Inscription inscription : exam.getUe().getInscriptions()) {
+					if(inscription.getStudent().getIdStudent() == student.getIdStudent()) {
+						return exam.getEndDateExam();
+					}
+				}
+			}
+		}
+
+		return null;
 	}
 
 	private void setRoom(Exam exam, Period periodToPlan) {
