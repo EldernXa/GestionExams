@@ -56,17 +56,14 @@ public class PeriodService {
 			}
 
 			boolean canPassNoon = false;
-			boolean canPassEndOfTheDay = false;
 			Date saveDate;
 
-			// TODO Take in consideration date we cannot do exam.
 			while(newDate != null && newDate.before(periodToPlan.getEndDatePeriod())) {
 				newDate = lastDateAvailable(periodToPlan, exam, newDate, DateService.addHours(newDate, exam.getUe().getDurationExam()));
 				if(newDate != null) {
 					dateBeginWithHour = newDate;
 				}
 				saveDate = dateBeginWithHour;
-				// Function to verify date and change it if necessary
 				if(newDate == null) {
 					newDate = correctDateBetweenNoon(dateBeginWithHour, DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
 					if(newDate != null && !canPassNoon) {
@@ -83,6 +80,7 @@ public class PeriodService {
 					}
 				}
 			}
+
 			exam.setBeginDateExam(dateBeginWithHour);
 			exam.setEndDateExam(DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
 			// TODO if not room available repeat loop for date
@@ -136,7 +134,7 @@ public class PeriodService {
 		return null;
 	}
 
-	private void setRoom(Exam exam, Period periodToPlan) {
+	private void setRoom(Exam exam, Period periodToPlan) throws ParseException {
 		Room room = roomService.getAvailableRoom(exam.getBeginDateExam(), exam.getEndDateExam(), periodToPlan.getId());
 		exam.setRoom(room);
 		examService.updateExam(exam);

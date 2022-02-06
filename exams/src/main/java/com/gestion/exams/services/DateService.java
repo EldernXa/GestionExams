@@ -28,6 +28,11 @@ public class DateService {
 		return createDate(String.valueOf(getDay(date)), String.valueOf(getMonth(date)), String.valueOf(getYear(date)), HOUR_END_DAY);
 	}
 
+	public static Date getDateMinusOneMinute(Date date) throws ParseException {
+		return createDateWithMinute(String.valueOf(getDay(date)), String.valueOf(getMonth(date)), String.valueOf(getYear(date)),
+				String.valueOf(getHour(date)-1), "59");
+	}
+
 	public static Date getTheDayAfterAt8Hour(Date date) throws ParseException{
 		return createDate(String.valueOf(getDay(date)+1), String.valueOf(getMonth(date)), String.valueOf(getYear(date)), "08");
 	}
