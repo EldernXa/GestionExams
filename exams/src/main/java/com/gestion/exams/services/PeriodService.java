@@ -51,6 +51,11 @@ public class PeriodService {
 			Date dateBeginWithHour = DateService.createDate(String.valueOf(DateService.getDay(dateBegin)),
 					String.valueOf(DateService.getMonth(dateBegin)), String.valueOf(DateService.getYear(dateBegin)), "08");
 			Date newDate = lastDateAvailable(periodToPlan, exam, dateBeginWithHour, DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
+			if(newDate != null) {
+				dateBeginWithHour = newDate;
+			}
+
+			// TODO Take in consideration date we cannot do exam.
 			while(newDate != null && newDate.before(periodToPlan.getEndDatePeriod())) {
 				newDate = lastDateAvailable(periodToPlan, exam, newDate, DateService.addHours(newDate, exam.getUe().getDurationExam()));
 				if(newDate != null) {
@@ -59,6 +64,7 @@ public class PeriodService {
 			}
 			exam.setBeginDateExam(dateBeginWithHour);
 			exam.setEndDateExam(DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
+			// if not room available repeat loop for date
 			setRoom(exam, periodToPlan);
 		}
 
@@ -67,13 +73,14 @@ public class PeriodService {
 
 	private Date lastDateAvailable(Period period, Exam exam, Date beginDate, Date endDate) throws ParseException {
 		Date newBeginDate = DateService.addMinute(beginDate, 1);
+		Date dateToReturn = null;
 		for(Inscription inscription : exam.getUe().getInscriptions()) {
 			Date date = isStudentAvailable(inscription.getStudent(), period, newBeginDate, endDate);
-			if (date != null) {
-				return date;
+			if (date != null && (dateToReturn == null || dateToReturn.after(date))) {
+				dateToReturn = date;
 			}
 		}
-		return null;
+		return dateToReturn;
 	}
 
 	private Date isStudentAvailable(Student student, Period period, Date beginDate, Date endDate) {
