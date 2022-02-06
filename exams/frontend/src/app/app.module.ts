@@ -13,6 +13,8 @@ import { ExamManagementComponent } from './component/exam-management/exam-manage
 import { ExamService } from './service/exam/exam.service';
 import { GradeListComponent } from './component/grade-list/grade-list.component';
 import {GradeService} from "./service/grade/grade-service.service";
+import { UeListComponent } from './component/ue-list/ue-list.component';
+import {UeService} from "./service/ue/ue-service.service";
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import {GradeService} from "./service/grade/grade-service.service";
     PeriodDetailsComponent,
     ExamManagementComponent,
     GradeListComponent,
+    UeListComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,7 @@ import {GradeService} from "./service/grade/grade-service.service";
     HttpClientModule,
     FormsModule
   ],
-  providers: [PeriodService, ExamService, GradeService],
+  providers: [PeriodService, ExamService, GradeService, UeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

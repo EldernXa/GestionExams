@@ -1,0 +1,24 @@
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Credit</th>
+        <th scope="col">Duration</th>
+        <th scope="col">Discipline</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let ue of ues">
+        <td>{{ ue.name }}</td>
+        <td>{{ ue.credit }}</td>
+        <td>{{ ue.durationExam }} min</td>
+        <td>{{ ue.discipline }}</td>
+        <td><a [routerLink]="['/ue'+ue.name]" class="btn btn-info">Détails</a></td>
+      </tr>
+      </tbody>
+    </table>
+    <a routerLink="/add" class="btn btn-info">Ajouter une UE</a>
+  </div>
+</div>

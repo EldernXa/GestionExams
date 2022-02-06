@@ -6,6 +6,7 @@ import { PeriodFormComponent } from './component/period-form/period-form.compone
 import { PeriodDetailsComponent } from './component/period-details/period-details.component';
 import { ExamManagementComponent } from './component/exam-management/exam-management.component';
 import {GradeListComponent} from "./component/grade-list/grade-list.component";
+import {UeListComponent} from "./component/ue-list/ue-list.component";
 
 const routes: Routes = [
   { path: 'period', component: PeriodListComponent},
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'period/:id', component: PeriodDetailsComponent},
   { path: 'periodManagement/:id', component: ExamManagementComponent},
   { path: 'grades/exam/:id', component: GradeListComponent},
+  { path: 'ue', component: UeListComponent},
 ];
 
 @NgModule({
