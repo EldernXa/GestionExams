@@ -71,6 +71,12 @@ public class PeriodService {
 					if(newDate != null) {
 						dateBeginWithHour = newDate;
 					}
+					else {
+						newDate = correctDateInTheEndOfTheDay(dateBeginWithHour, DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
+						if(newDate != null) {
+							dateBeginWithHour = newDate;
+						}
+					}
 					if(saveDate.compareTo(dateBeginWithHour) == 0) {
 						canPass = true;
 					}
@@ -116,10 +122,18 @@ public class PeriodService {
 
 	private Date correctDateBetweenNoon(Date beginDate, Date endDate) throws ParseException{
 		Date noon = DateService.getNoonOfADate(beginDate);
-		Date afterNoon = DateService.getAfterNoonOfADate(beginDate);
+		Date afterNoon = DateService.addMinute(DateService.getAfterNoonOfADate(beginDate), 1);
 		if(DateService.isBetweenDate(noon, afterNoon, beginDate) || DateService.isBetweenDate(noon, afterNoon, endDate) || DateService.isBetweenDate(beginDate, endDate, noon) ||
 				DateService.isBetweenDate(beginDate, endDate, afterNoon)) {
 			return afterNoon;
+		}
+		return null;
+	}
+
+	private Date correctDateInTheEndOfTheDay(Date beginDate, Date endDate) throws ParseException {
+		Date afterDay = DateService.getAfterDayOfADate(beginDate);
+		if(beginDate.after(afterDay) || endDate.after(afterDay)) {
+			return DateService.getTheDayAfterAt8Hour(beginDate);
 		}
 		return null;
 	}
