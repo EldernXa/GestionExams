@@ -55,16 +55,33 @@ public class PeriodService {
 				dateBeginWithHour = newDate;
 			}
 
+			boolean canPass = false;
+			Date saveDate;
+
 			// TODO Take in consideration date we cannot do exam.
 			while(newDate != null && newDate.before(periodToPlan.getEndDatePeriod())) {
 				newDate = lastDateAvailable(periodToPlan, exam, newDate, DateService.addHours(newDate, exam.getUe().getDurationExam()));
 				if(newDate != null) {
 					dateBeginWithHour = newDate;
 				}
+				saveDate = dateBeginWithHour;
+				// Function to verify date and change it if necessary
+				if(newDate == null) {
+					newDate = correctDateBetweenNoon(dateBeginWithHour, DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
+					if(newDate != null) {
+						dateBeginWithHour = newDate;
+					}
+					if(saveDate.compareTo(dateBeginWithHour) == 0) {
+						canPass = true;
+					}
+					if(canPass) {
+						newDate = null;
+					}
+				}
 			}
 			exam.setBeginDateExam(dateBeginWithHour);
 			exam.setEndDateExam(DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
-			// if not room available repeat loop for date
+			// TODO if not room available repeat loop for date
 			setRoom(exam, periodToPlan);
 		}
 
@@ -94,6 +111,16 @@ public class PeriodService {
 			}
 		}
 
+		return null;
+	}
+
+	private Date correctDateBetweenNoon(Date beginDate, Date endDate) throws ParseException{
+		Date noon = DateService.getNoonOfADate(beginDate);
+		Date afterNoon = DateService.getAfterNoonOfADate(beginDate);
+		if(DateService.isBetweenDate(noon, afterNoon, beginDate) || DateService.isBetweenDate(noon, afterNoon, endDate) || DateService.isBetweenDate(beginDate, endDate, noon) ||
+				DateService.isBetweenDate(beginDate, endDate, afterNoon)) {
+			return afterNoon;
+		}
 		return null;
 	}
 

@@ -14,6 +14,14 @@ public class DateService {
 		return !dateToVerify.before(beginDate) && !dateToVerify.after(endDate);
 	}
 
+	public static Date getNoonOfADate(Date date) throws ParseException{
+		return createDate(String.valueOf(getDay(date)), String.valueOf(getMonth(date)), String.valueOf(getYear(date)), "12");
+	}
+
+	public static Date getAfterNoonOfADate(Date date) throws ParseException{
+		return createDate(String.valueOf(getDay(date)), String.valueOf(getMonth(date)), String.valueOf(getYear(date)), "14");
+	}
+
 	public static String convertDateClassToStringDate(Date date) {
 		return getDay(date) + "/" + getMonth(date) + "/" + getYear(date) + " " + getHour(date)+":00";
 	}
