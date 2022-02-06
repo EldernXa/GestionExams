@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DateService {
 
-	private static final String HOUR_END_DAY = "17";
+	private static final String HOUR_END_DAY = "18";
 
 	public static boolean isBetweenDate(Date beginDate, Date endDate, Date dateToVerify) {
 		return !dateToVerify.before(beginDate) && !dateToVerify.after(endDate);

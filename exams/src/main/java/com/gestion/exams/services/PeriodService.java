@@ -85,6 +85,7 @@ public class PeriodService {
 			exam.setEndDateExam(DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
 			// TODO if not room available repeat loop for date
 			setRoom(exam, periodToPlan);
+			examService.updateExam(exam);
 		}
 
 		return convertToDTO(periodToPlan);
@@ -137,7 +138,6 @@ public class PeriodService {
 	private void setRoom(Exam exam, Period periodToPlan) throws ParseException {
 		Room room = roomService.getAvailableRoom(exam.getBeginDateExam(), exam.getEndDateExam(), periodToPlan.getId());
 		exam.setRoom(room);
-		examService.updateExam(exam);
 	}
 
 	public String beginDatePeriodToString(long id) {
