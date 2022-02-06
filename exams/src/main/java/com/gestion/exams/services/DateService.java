@@ -22,6 +22,10 @@ public class DateService {
 		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(year+"-"+month+"-"+day+" " + hour+":00:00");
 	}
 
+	public static Date createDateWithMinute(String day, String month, String year, String hour, String minute) throws ParseException {
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(year+"-"+month+"-"+day+" " + hour+":" + minute + ":00");
+	}
+
 	public static Date convertStringDateToDateClass(String str) throws ParseException {
 		return new SimpleDateFormat("dd/MM/yyyy").parse(str);
 	}
@@ -33,6 +37,11 @@ public class DateService {
 	public static Date addHours(Date date, int hour) throws ParseException {
 		return createDate(String.valueOf(getDay(date)), String.valueOf(getMonth(date)), String.valueOf(getYear(date)),
 				String.valueOf(getHour(date)+(hour/60)));
+	}
+
+	public static Date addMinute(Date date, int minute) throws ParseException{
+		return createDateWithMinute(String.valueOf(getDay(date)), String.valueOf(getMonth(date)), String.valueOf(getYear(date)),
+				String.valueOf(getHour(date)), String.valueOf(minute));
 	}
 
 	public static int getDay(Date date) {

@@ -51,9 +51,11 @@ public class PeriodService {
 			Date dateBeginWithHour = DateService.createDate(String.valueOf(DateService.getDay(dateBegin)),
 					String.valueOf(DateService.getMonth(dateBegin)), String.valueOf(DateService.getYear(dateBegin)), "08");
 			Date newDate = lastDateAvailable(periodToPlan, exam, dateBeginWithHour, DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
-			// Do a loop
-			if(newDate != null) {
-				dateBeginWithHour = newDate;
+			while(newDate != null && newDate.before(periodToPlan.getEndDatePeriod())) {
+				newDate = lastDateAvailable(periodToPlan, exam, newDate, DateService.addHours(newDate, exam.getUe().getDurationExam()));
+				if(newDate != null) {
+					dateBeginWithHour = newDate;
+				}
 			}
 			exam.setBeginDateExam(dateBeginWithHour);
 			exam.setEndDateExam(DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
@@ -63,9 +65,10 @@ public class PeriodService {
 		return convertToDTO(periodToPlan);
 	}
 
-	private Date lastDateAvailable(Period period, Exam exam, Date beginDate, Date endDate) {
+	private Date lastDateAvailable(Period period, Exam exam, Date beginDate, Date endDate) throws ParseException {
+		Date newBeginDate = DateService.addMinute(beginDate, 1);
 		for(Inscription inscription : exam.getUe().getInscriptions()) {
-			Date date = isStudentAvailable(inscription.getStudent(), period, beginDate, endDate);
+			Date date = isStudentAvailable(inscription.getStudent(), period, newBeginDate, endDate);
 			if (date != null) {
 				return date;
 			}
@@ -76,7 +79,6 @@ public class PeriodService {
 	private Date isStudentAvailable(Student student, Period period, Date beginDate, Date endDate) {
 		for(Exam exam : period.getExams()) {
 			if(examService.isExamDateBetweenOtherDate(exam, beginDate, endDate)) {
-				exam.getUe().getInscriptions().get(0).getStudent();
 				for(Inscription inscription : exam.getUe().getInscriptions()) {
 					if(inscription.getStudent().getIdStudent() == student.getIdStudent()) {
 						return exam.getEndDateExam();
