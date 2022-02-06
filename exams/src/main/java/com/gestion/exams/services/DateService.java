@@ -21,7 +21,7 @@ public class DateService {
 	}
 
 	public static Date getAfterNoonOfADate(Date date) throws ParseException{
-		return createDateWithMinute(String.valueOf(getDay(date)), String.valueOf(getMonth(date)), String.valueOf(getYear(date)), "13", "59");
+		return createDate(String.valueOf(getDay(date)), String.valueOf(getMonth(date)), String.valueOf(getYear(date)), "14");
 	}
 
 	public static Date getAfterDayOfADate(Date date) throws ParseException{

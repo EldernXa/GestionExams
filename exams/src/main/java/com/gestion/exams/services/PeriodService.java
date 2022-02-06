@@ -55,7 +55,8 @@ public class PeriodService {
 				dateBeginWithHour = newDate;
 			}
 
-			boolean canPass = false;
+			boolean canPassNoon = false;
+			boolean canPassEndOfTheDay = false;
 			Date saveDate;
 
 			// TODO Take in consideration date we cannot do exam.
@@ -68,7 +69,7 @@ public class PeriodService {
 				// Function to verify date and change it if necessary
 				if(newDate == null) {
 					newDate = correctDateBetweenNoon(dateBeginWithHour, DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
-					if(newDate != null) {
+					if(newDate != null && !canPassNoon) {
 						dateBeginWithHour = newDate;
 					}
 					else {
@@ -78,10 +79,7 @@ public class PeriodService {
 						}
 					}
 					if(saveDate.compareTo(dateBeginWithHour) == 0) {
-						canPass = true;
-					}
-					if(canPass) {
-						newDate = null;
+						canPassNoon = true;
 					}
 				}
 			}
