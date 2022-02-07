@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ public class PeriodController {
 	private PeriodService periodService;
 
 	@GetMapping("/periodList/{id}/beginDate")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> getBeginDatePeriod(@PathVariable long id){
 		String str = periodService.beginDatePeriodToString(id);
 		if(str != null) {
@@ -34,6 +36,7 @@ public class PeriodController {
 	}
 
 	@GetMapping("/periodList/{id}/endDate")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> getEndDatePeriod(@PathVariable long id){
 		String str = periodService.endDatePeriodToString(id);
 		if(str != null) {
@@ -43,12 +46,14 @@ public class PeriodController {
 	}
 
 	@GetMapping("/periodList")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<List<PeriodDTO>> getListPeriod(){
 		List<PeriodDTO> listPeriodDTO = periodService.getListPeriod();
 		return new ResponseEntity<>(listPeriodDTO, HttpStatus.OK);
 	}
 
 	@GetMapping("/period/{id}")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Period> getPeriod(@PathVariable long id){
 		Period period = periodService.getPeriod(id);
 		if(period != null) {
@@ -58,6 +63,7 @@ public class PeriodController {
 	}
 
 	@PostMapping("/period")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public Period postPeriod(@RequestBody Map<String, String> mapPeriod) {
 		Period period = periodService.getPeriodFromMap(mapPeriod);
 		return periodService.savePeriod(period);
