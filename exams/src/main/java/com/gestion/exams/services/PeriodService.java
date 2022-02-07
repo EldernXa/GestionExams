@@ -3,6 +3,7 @@ package com.gestion.exams.services;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,35 +61,51 @@ public class PeriodService {
 
 	private Date getBestDateForAnExam(Date initDate, Date currentLastDateAvailable, Period periodToPlan, Exam exam) throws ParseException {
 		boolean canPassNoon = false;
-		Date saveDate;
-
 		Date dateToReturn = initDate;
 		Date newDate = currentLastDateAvailable;
 
 		while(newDate != null && newDate.before(periodToPlan.getEndDatePeriod())) {
-			newDate = lastDateAvailable(periodToPlan, exam, newDate, DateService.addHours(newDate, exam.getUe().getDurationExam()));
-			if(newDate != null) {
-				dateToReturn = newDate;
-			}
-			saveDate = dateToReturn;
-			if(newDate == null) {
-				newDate = correctDateBetweenNoon(dateToReturn, DateService.addHours(dateToReturn, exam.getUe().getDurationExam()));
-				if(newDate != null && !canPassNoon) {
-					dateToReturn = newDate;
-				}
-				else {
-					newDate = correctDateInTheEndOfTheDay(dateToReturn, DateService.addHours(dateToReturn, exam.getUe().getDurationExam()));
-					if(newDate != null) {
-						dateToReturn = newDate;
-					}
-				}
-				if(saveDate.compareTo(dateToReturn) == 0) {
-					canPassNoon = true;
-				}
-			}
+
+			Map<Integer, Object> mapForTheTurn = oneInstanceForGettingDateAvailable(newDate, dateToReturn, periodToPlan, exam, canPassNoon);
+			newDate = (Date)mapForTheTurn.get(1);
+			dateToReturn = (Date)mapForTheTurn.get(2);
+			canPassNoon = (boolean)mapForTheTurn.get(3);
 		}
 
 		return dateToReturn;
+	}
+
+	private Map<Integer, Object> oneInstanceForGettingDateAvailable(Date currentLastDateAvailable, Date currentDate, Period periodToPlan, Exam exam, boolean canPassNoon) throws ParseException{
+		Date newDate = currentLastDateAvailable;
+		Date dateToReturn = currentDate;
+		Date saveDate;
+		newDate = lastDateAvailable(periodToPlan, exam, newDate, DateService.addHours(newDate, exam.getUe().getDurationExam()));
+		if(newDate != null) {
+			dateToReturn = newDate;
+		}
+		saveDate = dateToReturn;
+		if(newDate == null) {
+			newDate = correctDateBetweenNoon(dateToReturn, DateService.addHours(dateToReturn, exam.getUe().getDurationExam()));
+			if(newDate != null && !canPassNoon) {
+				dateToReturn = newDate;
+			}
+			else {
+				newDate = correctDateInTheEndOfTheDay(dateToReturn, DateService.addHours(dateToReturn, exam.getUe().getDurationExam()));
+				if(newDate != null) {
+					dateToReturn = newDate;
+				}
+			}
+			if(saveDate.compareTo(dateToReturn) == 0) {
+				canPassNoon = true;
+			}
+		}
+
+		HashMap<Integer, Object> mapToReturn = new HashMap<>();
+		mapToReturn.put(1, newDate);
+		mapToReturn.put(2, dateToReturn);
+		mapToReturn.put(3, canPassNoon);
+		return mapToReturn;
+
 	}
 
 	private Date lastDateAvailable(Period period, Exam exam, Date beginDate, Date endDate) throws ParseException {
