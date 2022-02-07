@@ -24,4 +24,11 @@ export class UeListComponent implements OnInit {
     });
   }
 
+  delete(index: number){
+    this.ueService.deleteUe(this.ues[index].name).subscribe();
+    this.ueService.findAll().subscribe(data=>{
+      this.ues = data;
+    });
+  }
+
 }

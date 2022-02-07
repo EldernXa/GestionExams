@@ -15,6 +15,8 @@ import { GradeListComponent } from './component/grade-list/grade-list.component'
 import {GradeService} from "./service/grade/grade-service.service";
 import { UeListComponent } from './component/ue-list/ue-list.component';
 import {UeService} from "./service/ue/ue-service.service";
+import { UeFormComponent } from './component/ue-form/ue-form.component';
+import { UeManagementComponent } from './component/ue-management/ue-management.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import {UeService} from "./service/ue/ue-service.service";
     ExamManagementComponent,
     GradeListComponent,
     UeListComponent,
+    UeFormComponent,
+    UeManagementComponent,
   ],
   imports: [
     BrowserModule,

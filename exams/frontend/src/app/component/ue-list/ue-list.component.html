@@ -10,15 +10,18 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let ue of ues">
+      <tr *ngFor="let ue of ues; index as index">
         <td>{{ ue.name }}</td>
         <td>{{ ue.credit }}</td>
         <td>{{ ue.durationExam }} min</td>
         <td>{{ ue.discipline }}</td>
-        <td><a [routerLink]="['/ue'+ue.name]" class="btn btn-info">Détails</a></td>
+        <td class="d-flex justify-content-between">
+          <a [routerLink]="['/ueManagement/'+ue.name]" class="btn btn-info">Modifier</a>
+          <!-- <a (click)="delete(index)" class="btn btn-danger">Supprimer</a> -->
+        </td>
       </tr>
       </tbody>
     </table>
-    <a routerLink="/add" class="btn btn-info">Ajouter une UE</a>
+    <a routerLink="/addue" class="btn btn-info">Ajouter une UE</a>
   </div>
 </div>

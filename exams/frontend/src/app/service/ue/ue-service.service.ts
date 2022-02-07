@@ -23,15 +23,16 @@ export class UeService {
   }
 
   public updateUe(ue_name : string , ue: Ue){
-    return this.http.post<Ue>(this.usersUrl + "update/" + ue_name, ue);
+    return this.http.put<Ue>(this.usersUrl + "update/" + ue_name, ue);
   }
 
   public getUe(ue_name: string): Observable<Ue>{
     return this.http.get<Ue>(this.usersUrl + ue_name);
   }
 
-  public deleteUe(ue_name: string){
-    return this.http.get<void>(this.usersUrl + ue_name);
+  public deleteUe(ue_name: string) {
+    console.log("delete " + ue_name + " (front) : " + this.usersUrl + ue_name);
+    return this.http.delete<void>(this.usersUrl + ue_name);
   }
 
   public getHttp() :HttpClient {

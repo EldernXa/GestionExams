@@ -52,4 +52,5 @@ public class UEService {
         UE ue = ueRepository.getUEByName(name);
         return ue;
     }
+
 }

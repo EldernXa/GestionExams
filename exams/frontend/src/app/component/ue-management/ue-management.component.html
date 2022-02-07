@@ -1,0 +1,54 @@
+<div class="card my-5">
+  <div class="card-body">
+    <form (ngSubmit)="onSubmit()" #ueForm="ngForm">
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" [(ngModel)]="ue.name"
+               class="form-control"
+               id="name"
+               name="name"
+               placeholder="Entrer le nom de l'UE"
+               required #name="ngModel">
+        <div [hidden]="!name.invalid" class="alert alert-danger">Le nom de l'UE est requis</div>
+      </div>
+
+      <div class="form-group">
+        <label for="credit">crédits de l'UE</label>
+        <input type="number" [(ngModel)]="ue.credit"
+               class="form-control"
+               id="credit"
+               name="credit"
+               placeholder="Entrer le nombre de crédits de l'UE"
+               required #credit="ngModel">
+        <div [hidden]="!credit.invalid" class="alert alert-danger">Le nombre de crédits est requis.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="duration">durée de l'examen</label>
+        <input type="number" [(ngModel)]="ue.durationExam"
+               class="form-control"
+               id="duration"
+               name="duration"
+               placeholder="Entrer la durée de l'examen (en minutes)"
+               required #duration="ngModel">
+        <div [hidden]="!duration.invalid" class="alert alert-danger">La durée de l'examen est requise.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="discipline">Discipline</label>
+        <select type="text" name="discipline" [(ngModel)]="ue.discipline" id="discipline" class="form-control"  required #discipline="ngModel">
+          <option value="INFORMATIQUE">Informatique</option>
+          <option value="SPORT">Mathématiques</option>
+          <option value="sport">Sport</option>
+          <option value="PHYSIQUE">Physique</option>
+        </select>
+        <div [hidden]="!discipline.invalid" class="alert alert-danger">La discipline de l'UE est requise</div>
+      </div>
+
+      <button type="submit" [disabled]="!ueForm.form.valid"
+              class="btn btn-info">Submit</button>
+    </form>
+  </div>
+</div>
+

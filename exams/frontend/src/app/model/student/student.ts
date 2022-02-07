@@ -5,6 +5,6 @@ export class Student {
   firstName: string = "";
   lastName: string = "";
   email: string = "";
-  grade: number = -2;
+  grade?: number;
 
 }

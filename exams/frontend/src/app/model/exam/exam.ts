@@ -4,9 +4,9 @@ export class Exam {
 
         idExam: number = -1;
         idPeriod: number = -1;
-        session: number = 0;
+        session?: number;
         ue: string = "";
         supervisors: string = "";
-        year: number = 0;
+        year?: number;
 
 }

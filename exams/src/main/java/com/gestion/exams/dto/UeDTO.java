@@ -12,10 +12,10 @@ public class UeDTO {
 	public UeDTO() {
 	}
 
-	public UeDTO(String name, int credit, int duratioExam, Discipline discipline) {
+	public UeDTO(String name, int credit, int durationExam, Discipline discipline) {
 		this.name = name;
 		this.credit = credit;
-		this.durationExam = duratioExam;
+		this.durationExam = durationExam;
 		this.discipline = discipline;
 	}
 
@@ -50,6 +50,4 @@ public class UeDTO {
 	public void setDiscipline(Discipline discipline) {
 		this.discipline = discipline;
 	}
-
-
 }

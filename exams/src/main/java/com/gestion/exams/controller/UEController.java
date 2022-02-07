@@ -38,6 +38,7 @@ public class UEController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@Transactional
 	public void deleteUe(@PathVariable String name){
+		System.out.println(name + " deleted (controller back)");
 		ueService.deleteUE(name);
 	}
 
