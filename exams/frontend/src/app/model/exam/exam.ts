@@ -8,5 +8,9 @@ export class Exam {
         ue: string = "";
         supervisors: string = "";
         year?: number;
+        nameRoom: string = "";
+        beginDateExam: string = "";
+        endDateExam: string = "";
+
 
 }

@@ -22,6 +22,7 @@ import com.gestion.exams.services.PeriodService;
 
 @RestController
 @RequestMapping
+@CrossOrigin(origins = "http://localhost:4200")
 public class PeriodController {
 
 	@Autowired
@@ -66,7 +67,7 @@ public class PeriodController {
 		return periodService.savePeriod(period);
 	}
 
-	@CrossOrigin
+
 	@PutMapping("/period/{id}")
 	public ResponseEntity<PeriodDTO> updatePlanning(@PathVariable long id) throws ParseException{
 		PeriodDTO periodToPlan = periodService.planRoomAndDateOfExams(id);
