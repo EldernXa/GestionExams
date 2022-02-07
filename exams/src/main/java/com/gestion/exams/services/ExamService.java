@@ -1,19 +1,20 @@
 package com.gestion.exams.services;
 
-import com.gestion.exams.dto.ExamDTO;
-import com.gestion.exams.entity.Exam;
-import com.gestion.exams.repository.ExamRepository;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.modelmapper.ModelMapper;
+import com.gestion.exams.dto.ExamDTO;
+import com.gestion.exams.entity.Exam;
 import com.gestion.exams.entity.Period;
 import com.gestion.exams.entity.UE;
+import com.gestion.exams.repository.ExamRepository;
 import com.gestion.exams.repository.PeriodRepository;
 import com.gestion.exams.repository.RoomRepository;
 import com.gestion.exams.repository.UERepository;
@@ -35,12 +36,18 @@ public class ExamService {
 	@Autowired
 	private UERepository ueRepository;
 
+	private String msgNotPlannedYet = "To Come";
+
 	public List<Exam> getAllExams(){
 		return examRepository.findAll();
 	}
 
 	public Optional<Exam> getExamById(long idExam){
 		return examRepository.findById(idExam);
+	}
+
+	public Exam updateExam(Exam examToUpdate) {
+		return examRepository.save(examToUpdate);
 	}
 
 	public List<ExamDTO> getAllExamsFromPeriod(long id){
@@ -56,7 +63,18 @@ public class ExamService {
 	public ExamDTO convertToDTO(Exam exam) {
 		ExamDTO examDTO = modelMapper.map(exam, ExamDTO.class);
 		examDTO.setUe(exam.getUe().getName());
+		if(examDTO.getNameRoom() == null) {
+			examDTO.setNameRoom("Pas de salle pour l'instant"); // TODO à changer
+		}
 		return examDTO;
+	}
+
+	public boolean isExamDateBetweenOtherDate(Exam exam, Date beginDate, Date endDate) {
+		if(beginDate == null || endDate == null || exam.getBeginDateExam() == null || exam.getEndDateExam() == null) {
+			return false;
+		}
+		return DateService.isBetweenDate(exam.getBeginDateExam(), exam.getEndDateExam(), beginDate) ||
+				DateService.isBetweenDate(exam.getBeginDateExam(), exam.getEndDateExam(), endDate);
 	}
 
 	public Exam convertToEntity(ExamDTO examDTO) {
@@ -69,6 +87,9 @@ public class ExamService {
 	public String getBeginDateExam(long id) {
 		try {
 			Exam exam = examRepository.getById(id);
+			if(exam.getBeginDateExam()==null) {
+				return msgNotPlannedYet; //TODO à changer
+			}
 			return DateService.convertDateClassToStringDate(exam.getBeginDateExam());
 		}catch(Exception exception) {
 			return null;
@@ -78,6 +99,9 @@ public class ExamService {
 	public String getEndDateExam(long id) {
 		try {
 			Exam exam = examRepository.getById(id);
+			if(exam.getEndDateExam() == null) {
+				return msgNotPlannedYet; //TODO à changer
+			}
 			return DateService.convertDateClassToStringDate(exam.getEndDateExam());
 		}catch(Exception exception) {
 			return null;
