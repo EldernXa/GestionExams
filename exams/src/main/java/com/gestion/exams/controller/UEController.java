@@ -28,7 +28,7 @@ public class UEController {
 
 
 	@GetMapping("/allUE")
-	//@PreAuthorize("hasRole('ROLE_STUDENT')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
 	public List<UeDTO> getAllUE(){
 		ModelMapper modelMapper = new ModelMapper();
 		List<UE> listUe = ueService.getAllUE();
@@ -36,6 +36,7 @@ public class UEController {
 	}
 
 	@GetMapping("/{name}")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
 	public UeDTO getUeByName(@PathVariable String name){
 		ModelMapper modelMapper = new ModelMapper();
 		UE ue = ueService.getUeByName(name);
@@ -51,9 +52,8 @@ public class UEController {
 	}
 
 	@PostMapping("/add")
-
-	public UeDTO addNewUe(@RequestBody UE ue , Principal principal){
-		Student student = studentService.getStudentByEmail(principal.getName());
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public UeDTO addNewUe(@RequestBody UE ue){
 		ueService.createUE(ue);
 		ModelMapper modelMapper = new ModelMapper();
 		return modelMapper.map(ue, UeDTO.class);
