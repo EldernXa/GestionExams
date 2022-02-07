@@ -20,10 +20,11 @@
         <td>{{ exam.nameRoom }}</td>
         <td>{{ exam.beginDateExam }}</td>
         <td>{{ exam.endDateExam }}</td>
+        <td><a [routerLink]="['/grades/exam/',exam.idExam]" class="btn btn-info">Gérer les notes</a></td>
       </tr>
     </tbody>
   </table>
-  
+
   <div class="card-body" *ngIf="listUE.length>0">
     <p>Nouvelle exam : </p>
     <form #periodForm="ngForm">
@@ -34,16 +35,16 @@
             <option *ngFor="let ue of listUE" [ngValue]="ue">{{ue}}</option>
          </select>
       </div>
-      <div [hidden]="!ueName.pristine" class="alert alert-danger">Le nom de l'ue est requise</div>
+      <div [hidden]="!ueName.invalid" class="alert alert-danger">Le nom de l'ue est requise</div>
       <div class="form-group">
         <label for="beginDatePeriod">session</label>
-        <input type="number" [(ngModel)]="exam.session" 
-          class="form-control" 
-          id="session" 
-          name="session" 
+        <input type="number" [(ngModel)]="exam.session"
+          class="form-control"
+          id="session"
+          name="session"
           placeholder="Entrer le numéro de la session"
           required #session="ngModel">
-        <div [hidden]="!session.pristine" class="alert alert-danger">Le numéro de la session est requise.</div>
+        <div [hidden]="!session.invalid" class="alert alert-danger">Le numéro de la session est requise.</div>
       </div>
       <div class="form-group">
           <label for="endDatePeriod">année</label>
@@ -53,7 +54,7 @@
               name="year"
               placeholder="Entrer l'année de l'examen"
               required #year="ngModel">
-          <div [hidden]="!year.pristine" class="alert alert-danger">L'année est requise.</div>
+          <div [hidden]="!year.invalid" class="alert alert-danger">L'année est requise.</div>
       </div>
       <button (click)="onSubmit()" [disabled]="!periodForm.form.valid" 
         class="btn btn-info">Submit</button>

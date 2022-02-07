@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Period } from 'src/app/model/period';
-import { PeriodService } from 'src/app/service/period-service.service';
+import { Period } from 'src/app/model/period/period';
+import { PeriodService } from 'src/app/service/period/period-service.service';
 
 @Component({
   selector: 'app-period-list',

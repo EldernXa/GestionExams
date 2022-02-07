@@ -2,6 +2,7 @@ package com.gestion.exams.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gestion.exams.dto.StudentDTO;
 import com.gestion.exams.dto.mapper.StudentMapper;
-import com.gestion.exams.entity.Exam;
 import com.gestion.exams.entity.Grade;
 import com.gestion.exams.entity.Student;
 import com.gestion.exams.services.ExamService;
@@ -24,7 +24,7 @@ import com.gestion.exams.services.StudentService;
 
 @RestController
 @Transactional
-@RequestMapping("/grade")
+@RequestMapping("/grades")
 public class GradeController {
 
 	@Autowired
@@ -34,41 +34,34 @@ public class GradeController {
 	@Autowired
 	ExamService examService;
 
-	@GetMapping(path="/exam{id}")
+	@GetMapping(path="/exam/{id}")
 	public List<StudentDTO> getStudentsAndGradesByExam(@PathVariable("id") long idExam){
 		List<StudentDTO> studentsDTO = new ArrayList<>();
-		System.out.println(gradeService.getAllGrades().size());
-		//gradeService.createAllGradesByExamIfNotExists(idExam);
-		System.out.println(gradeService.getAllGrades().size());
-		//System.out.println(gradeService.getAllGrades().get(0).getGradePK().getStudent().getIdStudent());
 		List<Student> students = studentService.getStudentsByExamId(idExam);
-		for(Student s : students) {
-			System.out.println(s.getGrades().size());
-			System.out.println("getting student : " + s.getIdStudent());
+		for(Student s : students)
 			studentsDTO.add(StudentMapper.studentToStudentDTO(s, idExam));
-		}
-		System.out.println("size dto "+studentsDTO.size());
 		return studentsDTO;
 	}
 
-	@PostMapping(path="/exam{id}")
-	public Grade addGrade(@PathVariable("id") long idExam, @RequestBody Grade g ){
-		System.out.println("controller");
-		gradeService.createGrade(g);
-		return g;
+	@PostMapping(path="/exams/{id}")
+	public void updateAllGrades(@PathVariable("id") long idExam, @RequestBody List<Map<String, String>> mapStudent){
+		System.out.println("SAVING GRADES OF EXAM "+idExam);
+		for(Map<String, String> map : mapStudent){
+			Grade g = new Grade(this.studentService.getStudentById(Long.parseLong(map.get("idStudent"))).get(),this.examService.getExamById(idExam).get(),Double.parseDouble(map.get("grade")));
+			gradeService.createGrade(g);
+		}
 	}
 
-	@PostMapping(path="/exam{id}/create")
-	public Grade createGrade(@PathVariable("id") long idExam, @RequestBody long idStudent){
-		System.out.println(idStudent);
-		Student student = studentService.getStudentById(idStudent).get();
-		Exam exam = examService.getExamById(idExam).get();
-		Grade g = new Grade(student,exam,0);
+
+	@PostMapping(path="/exam/{id}")
+	public void updateGrade(@PathVariable("id") long idExam, @RequestBody Map<String, String> map){
+		System.out.println("SAVING GRADE OF EXAM :"+idExam);
+		Grade g = new Grade(this.studentService.getStudentById(Long.parseLong(map.get("idStudent"))).get(),this.examService.getExamById(idExam).get(),Double.parseDouble(map.get("grade")));
 		gradeService.createGrade(g);
-		return g;
+		//return g;
 	}
 
-	@DeleteMapping(path="/exam{id}")
+	@DeleteMapping(path="/exam/{id}")
 	public void deleteGrade(@PathVariable("id") long idExam, @RequestBody Grade g){
 		gradeService.deleteGrade(g);
 	}
