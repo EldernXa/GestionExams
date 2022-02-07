@@ -41,12 +41,7 @@ public class PeriodService {
 		Period periodToPlan = periodRepository.getById(id);
 		List<Exam> listExamFromAPeriod = periodToPlan.getExams();
 		Date dateBegin = periodToPlan.getBeginDatePeriod();
-		for(Exam exam : listExamFromAPeriod) {
-			exam.setRoom(null);
-			exam.setBeginDateExam(null);
-			exam.setEndDateExam(null);
-			examService.updateExam(exam);
-		}
+		initPeriod(id);
 		for(Exam exam : listExamFromAPeriod) {
 			Date dateBeginWithHour = DateService.createDate(String.valueOf(DateService.getDay(dateBegin)),
 					String.valueOf(DateService.getMonth(dateBegin)), String.valueOf(DateService.getYear(dateBegin)), "08");
@@ -55,40 +50,45 @@ public class PeriodService {
 				dateBeginWithHour = newDate;
 			}
 
-			boolean canPassNoon = false;
-			Date saveDate;
-
-			while(newDate != null && newDate.before(periodToPlan.getEndDatePeriod())) {
-				newDate = lastDateAvailable(periodToPlan, exam, newDate, DateService.addHours(newDate, exam.getUe().getDurationExam()));
-				if(newDate != null) {
-					dateBeginWithHour = newDate;
-				}
-				saveDate = dateBeginWithHour;
-				if(newDate == null) {
-					newDate = correctDateBetweenNoon(dateBeginWithHour, DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
-					if(newDate != null && !canPassNoon) {
-						dateBeginWithHour = newDate;
-					}
-					else {
-						newDate = correctDateInTheEndOfTheDay(dateBeginWithHour, DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
-						if(newDate != null) {
-							dateBeginWithHour = newDate;
-						}
-					}
-					if(saveDate.compareTo(dateBeginWithHour) == 0) {
-						canPassNoon = true;
-					}
-				}
-			}
-
-			exam.setBeginDateExam(dateBeginWithHour);
-			exam.setEndDateExam(DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
+			dateBeginWithHour = getBestDateForAnExam(dateBeginWithHour, newDate, periodToPlan, exam);
 			// TODO if not room available repeat loop for date
-			setRoom(exam, periodToPlan);
-			examService.updateExam(exam);
+			changeExam(exam, dateBeginWithHour, DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()), periodToPlan);
 		}
 
 		return convertToDTO(periodToPlan);
+	}
+
+	private Date getBestDateForAnExam(Date initDate, Date currentLastDateAvailable, Period periodToPlan, Exam exam) throws ParseException {
+		boolean canPassNoon = false;
+		Date saveDate;
+
+		Date dateToReturn = initDate;
+		Date newDate = currentLastDateAvailable;
+
+		while(newDate != null && newDate.before(periodToPlan.getEndDatePeriod())) {
+			newDate = lastDateAvailable(periodToPlan, exam, newDate, DateService.addHours(newDate, exam.getUe().getDurationExam()));
+			if(newDate != null) {
+				dateToReturn = newDate;
+			}
+			saveDate = dateToReturn;
+			if(newDate == null) {
+				newDate = correctDateBetweenNoon(dateToReturn, DateService.addHours(dateToReturn, exam.getUe().getDurationExam()));
+				if(newDate != null && !canPassNoon) {
+					dateToReturn = newDate;
+				}
+				else {
+					newDate = correctDateInTheEndOfTheDay(dateToReturn, DateService.addHours(dateToReturn, exam.getUe().getDurationExam()));
+					if(newDate != null) {
+						dateToReturn = newDate;
+					}
+				}
+				if(saveDate.compareTo(dateToReturn) == 0) {
+					canPassNoon = true;
+				}
+			}
+		}
+
+		return dateToReturn;
 	}
 
 	private Date lastDateAvailable(Period period, Exam exam, Date beginDate, Date endDate) throws ParseException {
@@ -133,6 +133,14 @@ public class PeriodService {
 			return DateService.getTheDayAfterAt8Hour(beginDate);
 		}
 		return null;
+	}
+
+
+	private void changeExam(Exam exam, Date beginDate, Date endDate, Period periodToPlan) throws ParseException {
+		exam.setBeginDateExam(beginDate);
+		exam.setEndDateExam(endDate);
+		setRoom(exam, periodToPlan);
+		examService.updateExam(exam);
 	}
 
 	private void setRoom(Exam exam, Period periodToPlan) throws ParseException {
@@ -215,6 +223,17 @@ public class PeriodService {
 
 	public Period savePeriod(Period periodToSave) {
 		return periodRepository.save(periodToSave);
+	}
+
+	private void initPeriod(long idPeriod) {
+		Period periodToInit = periodRepository.getById(idPeriod);
+		List<Exam> listExamFromAPeriod = periodToInit.getExams();
+		for(Exam exam : listExamFromAPeriod) {
+			exam.setRoom(null);
+			exam.setBeginDateExam(null);
+			exam.setEndDateExam(null);
+			examService.updateExam(exam);
+		}
 	}
 
 }
