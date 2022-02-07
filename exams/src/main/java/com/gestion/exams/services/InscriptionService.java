@@ -33,14 +33,11 @@ public class InscriptionService {
         return student.getInscriptions();
     }
 
-  /* public void unsubscribeStudentFromInscription(Inscription inscription) {
-        Student student = inscription.getStudent();
-        student.getInscriptions().remove(inscription);
-        studentRepository.save(student);
+  public void unsubscribeStudentFromInscription(Inscription inscription) {
         inscriptionRepository.delete(inscription);
 
     }
-     public Inscription getInscriptionByStudentAndUeAndYear(Student student,UE ue,int year){
+     /*public Inscription getInscriptionByStudentAndUeAndYear(Student student,UE ue,int year){
         return inscriptionRepository.getInscriptionByStudentAndUeAndYear(student,ue,year);
      }*/
 
