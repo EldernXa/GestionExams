@@ -1,4 +1,5 @@
 <p>Nom de la période : {{period.name}}</p>
 <p>Date de début de la période : {{ period.beginDatePeriod }}</p>
 <p>Date de fin de la période :{{ period.endDatePeriod }}</p>
-<p><a [routerLink]="['/periodManagement', period.id]" class="btn btn-info">Gestion des examens</a></p>
+<app-exam-management id="{{period.id}}"></app-exam-management>
+<!--<p><a [routerLink]="['/periodManagement', period.id]" class="btn btn-info">Gestion des examens</a></p> -->
