@@ -28,7 +28,7 @@ public class UEController {
 
 
 	@GetMapping("/allUE")
-	@PreAuthorize("hasRole('ROLE_STUDENT')")
+	//@PreAuthorize("hasRole('ROLE_STUDENT')")
 	public List<UeDTO> getAllUE(){
 		ModelMapper modelMapper = new ModelMapper();
 		List<UE> listUe = ueService.getAllUE();
@@ -45,6 +45,7 @@ public class UEController {
 	@DeleteMapping("/{name}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@Transactional
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void deleteUe(@PathVariable String name){
 		ueService.deleteUE(name);
 	}
@@ -60,6 +61,7 @@ public class UEController {
 
 	@Transactional
 	@PutMapping("/update/{name}")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public UeDTO updateUe(@PathVariable String name, @RequestBody UE ue){
 		ModelMapper modelMapper = new ModelMapper();
 		UE ueToBeUpdated = ueService.getUeByName(name);
