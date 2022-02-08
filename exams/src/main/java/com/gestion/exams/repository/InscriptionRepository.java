@@ -10,7 +10,6 @@ import com.gestion.exams.entity.Student;
 
 @Repository
 public interface InscriptionRepository extends JpaRepository<Inscription, Student>{
-   // Inscription getInscriptionByInscriptionPK(InscriptionPK inscriptionPK);
-   // Inscription getInscriptionByStudentAndUeAndYear(Student student , UE ue,int year  );
-
+  // Inscription getInscriptionByInscriptionPKAndAndYear(InscriptionPK inscriptionPK,int year);
+  // Inscription getInscriptionByStudentAndUeAndYear(Student student , UE ue , int year);
 }

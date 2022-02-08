@@ -8,6 +8,7 @@ import com.gestion.exams.repository.ExamRepository;
 import com.gestion.exams.repository.GradeRepository;
 import com.gestion.exams.repository.UERepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -43,6 +44,7 @@ public class UEService {
         UE ue = ueRepository.getUEByName(name);
         ueRepository.delete(ue);
     }
+
 
     public List<UE> getAllUE(){
         return ueRepository.findAll();

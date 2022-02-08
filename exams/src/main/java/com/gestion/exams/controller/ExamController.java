@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +38,7 @@ public class ExamController {
 	private UERepository ueRepository; // TODO to remove.
 
 	@PostMapping("/add")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Exam> addNewExams(@RequestBody Map<String, String> mapNewExam){
 		Exam exam = examService.saveNewExam(mapNewExam);
 		if(exam != null) {
@@ -46,16 +48,19 @@ public class ExamController {
 	}
 
 	@GetMapping("/list")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<List<Exam>> getAllExams(){
 		return new ResponseEntity<>(examService.getAllExams(), HttpStatus.OK);
 	}
 
 	@GetMapping("/list/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
 	public ResponseEntity<List<ExamDTO>> getAllExamsFromPeriod(@PathVariable long id){
 		return new ResponseEntity<>(examService.getAllExamsFromPeriod(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}/beginDate")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
 	public ResponseEntity<String> getBeginDateExam(@PathVariable long id){
 		String str = examService.getBeginDateExam(id);
 		if(str != null) {
@@ -65,6 +70,7 @@ public class ExamController {
 	}
 
 	@GetMapping("/{id}/endDate")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
 	public ResponseEntity<String> getEndDateExam(@PathVariable long id){
 		String str = examService.getEndDateExam(id);
 		if(str != null) {
@@ -74,6 +80,7 @@ public class ExamController {
 	}
 
 	@GetMapping("/listUE")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
 	public ResponseEntity<List<String>> getListUE(){
 		// TODO to change place
 		List<String> listUE = new ArrayList<>();
@@ -84,6 +91,7 @@ public class ExamController {
 	}
 
 	@GetMapping("/listUE/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
 	public ResponseEntity<List<String>> getListUEThatAreNotInAPeriod(@PathVariable long id){
 		List<String> listUE = new ArrayList<>();
 		for(UE ue : ueRepository.findAll()) {
@@ -95,6 +103,7 @@ public class ExamController {
 	}
 
 	@GetMapping("/{id}/nameUE")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
 	public ResponseEntity<String> getNameUEExam(@PathVariable long id){
 		String str = examService.getNameUE(id);
 		if(str != null) {

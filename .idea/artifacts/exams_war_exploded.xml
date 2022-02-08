@@ -15,6 +15,20 @@
           <element id="module-output" name="exams" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-security:2.5.6" />
+          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter:2.5.6" />
+          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-logging:2.5.6" />
+          <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.2.6" />
+          <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.2.6" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-to-slf4j:2.14.1" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.14.1" />
+          <element id="library" level="project" name="Maven: org.slf4j:jul-to-slf4j:1.7.32" />
+          <element id="library" level="project" name="Maven: org.yaml:snakeyaml:1.28" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.3.12" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-config:5.5.3" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-core:5.5.3" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-crypto:5.5.3" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:5.5.3" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-data-jpa:2.5.6" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-aop:2.5.6" />
           <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.9.7" />
@@ -50,14 +64,6 @@
           <element id="library" level="project" name="Maven: org.atteo:evo-inflector:1.2.2" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.12.5" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-web:2.6.2" />
-          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter:2.5.6" />
-          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-logging:2.5.6" />
-          <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.2.6" />
-          <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.2.6" />
-          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-to-slf4j:2.14.1" />
-          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.14.1" />
-          <element id="library" level="project" name="Maven: org.slf4j:jul-to-slf4j:1.7.32" />
-          <element id="library" level="project" name="Maven: org.yaml:snakeyaml:1.28" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-json:2.5.6" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.12.5" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.5" />
@@ -68,7 +74,6 @@
           <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-el:9.0.54" />
           <element id="library" level="project" name="Maven: org.modelmapper:modelmapper:2.4.2" />
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:5.3.12" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.3.12" />
           <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.3.12" />
           <element id="library" level="project" name="Maven: org.springframework:spring-context:5.3.12" />
           <element id="library" level="project" name="Maven: org.springframework:spring-core:5.3.12" />
@@ -96,7 +101,7 @@
           <element id="library" level="project" name="Maven: org.webjars.npm:vue__ref-transform:3.2.19" />
           <element id="library" level="project" name="Maven: org.webjars.npm:magic-string:0.25.7" />
           <element id="library" level="project" name="Maven: org.webjars.npm:sourcemap-codec:1.4.8" />
-          <element id="library" level="project" name="Maven: org.webjars.npm:postcss:8.4.5" />
+          <element id="library" level="project" name="Maven: org.webjars.npm:postcss:8.4.6" />
           <element id="library" level="project" name="Maven: org.webjars.npm:nanoid:3.2.0" />
           <element id="library" level="project" name="Maven: org.webjars.npm:picocolors:1.0.0" />
           <element id="library" level="project" name="Maven: org.webjars.npm:source-map-js:1.0.2" />

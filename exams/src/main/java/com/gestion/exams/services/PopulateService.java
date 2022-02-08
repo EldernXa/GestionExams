@@ -2,35 +2,24 @@ package com.gestion.exams.services;
 
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 
+import com.gestion.exams.entity.*;
+import com.gestion.exams.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.gestion.exams.entity.Authentification;
-import com.gestion.exams.entity.Discipline;
-import com.gestion.exams.entity.Exam;
-import com.gestion.exams.entity.Grade;
-import com.gestion.exams.entity.Inscription;
-import com.gestion.exams.entity.Period;
-import com.gestion.exams.entity.Room;
-import com.gestion.exams.entity.Student;
-import com.gestion.exams.entity.UE;
-import com.gestion.exams.repository.AuthentificationRepository;
-import com.gestion.exams.repository.ExamRepository;
-import com.gestion.exams.repository.GradeRepository;
-import com.gestion.exams.repository.InscriptionRepository;
-import com.gestion.exams.repository.PeriodRepository;
-import com.gestion.exams.repository.RoomRepository;
-import com.gestion.exams.repository.StudentRepository;
-import com.gestion.exams.repository.UERepository;
 
 @Service
 public class PopulateService{
+	@Autowired
+	PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private RoleRepository roleRepository;
 
 	@Autowired
 	private RoomRepository roomRepository;
@@ -56,6 +45,8 @@ public class PopulateService{
 	@Autowired
 	private GradeRepository gradeRepository;
 
+
+
 	private Random random = new Random();
 
 	@PostConstruct
@@ -67,6 +58,7 @@ public class PopulateService{
 		populateAuthentification();
 		populateExam();
 		populateInscription();
+
 		//populateGrade();
 	}
 
@@ -105,22 +97,38 @@ public class PopulateService{
 	}
 
 	private void populateStudent() {
+
 		for(int i=0; i<10; i++) {
 			Student student = new Student("firstName"+i, "lastName"+i, "email"+i);
 			studentRepository.save(student);
 		}
+
+
+
 	}
 
+
+
 	private void populateAuthentification() {
+		Role studentRole = new Role ();
+		studentRole.setName("STUDENT");
+		studentRole=roleRepository.save(studentRole);
+		Role adminRole = new Role ();
+		adminRole.setName("ADMIN");
+		adminRole=roleRepository.save(adminRole);
+
 		for(Student student : studentRepository.findAll()) {
-			Authentification auth = new Authentification(student.getEmail(), "password", "student");
+			Authentification auth = new Authentification(student.getEmail(), passwordEncoder.encode("password"),List.of(studentRole));
 			authRepo.save(auth);
 		}
 
 		for(int i=0; i<4; i++) {
-			Authentification auth = new Authentification("emailSchool"+i, "password2"+i, "education");
+			Authentification auth = new Authentification("emailSchool"+i, passwordEncoder.encode("password2"+i), List.of(adminRole));
 			authRepo.save(auth);
 		}
+
+		Authentification auth = new Authentification("test", passwordEncoder.encode("password"), new ArrayList<>());
+		authRepo.save(auth);
 	}
 
 	private void populateExam() {

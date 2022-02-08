@@ -18,7 +18,9 @@ public class StudentService {
 		return studentRepository.findStudentByExamId(idExam);
 	}
 
-	public Optional<Student> getStudentById(long idStudent){
-		return studentRepository.findById(idStudent);
-	}
+    public Optional<Student> getStudentById(long idStudent){
+        return studentRepository.findById(idStudent);
+    }
+
+    public Student getStudentByEmail(String email){ return studentRepository.getStudentByEmail(email);}
 }

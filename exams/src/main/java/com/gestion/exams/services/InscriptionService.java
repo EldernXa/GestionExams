@@ -22,24 +22,26 @@ public class InscriptionService {
     @Autowired
     UERepository ueRepository;
 
-    public Inscription registerStudentToUE(long id , int year , String nameUE){
+    public Inscription registerStudentToUE(long id, int year, String nameUE) {
         Student student = studentRepository.getById(id);
-        Inscription newInscription = new Inscription(student,year,ueRepository.getUEByName(nameUE));
+        Inscription newInscription = new Inscription(student, year, ueRepository.getUEByName(nameUE));
         inscriptionRepository.save(newInscription);
         student.getInscriptions().add(newInscription);
         studentRepository.save(student);
-        return newInscription ;
+        return newInscription;
     }
 
-  public  List<Inscription> getInscriptionsOfStudent(Student student){
+    public List<Inscription> getInscriptionsOfStudent(Student student) {
         return student.getInscriptions();
     }
 
-    public  void unsubscribeStudentFromInscription(Student student , Inscription inscription){
+  public void unsubscribeStudentFromInscription(Inscription inscription) {
+        inscriptionRepository.delete(inscription);
 
-        if(inscription.getInscriptionPK().getStudent()==student){
-        student.getInscriptions().remove(inscription);
-        studentRepository.save(student);
-        inscriptionRepository.delete(inscription);}
     }
+     /*public Inscription getInscriptionByStudentAndUeAndYear(Student student,UE ue,int year){
+        return inscriptionRepository.getInscriptionByStudentAndUeAndYear(student,ue,year);
+     }*/
+
+
 }
