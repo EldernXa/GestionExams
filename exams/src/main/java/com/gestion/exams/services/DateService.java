@@ -12,6 +12,8 @@ public class DateService {
 
 	private static final String HOUR_END_DAY = "18";
 
+	private static final String FORMAT_DISPLAY_DATE = "EEEEE dd MMMMM yyyy"; // two formats available : EEEEE dd MMMMM yyyy and dd/MM/yyyy HH:mm
+
 	public static boolean isBetweenDate(Date beginDate, Date endDate, Date dateToVerify) {
 		return !dateToVerify.before(beginDate) && !dateToVerify.after(endDate);
 	}
@@ -38,7 +40,7 @@ public class DateService {
 	}
 
 	public static String convertDateClassToStringDate(Date date) {
-		return getDay(date) + "/" + getMonth(date) + "/" + getYear(date) + " " + getHour(date)+":00";
+		return new SimpleDateFormat(FORMAT_DISPLAY_DATE).format(date);
 	}
 
 	public static Date createDate(String day, String month, String year, String hour) throws ParseException {
@@ -50,7 +52,7 @@ public class DateService {
 	}
 
 	public static Date convertStringDateToDateClass(String str) throws ParseException {
-		return new SimpleDateFormat("dd/MM/yyyy").parse(str);
+		return new SimpleDateFormat(FORMAT_DISPLAY_DATE).parse(str);
 	}
 
 	public static Date convertStringDateYearFirstToDateClass(String str) throws ParseException {

@@ -64,9 +64,7 @@ export class ExamManagementComponent implements OnInit {
   }
 
   onPlan(){
-    console.log("okok");
     this.examService.updatePlanning(this.id).subscribe(result=>{this.update();});
-    
   }
 
   redirectTo(uri:string){
