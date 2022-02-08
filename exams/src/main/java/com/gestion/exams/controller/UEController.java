@@ -48,6 +48,7 @@ public class UEController {
 	@Transactional
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void deleteUe(@PathVariable String name){
+		System.out.println(name + " deleted (controller back)");
 		ueService.deleteUE(name);
 	}
 

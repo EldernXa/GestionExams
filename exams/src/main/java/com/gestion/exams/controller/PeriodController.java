@@ -1,5 +1,6 @@
 package com.gestion.exams.controller;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +22,7 @@ import com.gestion.exams.services.PeriodService;
 
 @RestController
 @RequestMapping
+@CrossOrigin(origins = "http://localhost:4200")
 public class PeriodController {
 
 	@Autowired
@@ -67,6 +70,16 @@ public class PeriodController {
 	public Period postPeriod(@RequestBody Map<String, String> mapPeriod) {
 		Period period = periodService.getPeriodFromMap(mapPeriod);
 		return periodService.savePeriod(period);
+	}
+
+
+	@PutMapping("/period/{id}")
+	public ResponseEntity<PeriodDTO> updatePlanning(@PathVariable long id) throws ParseException{
+		PeriodDTO periodToPlan = periodService.planRoomAndDateOfExams(id);
+		if(periodToPlan != null) {
+			return new ResponseEntity<>(periodToPlan, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 }

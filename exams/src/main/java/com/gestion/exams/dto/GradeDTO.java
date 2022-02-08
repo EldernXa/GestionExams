@@ -1,7 +1,5 @@
 package com.gestion.exams.dto;
 
-import com.gestion.exams.entity.GradePK;
-
 
 public class GradeDTO {
 
@@ -13,7 +11,7 @@ public class GradeDTO {
     int idStudent;
 	 */
 
-	GradePK gradePK;
+	//GradePK gradePK;
 
 	double value;
 

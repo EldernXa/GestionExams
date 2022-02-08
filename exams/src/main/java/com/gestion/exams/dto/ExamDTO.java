@@ -1,13 +1,51 @@
 package com.gestion.exams.dto;
 
+import java.text.ParseException;
+import java.util.Date;
+
+import com.gestion.exams.services.DateService;
+
 public class ExamDTO {
 
 	private long idExam;
+	private String nameRoom;
+	private String beginDateExam;
+	private String endDateExam;
 	private PeriodDTO period;
 	private int session;
 	private String ue;
 	private String[] supervisors;
 	private int year;
+
+	public Date getBeginDateExam() throws ParseException {
+		if(beginDateExam.compareTo("")==0) {
+			return null;
+		}
+		return DateService.convertStringDateToDateClass(beginDateExam);
+	}
+
+	public void setBeginDateExam(Date date) {
+		if(date == null) {
+			this.beginDateExam = "";
+		}else {
+			this.beginDateExam = DateService.convertDateClassToStringDate(date);
+		}
+	}
+
+	public Date getEndDateExam() throws ParseException {
+		if(endDateExam.compareTo("")==0) {
+			return null;
+		}
+		return DateService.convertStringDateToDateClass(endDateExam);
+	}
+
+	public void setEndDateExam(Date date) {
+		if(date == null) {
+			this.endDateExam = "";
+		}else {
+			this.endDateExam = DateService.convertDateClassToStringDate(date);
+		}
+	}
 
 	public long getIdExam() {
 		return idExam;
@@ -45,7 +83,11 @@ public class ExamDTO {
 	public void setYear(int year) {
 		this.year = year;
 	}
-
-
+	public String getNameRoom() {
+		return nameRoom;
+	}
+	public void setNameRoom(String nameRoom) {
+		this.nameRoom = nameRoom;
+	}
 
 }

@@ -6,16 +6,16 @@ public class UeDTO {
 
 	String name;
 	int credit;
-	int duratioExam;
+	int durationExam;
 	Discipline discipline;
 
 	public UeDTO() {
 	}
 
-	public UeDTO(String name, int credit, int duratioExam, Discipline discipline) {
+	public UeDTO(String name, int credit, int durationExam, Discipline discipline) {
 		this.name = name;
 		this.credit = credit;
-		this.duratioExam = duratioExam;
+		this.durationExam = durationExam;
 		this.discipline = discipline;
 	}
 
@@ -35,12 +35,12 @@ public class UeDTO {
 		this.credit = credit;
 	}
 
-	public int getDuratioExam() {
-		return duratioExam;
+	public int getDurationExam() {
+		return durationExam;
 	}
 
-	public void setDuratioExam(int duratioExam) {
-		this.duratioExam = duratioExam;
+	public void setDurationExam(int durationExam) {
+		this.durationExam = durationExam;
 	}
 
 	public Discipline getDiscipline() {
@@ -50,6 +50,4 @@ public class UeDTO {
 	public void setDiscipline(Discipline discipline) {
 		this.discipline = discipline;
 	}
-
-
 }

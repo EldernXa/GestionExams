@@ -54,8 +54,8 @@ public class Inscription implements Serializable{
 		this.inscriptionPK.setUe(ue);
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public InscriptionPK getInscriptionPK() {
+		return inscriptionPK;
 	}
 
 	public InscriptionPK getInscriptionPK() {

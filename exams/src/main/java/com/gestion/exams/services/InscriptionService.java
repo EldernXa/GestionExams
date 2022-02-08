@@ -17,7 +17,9 @@ public class InscriptionService {
 
     @Autowired
     InscriptionRepository inscriptionRepository;
+    @Autowired
     StudentRepository studentRepository;
+    @Autowired
     UERepository ueRepository;
 
     public Inscription registerStudentToUE(long id, int year, String nameUE) {

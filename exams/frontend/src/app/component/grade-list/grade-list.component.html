@@ -1,0 +1,42 @@
+<div class="card my-5">
+  <div class="card-body">
+    <form (ngSubmit)="onSubmit()" #gradeForm="ngForm">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">FirstName</th>
+        <th scope="col">LastName</th>
+        <th scope="col">Note</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let student of students;index as index;">
+        <td>{{ student.firstName }}</td>
+        <td>{{ student.lastName }}</td>
+        <td>
+          <form (ngSubmit)="updateGrade(index)" #grade="ngForm">
+          <div class="form-group">
+            <div class="d-flex justify-content-between">
+              <input type="number" [(ngModel)]="student.grade"
+                     class="form-control mr-3"
+                     id="grade"
+                     name="grade"
+                     min="0"
+                     max="20"
+                     placeholder="Entrer une note"
+                     required #grade="ngModel">
+              <button type="submit" [disabled]="!grade.form.valid"
+                      class="btn btn-info">Sauvegarder la note</button>
+            </div>
+            <div [hidden]="!grade.invalid" class="alert alert-danger">La note doit être comprise entre 0 et 20 !</div>
+          </div>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <button type="submit" [disabled]="true"
+            class="btn btn-info">Sauvegarder les notes</button>
+    </form>
+  </div>
+</div>
