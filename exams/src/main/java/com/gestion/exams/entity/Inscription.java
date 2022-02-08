@@ -58,7 +58,4 @@ public class Inscription implements Serializable{
 		return inscriptionPK;
 	}
 
-	public InscriptionPK getInscriptionPK() {
-		return inscriptionPK;
-	}
 }
