@@ -16,4 +16,5 @@ public interface StudentRepository extends JpaRepository<Student, Long>{
    
     Student getStudentByEmail(String email);
 
+
 }
