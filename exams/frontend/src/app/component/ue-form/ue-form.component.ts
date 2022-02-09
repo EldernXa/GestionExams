@@ -3,6 +3,7 @@ import {Period} from "../../model/period/period";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Ue} from "../../model/ue/ue";
 import {UeService} from "../../service/ue/ue-service.service";
+import { LoginService } from 'src/app/service/login/login.service';
 
 @Component({
   selector: 'app-ue-form',
@@ -13,7 +14,8 @@ export class UeFormComponent {
 
   ue: Ue;
 
-  constructor(private route: ActivatedRoute, private router: Router, private ueService: UeService){
+  constructor(private route: ActivatedRoute, private router: Router, private ueService: UeService, private loginService: LoginService){
+    this.loginService.redirectIfNotLogin();
     this.ue = new Ue();
   }
 
