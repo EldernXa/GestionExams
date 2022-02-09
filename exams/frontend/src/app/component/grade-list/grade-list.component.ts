@@ -24,7 +24,7 @@ export class GradeListComponent implements OnInit {
   ngOnInit(){
     this.gradeService.findAll(this.idExam).subscribe(data=>{
       this.students = data;
-      this.students.forEach(value => value.grade = undefined);
+      this.students.forEach(value => {if(value.grade == -1)value.grade = undefined});
     });
   }
 
