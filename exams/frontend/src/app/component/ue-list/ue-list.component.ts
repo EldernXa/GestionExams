@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from 'src/app/service/login/login.service';
 import {Ue} from "../../model/ue/ue";
 import {UeService} from "../../service/ue/ue-service.service";
 
@@ -11,7 +12,8 @@ export class UeListComponent implements OnInit {
 
   ues : Ue[];
 
-  constructor(private ueService: UeService) {
+  constructor(private ueService: UeService, private loginService: LoginService) {
+    this.loginService.redirectIfNotLogin();
     this.ues = [];
     this.ueService.findAll().subscribe(data=>{
       this.ues = data;
