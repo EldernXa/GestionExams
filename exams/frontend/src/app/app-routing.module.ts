@@ -9,6 +9,7 @@ import {GradeListComponent} from "./component/grade-list/grade-list.component";
 import {UeListComponent} from "./component/ue-list/ue-list.component";
 import {UeFormComponent} from "./component/ue-form/ue-form.component";
 import {UeManagementComponent} from "./component/ue-management/ue-management.component";
+import { LoginComponent } from './component/login/login.component';
 
 const routes: Routes = [
   { path: 'period', component: PeriodListComponent},
@@ -19,6 +20,8 @@ const routes: Routes = [
   { path: 'ue', component: UeListComponent},
   { path: 'addue', component: UeFormComponent},
   { path: 'ueManagement/:id', component: UeManagementComponent},
+  { path: 'login', component: LoginComponent},
+  //{ path: '**', component: PageNotFoundComponent },  // TODO Wildcard route for a 404 page
 ];
 
 @NgModule({

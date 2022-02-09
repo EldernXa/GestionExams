@@ -22,11 +22,23 @@ export class PeriodListComponent implements OnInit {
     this.periodService.findAll().subscribe(data=>{
       this.periods = data;
       this.periods.forEach((currentValue, index) =>{
-        this.periodService.getHttp().get('http://localhost:8080/' + "periodList/" + currentValue.id + "/beginDate", {responseType: 'text'}).subscribe(data2 => {
+        /*this.periodService.getHttp().get('http://localhost:8080/' + "periodList/" + currentValue.id + "/beginDate", {responseType: 'text'}).subscribe(data2 => {
+          currentValue.beginDatePeriod = data2;
+        });*/
+
+        console.log(this.periodService.getHeaders());
+
+        this.periodService.getHttp().get('http://localhost:8080/' + "periodList/" + currentValue.id + "/beginDate",
+        {headers: this.periodService.getHeaders(), responseType:'text'}).subscribe(data2 => {
           currentValue.beginDatePeriod = data2;
         });
 
-        this.periodService.getHttp().get('http://localhost:8080/periodList/' + currentValue.id + "/endDate", {responseType: 'text'}).subscribe(data2 => {
+        /*this.periodService.getHttp().get('http://localhost:8080/periodList/' + currentValue.id + "/endDate", {responseType: 'text'}).subscribe(data2 => {
+          currentValue.endDatePeriod = data2;
+        });*/
+
+        this.periodService.getHttp().get('http://localhost:8080/periodList/' + currentValue.id + "/endDate",
+        {headers: this.periodService.getHeaders(), responseType: 'text'}).subscribe(data2 => {
           currentValue.endDatePeriod = data2;
         });
       });
