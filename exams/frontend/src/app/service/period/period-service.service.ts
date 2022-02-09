@@ -21,7 +21,7 @@ export class PeriodService {
   }
 
   public savePeriod(period: Period){
-    return this.http.post<Period>(this.usersUrl+"period", period);
+    return this.http.post<Period>(this.usersUrl+"period", period, this.loginService.getHeaders());
   }
 
   public getPeriod(index: number): Observable<Period>{
