@@ -22,7 +22,7 @@ export class ExamService {
   }
 
   public save(exam: Exam){
-    return this.http.post<Exam>(this.usersUrl + "add", exam);
+    return this.http.post<Exam>(this.usersUrl + "add", exam, this.loginService.getHeaders());
   }
 
   public getNewBeginDate(idExam: number){
