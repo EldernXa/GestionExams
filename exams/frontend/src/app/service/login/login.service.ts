@@ -12,7 +12,7 @@ export class LoginService {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
       'Access-Control-Allow-Origin': '*',
-      'Authorization': 'Basic ' + btoa('emailSchool1:password21')
+      'Authorization': 'Basic ' + btoa(localStorage.getItem('ident')+':' + localStorage.getItem('mdp'))
     })
   };
 
