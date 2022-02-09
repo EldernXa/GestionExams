@@ -16,6 +16,8 @@ export class AppComponent {
     this.title = 'ENT';
     if(this.loginService.isConnected()){
       this.isLogin = true;
+    }else{
+      this.router.navigate(['/login']);
     }
   }
 
