@@ -5,6 +5,7 @@ import { PeriodService } from 'src/app/service/period/period-service.service';
 import {ExamService} from "../../service/exam/exam.service";
 import {Exam} from "../../model/exam/exam";
 import {Observable} from "rxjs";
+import { LoginService } from 'src/app/service/login/login.service';
 
 @Component({
   selector: 'app-period-details',
@@ -16,9 +17,11 @@ export class PeriodDetailsComponent implements OnInit {
   period: Period = new Period();
   exams: Exam[] = [];
 
-  constructor(private route: ActivatedRoute, private periodService: PeriodService, private examService: ExamService) { }
+  constructor(private route: ActivatedRoute, private periodService: PeriodService, private examService: ExamService, 
+    private loginService: LoginService) { }
 
   ngOnInit(): void {
+    this.loginService.redirectIfLogin();
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     this.examService.findAllExamFromPeriod(this.id).subscribe(data =>{
       this.exams = data;
