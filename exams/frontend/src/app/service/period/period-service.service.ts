@@ -28,11 +28,13 @@ export class PeriodService {
     return this.http.get<Period>(this.usersUrl + "period/" + index, this.loginService.getHeaders());
   }
 
-  public getHttp() :HttpClient {
-    return this.http;
+  public getNewBeginPeriod(idPeriod: number){
+    return this.http.get('http://localhost:8080/' + "periodList/" + idPeriod + "/beginDate",
+    {headers: this.loginService.getHeaders().headers, responseType:'text'});
   }
 
-  public getHeaders():HttpHeaders {
-    return this.loginService.getHeaders().headers;
+  public getNewEndPeriod(idPeriod: number){
+    return this.http.get('http://localhost:8080/periodList/'+idPeriod + "/endDate",
+    {headers: this.loginService.getHeaders().headers, responseType: 'text'});
   }
 }

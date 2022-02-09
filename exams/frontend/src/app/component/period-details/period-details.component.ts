@@ -25,11 +25,11 @@ export class PeriodDetailsComponent implements OnInit {
     });
     this.periodService.getPeriod(this.id).subscribe(data =>{
       this.period = data;
-      this.periodService.getHttp().get('http://localhost:8080/periodList/' + this.period.id + "/beginDate", {responseType: 'text'})
+      this.periodService.getNewBeginPeriod(this.period.id)
               .subscribe(data=>{
                 this.period.beginDatePeriod = data;
               });
-      this.periodService.getHttp().get('http://localhost:8080/periodList/' + this.period.id + "/endDate", {responseType: 'text'})
+      this.periodService.getNewEndPeriod(this.period.id)
               .subscribe(data =>{
                 this.period.endDatePeriod = data;
               });
