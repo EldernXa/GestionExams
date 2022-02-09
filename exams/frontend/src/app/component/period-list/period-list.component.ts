@@ -13,7 +13,7 @@ export class PeriodListComponent implements OnInit {
   periods: Period[];
 
   constructor(private periodService: PeriodService, private loginService: LoginService) {
-    this.loginService.verifyIfLogin();
+    this.loginService.redirectIfNotLogin();
     this.periods = [];
     this.periodService.findAll().subscribe(data=>{
       this.periods = data;

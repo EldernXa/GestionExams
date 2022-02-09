@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     private router: Router, private http: HttpClient, private loginService: LoginService) { }
 
   ngOnInit(): void {
-    this.loginService.verifyIfIsConnected();
+    this.loginService.redirectIfLogin();
   }
 
   onSubmit(){

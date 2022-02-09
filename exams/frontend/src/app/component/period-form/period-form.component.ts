@@ -17,7 +17,7 @@ export class PeriodFormComponent{
     private route: ActivatedRoute,
       private router: Router,
         private periodService: PeriodService, private loginService: LoginService){
-    this.loginService.verifyIfLogin();
+    this.loginService.redirectIfNotLogin();
     this.period = new Period();
   }
 

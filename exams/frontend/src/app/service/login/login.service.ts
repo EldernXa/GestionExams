@@ -16,13 +16,13 @@ export class LoginService {
     })
   };
 
-  verifyIfLogin(){
+  redirectIfNotLogin(){
     if(!this.isConnected()){
       this.moveOnLoginPage();
     }
   }
 
-  verifyIfIsConnected(){
+  redirectIfLogin(){
     if(this.isConnected()){
       this.moveOnIndexPage();
     }
