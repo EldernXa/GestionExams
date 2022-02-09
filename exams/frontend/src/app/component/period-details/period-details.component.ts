@@ -21,7 +21,7 @@ export class PeriodDetailsComponent implements OnInit {
     private loginService: LoginService) { }
 
   ngOnInit(): void {
-    this.loginService.redirectIfLogin();
+    this.loginService.redirectIfNotLogin();
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     this.examService.findAllExamFromPeriod(this.id).subscribe(data =>{
       this.exams = data;
