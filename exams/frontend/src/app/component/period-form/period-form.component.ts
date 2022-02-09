@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Period } from 'src/app/model/period/period';
+import { LoginService } from 'src/app/service/login/login.service';
 import { PeriodService } from 'src/app/service/period/period-service.service';
 
 @Component({
@@ -15,7 +16,8 @@ export class PeriodFormComponent{
   constructor(
     private route: ActivatedRoute,
       private router: Router,
-        private periodService: PeriodService){
+        private periodService: PeriodService, private loginService: LoginService){
+    this.loginService.verifyIfLogin();
     this.period = new Period();
   }
 
