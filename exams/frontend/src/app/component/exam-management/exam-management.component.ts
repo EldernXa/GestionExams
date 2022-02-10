@@ -59,7 +59,7 @@ export class ExamManagementComponent implements OnInit {
     this.exam.endDateExam = "";
     this.exam.nameRoom = "";
     this.examService.save(this.exam).subscribe(result => {
-      this.redirectTo('/periodManagement/'+this.id);
+      this.redirectTo('/period/'+this.id);
     });
   }
 
