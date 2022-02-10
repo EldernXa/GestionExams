@@ -21,6 +21,10 @@ export class LoginService {
       this.moveOnLoginPage();
     }
   }
+  
+  getRole(){
+    return localStorage.getItem("role");
+  }
 
   redirectIfLogin(){
     if(this.isConnected()){
