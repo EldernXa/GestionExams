@@ -1,29 +1,29 @@
-<p>Exam qui sont actuellement enregistrée dans la période :</p>
-<table class="table table-bordered table-striped">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Nom de l'UE</th>
-        <th scope="col">session</th>
-        <th scope="col">L'année</th>
-        <th scope="col">La salle</th>
-        <th scope="col">Date de début</th>
-        <th scope="col">Date de fin</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let exam of listExam">
-        <td>{{ exam.idExam }}</td>
-        <td>{{ exam.ue }}</td>
-        <td>{{ exam.session }}</td>
-        <td>{{ exam.year }}</td>
-        <td>{{ exam.nameRoom }}</td>
-        <td>{{ exam.beginDateExam }}</td>
-        <td>{{ exam.endDateExam }}</td>
-        <td><a [routerLink]="['/grades/exam/',exam.idExam]" class="btn btn-info">Gérer les notes</a></td>
-      </tr>
-    </tbody>
-  </table>
+<div *ngIf="listExam.length>0">
+  <p>Exam qui sont actuellement enregistrée dans la période :</p>
+  <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nom de l'UE</th>
+          <th scope="col">session</th>
+          <th scope="col">La salle</th>
+          <th scope="col">Date de début</th>
+          <th scope="col">Date de fin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let exam of listExam">
+          <td>{{ exam.idExam }}</td>
+          <td>{{ exam.ue }}</td>
+          <td>{{ exam.session }}</td>
+          <td>{{ exam.nameRoom }}</td>
+          <td style="white-space: pre;">{{ exam.beginDateExam }}</td>
+          <td style="white-space: pre;">{{ exam.endDateExam }}</td>
+          <td><a [routerLink]="['/grades/exam/',exam.idExam]" class="btn btn-info">Gérer les notes</a></td>
+        </tr>
+      </tbody>
+    </table>
+</div>
 
   <div class="card-body" *ngIf="listUE.length>0">
     <p>Nouvelle exam : </p>
@@ -60,4 +60,4 @@
         class="btn btn-info">Submit</button>
     </form>
   </div>
-  <button (click)="onPlan()" class="btn btn-info">Planifier les salles et les horaires</button>
+  <button *ngIf="listExam.length>0" (click)="onPlan()" class="btn btn-info">Planifier les salles et les horaires</button>
