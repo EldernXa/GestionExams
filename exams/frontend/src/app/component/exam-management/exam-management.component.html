@@ -60,4 +60,4 @@
         class="btn btn-info">Submit</button>
     </form>
   </div>
-  <button (click)="onPlan()" class="btn btn-info">Planifier les salles et les horaires</button>
+  <button *ngIf="listExam.length>0" (click)="onPlan()" class="btn btn-info">Planifier les salles et les horaires</button>
