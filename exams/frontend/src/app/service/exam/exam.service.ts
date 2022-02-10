@@ -33,6 +33,14 @@ export class ExamService {
     return this.http.get(this.usersUrl + idExam + "/endDate", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
   }
 
+  public getNewBeginHour(idExam: number){
+    return this.http.get(this.usersUrl + idExam + "/beginHour", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
+  }
+
+  public getNewEndHour(idExam: number){
+    return this.http.get(this.usersUrl + idExam + "/endHour", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
+  }
+
   public updatePlanning(idPeriod: number){
     return this.http.put("http://localhost:8080/period/" + idPeriod,idPeriod, this.loginService.getHeaders());
   }

@@ -35,9 +35,21 @@ export class ExamManagementComponent implements OnInit {
           }
         );
 
+        this.examService.getNewBeginHour(this.listExam[i].idExam).subscribe(
+          beginHour => {
+            this.listExam[i].beginDateExam += "\n" + beginHour;
+          }
+        );
+
         this.examService.getNewEndDate(this.listExam[i].idExam).subscribe(
           data2=>{
             this.listExam[i].endDateExam = data2;
+          }
+        );
+
+        this.examService.getNewEndHour(this.listExam[i].idExam).subscribe(
+          endHour => {
+            this.listExam[i].endDateExam += "\n" + endHour;
           }
         );
       }
