@@ -22,7 +22,7 @@
           </ul>
           <ul class="text-center list-inline py-3" *ngIf="role == 'STUDENT'">
             <li class="list-inline-item">
-              <a class="btn btn-info">Calendrier des examens</a>
+              <a routerLink="/listPeriod" class="btn btn-info">Calendrier des examens</a>
             </li>
             <li class="list-inline-item">
               <button (click)="logout()" class="btn btn-info">Déconnecter</button>

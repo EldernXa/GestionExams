@@ -1,0 +1,29 @@
+<div *ngIf="listExam.length>0">
+    <p>Calendrier de vos prochain examens :</p>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nom de l'UE</th>
+            <th scope="col">session</th>
+            <th scope="col">La salle</th>
+            <th scope="col">Date de début</th>
+            <th scope="col">Date de fin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let exam of listExam">
+            <td>{{ exam.idExam }}</td>
+            <td>{{ exam.ue }}</td>
+            <td>{{ exam.session }}</td>
+            <td>{{ exam.nameRoom }}</td>
+            <td style="white-space: pre;">{{ exam.beginDateExam }}</td>
+            <td style="white-space: pre;">{{ exam.endDateExam }}</td>
+            <td><a [routerLink]="['/grades/exam/',exam.idExam]" class="btn btn-info">Gérer les notes</a></td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+  <div class="card-body" *ngIf="listExam.length<=0">
+      Pas encore d'examen de programmés.
+  </div>
