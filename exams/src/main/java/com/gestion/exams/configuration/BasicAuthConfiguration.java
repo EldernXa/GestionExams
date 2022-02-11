@@ -14,14 +14,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class BasicAuthConfiguration
-        extends WebSecurityConfigurerAdapter {
+//@Configuration
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class BasicAuthConfiguration {
+
+    /*
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
-    MyUserDetails myUserDetails;
+    MyUserDetails myUserDetails;*/
 
     /*@Override
     protected void configure(AuthenticationManagerBuilder auth)
@@ -38,7 +39,7 @@ public class BasicAuthConfiguration
                 .password(passwordEncoder.encode("password"))
                 .roles("ADMIN");
     }*/
-
+/*
     @Override
     protected void configure(HttpSecurity http)
             throws Exception {
@@ -69,6 +70,6 @@ public class BasicAuthConfiguration
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(4);
-    }
+    }*/
 
 }
