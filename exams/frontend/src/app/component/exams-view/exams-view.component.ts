@@ -16,6 +16,31 @@ export class ExamsViewComponent implements OnInit {
   ngOnInit(): void {
     this.examViewService.findAllNextExamForAStudent().subscribe(data=>{
       this.listExam = data;
+      for(let i=0; i<this.listExam.length; i++){
+        this.examViewService.getNewBeginDate(this.listExam[i].idExam).subscribe(
+          data2=>{
+            this.listExam[i].beginDateExam = data2;
+          }
+        );
+
+        this.examViewService.getNewBeginHour(this.listExam[i].idExam).subscribe(
+          beginHour => {
+            this.listExam[i].beginDateExam += "\n" + beginHour;
+          }
+        );
+
+        this.examViewService.getNewEndDate(this.listExam[i].idExam).subscribe(
+          data2=>{
+            this.listExam[i].endDateExam = data2;
+          }
+        );
+
+        this.examViewService.getNewEndHour(this.listExam[i].idExam).subscribe(
+          endHour => {
+            this.listExam[i].endDateExam += "\n" + endHour;
+          }
+        );
+      }
     });
 
   }
