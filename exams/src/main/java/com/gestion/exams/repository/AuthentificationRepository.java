@@ -7,5 +7,5 @@ import com.gestion.exams.entity.Authentification;
 
 @Repository
 public interface AuthentificationRepository extends JpaRepository<Authentification, String>{
-
+    Authentification findByEmail(String email);
 }
