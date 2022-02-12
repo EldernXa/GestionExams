@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import com.gestion.exams.dto.ExamDTO;
 import com.gestion.exams.entity.Exam;
+import com.gestion.exams.entity.Inscription;
 import com.gestion.exams.entity.Period;
+import com.gestion.exams.entity.Student;
 import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.ExamRepository;
 import com.gestion.exams.repository.PeriodRepository;
@@ -58,6 +60,23 @@ public class ExamService {
 			listExamDTO.add(convertToDTO(exam));
 		}
 		return listExamDTO;
+	}
+
+	public List<ExamDTO> getAllExamsForAStudentFromPeriod(long id, Student student){
+		List<Exam> listAllExam = periodRepository.findById(id).get().getExams();
+		List<ExamDTO> listAllExamForAStudent = new ArrayList<>();
+		List<String> verifyListExam = new ArrayList<>();
+
+		for(Exam exam : listAllExam) {
+			for(Inscription inscription : exam.getUe().getInscriptions()) {
+				if(inscription.getStudent().getEmail().compareTo(student.getEmail())==0 && !verifyListExam.contains(exam.getUe().getName())) {
+					listAllExamForAStudent.add(convertToDTO(exam));
+					verifyListExam.add(exam.getUe().getName());
+				}
+			}
+		}
+
+		return listAllExamForAStudent;
 	}
 
 	public ExamDTO convertToDTO(Exam exam) {

@@ -9,7 +9,6 @@ import javax.annotation.PostConstruct;
 import com.gestion.exams.entity.*;
 import com.gestion.exams.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -84,8 +83,10 @@ public class PopulateService{
 
 	private void populatePeriod() {
 		for(int i=0; i<2; i++) {
-			String strBeginDate = "13/"+12+(i*5)+"/202"+(1+(i));
-			String strEndDate = "17/"+12+(i*5)+"/202"+(1+(i));
+			//			String strBeginDate = "13/"+12+(i*5)+"/202"+(1+(i));
+			//			String strEndDate = "17/"+12+(i*5)+"/202"+(1+(i));
+			String strBeginDate = "02/05/2022";
+			String strEndDate = "13/05/2022";
 			try {
 				Period period = new Period(new SimpleDateFormat("dd/MM/yyyy").parse(strBeginDate),
 						new SimpleDateFormat("dd/MM/yyyy").parse(strEndDate), "name"+i);
@@ -136,10 +137,10 @@ public class PopulateService{
 		List<Room> listRoom = roomRepository.findAll();
 		List<UE> listUE = ueRepository.findAll();
 		for(int i = 0; i<listUE.size(); i++) {
-			String strBeginDate = "13/"+12+(i*5)+"/202"+(1+(i));
-			String strEndDate = "17/"+12+(i*5)+"/202"+(1+(i));
+			//			String strBeginDate = "13/"+12+(i*5)+"/202"+(1+(i));
+			//			String strEndDate = "17/"+12+(i*5)+"/202"+(1+(i));
 			try {
-				Exam exam = new Exam(new SimpleDateFormat("dd/MM/yyyy").parse(strBeginDate), new SimpleDateFormat("dd/MM/yyyy").parse(strEndDate),
+				Exam exam = new Exam(/*new SimpleDateFormat("dd/MM/yyyy").parse(strBeginDate)*/null, /*new SimpleDateFormat("dd/MM/yyyy").parse(strEndDate)*/null,
 						1, 2021, listRoom.get(0), listPeriod.get(0), listUE.get(i));
 				examRepository.save(exam);
 			}catch(Exception exception) {

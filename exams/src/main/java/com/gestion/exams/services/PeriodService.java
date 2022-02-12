@@ -2,6 +2,7 @@ package com.gestion.exams.services;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +58,21 @@ public class PeriodService {
 		}
 
 		return convertToDTO(periodToPlan);
+	}
+
+	public Period getNextPeriod() {
+		Period nextPeriod = null;
+
+		Date todayDate = Calendar.getInstance().getTime();
+
+		for(Period period : periodRepository.findAll()) {
+			if((nextPeriod == null && period.getBeginDatePeriod().after(todayDate)) ||
+					(nextPeriod!=null && period.getBeginDatePeriod().after(todayDate) && period.getBeginDatePeriod().before(nextPeriod.getBeginDatePeriod()))) {
+				nextPeriod = period;
+			}
+		}
+
+		return nextPeriod;
 	}
 
 	private Date getBestDateForAnExam(Date initDate, Date currentLastDateAvailable, Period periodToPlan, Exam exam) throws ParseException {

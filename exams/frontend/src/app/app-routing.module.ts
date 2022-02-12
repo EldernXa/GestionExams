@@ -9,8 +9,10 @@ import {UeListComponent} from "./component/ue-list/ue-list.component";
 import {UeFormComponent} from "./component/ue-form/ue-form.component";
 import {UeManagementComponent} from "./component/ue-management/ue-management.component";
 import { LoginComponent } from './component/login/login.component';
+import { ExamsViewComponent } from './component/exams-view/exams-view.component';
 
 const routes: Routes = [
+  { path: 'listPeriod', component: ExamsViewComponent},
   { path: 'period', component: PeriodListComponent},
   { path: 'addperiod', component: PeriodFormComponent},
   { path: 'period/:id', component: PeriodDetailsComponent},

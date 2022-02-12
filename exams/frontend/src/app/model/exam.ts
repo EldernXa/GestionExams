@@ -1,4 +1,3 @@
-import { Period } from "./period";
 
 export class Exam {
 

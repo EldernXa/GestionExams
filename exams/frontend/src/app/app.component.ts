@@ -9,13 +9,14 @@ import { LoginService } from './service/login/login.service';
 })
 export class AppComponent {
   title: string;
-  role: string = "";
+  role: string | null = "";
   isLogin: boolean = false;
 
   constructor(private router:Router, private loginService: LoginService){
     this.title = 'ENT';
     if(this.loginService.isConnected()){
       this.isLogin = true;
+      this.role = this.loginService.getRole();
     }else{
       this.router.navigate(['/login']);
     }
