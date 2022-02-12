@@ -18,7 +18,6 @@ import com.gestion.exams.entity.Student;
 import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.ExamRepository;
 import com.gestion.exams.repository.PeriodRepository;
-import com.gestion.exams.repository.RoomRepository;
 import com.gestion.exams.repository.UERepository;
 
 @Service
@@ -29,9 +28,6 @@ public class ExamService {
 
 	@Autowired
 	private PeriodRepository periodRepository;
-
-	@Autowired
-	private RoomRepository roomRepository;
 
 	private ModelMapper modelMapper = new ModelMapper();
 
