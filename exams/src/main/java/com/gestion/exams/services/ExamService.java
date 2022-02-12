@@ -127,18 +127,6 @@ public class ExamService {
 		}
 	}
 
-	//	public String getBeginHourExam(long id) {
-	//		try {
-	//			Exam exam = examRepository.getById(id);
-	//			if(exam.getBeginDateExam() == null) {
-	//				return "";
-	//			}
-	//			return DateService.convertDateClassToStringDateOnlyForHour(exam.getBeginDateExam());
-	//		}catch(Exception exception) {
-	//			return null;
-	//		}
-	//	}
-
 	public String getFullBeginDateExam(long id) {
 		try {
 			Exam exam = examRepository.getById(id);
@@ -162,18 +150,6 @@ public class ExamService {
 			return null;
 		}
 	}
-
-	//	public String getEndHourExam(long id) {
-	//		try {
-	//			Exam exam = examRepository.getById(id);
-	//			if(exam.getEndDateExam() == null) {
-	//				return "";
-	//			}
-	//			return DateService.convertDateClassToStringDateOnlyForHour(exam.getEndDateExam());
-	//		}catch(Exception exception) {
-	//			return null;
-	//		}
-	//	}
 
 	private Exam getExamFromMap(Map<String, String> mapExam) {
 		Period period = periodRepository.findById(Long.parseLong(mapExam.get("idPeriod"))).get();
