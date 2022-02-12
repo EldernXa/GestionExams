@@ -49,28 +49,32 @@ public class ExamService {
 	}
 
 	public List<ExamDTO> getAllExamsFromPeriod(long id){
-		Period period = periodRepository.findById(id).get();
-		List<Exam> listExam = period.getExams();
 		List<ExamDTO> listExamDTO = new ArrayList<>();
-		for(Exam exam : listExam) {
-			listExamDTO.add(convertToDTO(exam));
-		}
+		periodRepository.findById(id).ifPresent(periodValue ->{
+			List<Exam> listExam = periodValue.getExams();
+			for(Exam exam : listExam) {
+				listExamDTO.add(convertToDTO(exam));
+			}
+		});
+
 		return listExamDTO;
 	}
 
 	public List<ExamDTO> getAllExamsForAStudentFromPeriod(long id, Student student){
-		List<Exam> listAllExam = periodRepository.findById(id).get().getExams();
 		List<ExamDTO> listAllExamForAStudent = new ArrayList<>();
-		List<String> verifyListExam = new ArrayList<>();
+		periodRepository.findById(id).ifPresent(periodValue ->{
+			List<Exam> listAllExam = periodValue.getExams();
+			List<String> verifyListExam = new ArrayList<>();
 
-		for(Exam exam : listAllExam) {
-			for(Inscription inscription : exam.getUe().getInscriptions()) {
-				if(inscription.getStudent().getEmail().compareTo(student.getEmail())==0 && !verifyListExam.contains(exam.getUe().getName())) {
-					listAllExamForAStudent.add(convertToDTO(exam));
-					verifyListExam.add(exam.getUe().getName());
+			for(Exam exam : listAllExam) {
+				for(Inscription inscription : exam.getUe().getInscriptions()) {
+					if(inscription.getStudent().getEmail().compareTo(student.getEmail())==0 && !verifyListExam.contains(exam.getUe().getName())) {
+						listAllExamForAStudent.add(convertToDTO(exam));
+						verifyListExam.add(exam.getUe().getName());
+					}
 				}
 			}
-		}
+		} );
 
 		return listAllExamForAStudent;
 	}
@@ -95,7 +99,9 @@ public class ExamService {
 	public Exam convertToEntity(ExamDTO examDTO) {
 		Exam exam = modelMapper.map(examDTO, Exam.class);
 		exam.setIdExam(examDTO.getIdExam());
-		exam.setUe(ueRepository.findById(examDTO.getUe()).get());
+		ueRepository.findById(examDTO.getUe()).ifPresent(ueValue -> {
+			exam.setUe(ueValue);
+		});
 		return exam;
 	}
 
@@ -148,10 +154,20 @@ public class ExamService {
 	}
 
 	private Exam getExamFromMap(Map<String, String> mapExam) {
-		Period period = periodRepository.findById(Long.parseLong(mapExam.get("idPeriod"))).get();
-		UE ue = ueRepository.findById(mapExam.get("ue")).get();
+		List<Object> listOfObject = new ArrayList<>();
+		periodRepository.findById(Long.parseLong(mapExam.get("idPeriod"))).ifPresent(periodValue ->{
+			listOfObject.add(periodValue);
+		} );
+
+		ueRepository.findById(mapExam.get("ue")).ifPresent(ueValue -> {
+			listOfObject.add(ueValue);
+
+		});
+		Period period = (Period)listOfObject.get(0);
+		UE ue = (UE)listOfObject.get(1);
 		return new Exam(null, null, Integer.parseInt(mapExam.get("session")),
 				Integer.parseInt(mapExam.get("year")) , null, period, ue);
+
 
 	}
 
