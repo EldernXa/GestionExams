@@ -51,6 +51,10 @@ public class DateService {
 		return new SimpleDateFormat("HH:mm").format(date);
 	}
 
+	public static String convertDateClassToFullStringDate(Date date) {
+		return new SimpleDateFormat(FORMAT_DISPLAY_DATE + " HH:mm").format(date);
+	}
+
 	public static Date createDate(String day, String month, String year, String hour) throws ParseException {
 		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(year+"-"+month+"-"+day+" " + hour+":00:00");
 	}

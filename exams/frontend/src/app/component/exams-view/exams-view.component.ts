@@ -23,11 +23,6 @@ export class ExamsViewComponent implements OnInit {
           }
         );
 
-        this.examViewService.getNewBeginHour(this.listExam[i].idExam).subscribe(
-          beginHour => {
-            this.listExam[i].beginDateExam += "\n" + beginHour;
-          }
-        );
 
         this.examViewService.getNewEndDate(this.listExam[i].idExam).subscribe(
           data2=>{
@@ -35,11 +30,6 @@ export class ExamsViewComponent implements OnInit {
           }
         );
 
-        this.examViewService.getNewEndHour(this.listExam[i].idExam).subscribe(
-          endHour => {
-            this.listExam[i].endDateExam += "\n" + endHour;
-          }
-        );
       }
     });
 
