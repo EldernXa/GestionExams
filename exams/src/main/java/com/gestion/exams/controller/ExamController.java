@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.gestion.exams.dto.ExamDTO;
 import com.gestion.exams.entity.Exam;
 import com.gestion.exams.entity.UE;
-import com.gestion.exams.repository.UERepository;
 import com.gestion.exams.services.ExamService;
 import com.gestion.exams.services.PeriodService;
+import com.gestion.exams.services.UEService;
 
 @Controller
 @RequestMapping("/exam")
@@ -35,7 +35,7 @@ public class ExamController {
 	private PeriodService periodService;
 
 	@Autowired
-	private UERepository ueRepository; // TODO to remove.
+	private UEService ueService;
 
 	@PostMapping("/add")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -100,11 +100,7 @@ public class ExamController {
 	@GetMapping("/listUE")
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
 	public ResponseEntity<List<String>> getListUE(){
-		// TODO to change place
-		List<String> listUE = new ArrayList<>();
-		for(UE ue : ueRepository.findAll()) {
-			listUE.add(ue.getName());
-		}
+		List<String> listUE = ueService.getListUeName();
 		return new ResponseEntity<>(listUE, HttpStatus.OK);
 	}
 
@@ -112,7 +108,7 @@ public class ExamController {
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
 	public ResponseEntity<List<String>> getListUEThatAreNotInAPeriod(@PathVariable long id){
 		List<String> listUE = new ArrayList<>();
-		for(UE ue : ueRepository.findAll()) {
+		for(UE ue : ueService.getAllUE()) {
 			if(!periodService.verifyIfExamAlreadyExist(ue, id)) {
 				listUE.add(ue.getName());
 			}
