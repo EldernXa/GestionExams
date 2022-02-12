@@ -36,6 +36,8 @@ public class ExamService {
 
 	private String msgNotPlannedYet = "To Come";
 
+	private String mstNotRoomYet = "Pas de salle pour l'instant";
+
 	public List<Exam> getAllExams(){
 		return examRepository.findAll();
 	}
@@ -83,7 +85,7 @@ public class ExamService {
 		ExamDTO examDTO = modelMapper.map(exam, ExamDTO.class);
 		examDTO.setUe(exam.getUe().getName());
 		if(examDTO.getNameRoom() == null) {
-			examDTO.setNameRoom("Pas de salle pour l'instant"); // TODO à changer
+			examDTO.setNameRoom(msgNotPlannedYet);
 		}
 		return examDTO;
 	}
