@@ -101,9 +101,7 @@ public class ExamService {
 	public Exam convertToEntity(ExamDTO examDTO) {
 		Exam exam = modelMapper.map(examDTO, Exam.class);
 		exam.setIdExam(examDTO.getIdExam());
-		ueRepository.findById(examDTO.getUe()).ifPresent(ueValue -> {
-			exam.setUe(ueValue);
-		});
+		ueRepository.findById(examDTO.getUe()).ifPresent(exam::setUe);
 		return exam;
 	}
 
@@ -157,14 +155,9 @@ public class ExamService {
 
 	private Exam getExamFromMap(Map<String, String> mapExam) {
 		List<Object> listOfObject = new ArrayList<>();
-		periodRepository.findById(Long.parseLong(mapExam.get("idPeriod"))).ifPresent(periodValue ->{
-			listOfObject.add(periodValue);
-		} );
+		periodRepository.findById(Long.parseLong(mapExam.get("idPeriod"))).ifPresent(listOfObject::add );
 
-		ueRepository.findById(mapExam.get("ue")).ifPresent(ueValue -> {
-			listOfObject.add(ueValue);
-
-		});
+		ueRepository.findById(mapExam.get("ue")).ifPresent(listOfObject::add);
 		Period period = (Period)listOfObject.get(0);
 		UE ue = (UE)listOfObject.get(1);
 		return new Exam(null, null, Integer.parseInt(mapExam.get("session")),
