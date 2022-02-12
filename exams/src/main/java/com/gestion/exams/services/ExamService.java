@@ -85,7 +85,7 @@ public class ExamService {
 		ExamDTO examDTO = modelMapper.map(exam, ExamDTO.class);
 		examDTO.setUe(exam.getUe().getName());
 		if(examDTO.getNameRoom() == null) {
-			examDTO.setNameRoom(msgNotPlannedYet);
+			examDTO.setNameRoom(mstNotRoomYet);
 		}
 		return examDTO;
 	}
