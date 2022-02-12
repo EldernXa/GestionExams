@@ -17,9 +17,8 @@
             <td>{{ exam.ue }}</td>
             <td>{{ exam.session }}</td>
             <td>{{ exam.nameRoom }}</td>
-            <td style="white-space: pre;">{{ exam.beginDateExam }}</td>
-            <td style="white-space: pre;">{{ exam.endDateExam }}</td>
-            <td><a [routerLink]="['/grades/exam/',exam.idExam]" class="btn btn-info">Gérer les notes</a></td>
+            <td>{{ exam.beginDateExam }}</td>
+            <td>{{ exam.endDateExam }}</td>
           </tr>
         </tbody>
       </table>

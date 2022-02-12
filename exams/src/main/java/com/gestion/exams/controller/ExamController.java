@@ -79,18 +79,36 @@ public class ExamController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
-	@GetMapping("/{id}/beginHour")
-	public ResponseEntity<String> getBeginHourExam(@PathVariable long id){
-		String str = examService.getBeginHourExam(id);
+	//	@GetMapping("/{id}/beginHour")
+	//	public ResponseEntity<String> getBeginHourExam(@PathVariable long id){
+	//		String str = examService.getBeginHourExam(id);
+	//		if(str != null) {
+	//			return new ResponseEntity<>(str, HttpStatus.OK);
+	//		}
+	//		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	//	}
+
+	//	@GetMapping("/{id}/endHour")
+	//	public ResponseEntity<String> getEndHourExam(@PathVariable long id){
+	//		String str = examService.getEndHourExam(id);
+	//		if(str != null) {
+	//			return new ResponseEntity<>(str, HttpStatus.OK);
+	//		}
+	//		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	//	}
+
+	@GetMapping("/{id}/fullBeginDate")
+	public ResponseEntity<String> getBeginFullDate(@PathVariable long id){
+		String str = examService.getFullBeginDateExam(id);
 		if(str != null) {
 			return new ResponseEntity<>(str, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
-	@GetMapping("/{id}/endHour")
-	public ResponseEntity<String> getEndHourExam(@PathVariable long id){
-		String str = examService.getEndHourExam(id);
+	@GetMapping("/{id}/fullEndDate")
+	public ResponseEntity<String> getEndFullDate(@PathVariable long id){
+		String str = examService.getFullEndDateExam(id);
 		if(str != null) {
 			return new ResponseEntity<>(str, HttpStatus.OK);
 		}

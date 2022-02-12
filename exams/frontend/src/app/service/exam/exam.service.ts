@@ -26,19 +26,11 @@ export class ExamService {
   }
 
   public getNewBeginDate(idExam: number){
-    return this.http.get(this.usersUrl + idExam + "/beginDate", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
+    return this.http.get(this.usersUrl + idExam + "/fullBeginDate", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
   }
 
   public getNewEndDate(idExam: number){
-    return this.http.get(this.usersUrl + idExam + "/endDate", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
-  }
-
-  public getNewBeginHour(idExam: number){
-    return this.http.get(this.usersUrl + idExam + "/beginHour", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
-  }
-
-  public getNewEndHour(idExam: number){
-    return this.http.get(this.usersUrl + idExam + "/endHour", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
+    return this.http.get(this.usersUrl + idExam + "/fullEndDate", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
   }
 
   public updatePlanning(idPeriod: number){

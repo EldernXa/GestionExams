@@ -155,7 +155,7 @@ public class PeriodService {
 		Date afterNoon = DateService.addMinute(DateService.getAfterNoonOfADate(beginDate), 1);
 		if(DateService.isBetweenDate(noon, afterNoon, beginDate) || DateService.isBetweenDate(noon, afterNoon, endDate) || DateService.isBetweenDate(beginDate, endDate, noon) ||
 				DateService.isBetweenDate(beginDate, endDate, afterNoon)) {
-			return afterNoon;
+			return DateService.getAfterNoonOfADate(beginDate);
 		}
 		return null;
 	}

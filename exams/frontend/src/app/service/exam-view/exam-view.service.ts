@@ -17,7 +17,7 @@ export class ExamViewService {
     return this.http.get<Exam[]>(this.usersUrl + "student/exams", this.loginService.getHeaders());
   }
 
-  public getNewBeginDate(idExam: number){
+  /*public getNewBeginDate(idExam: number){
     return this.http.get(this.usersUrl+"exam/" + idExam + "/beginDate", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
   }
 
@@ -31,6 +31,14 @@ export class ExamViewService {
 
   public getNewEndHour(idExam: number){
     return this.http.get(this.usersUrl + "exam/" + idExam + "/endHour", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
+  }*/
+
+  public getNewBeginDate(idExam: number){
+    return this.http.get(this.usersUrl+"exam/" + idExam + "/fullBeginDate", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
+  }
+
+  public getNewEndDate(idExam: number){
+    return this.http.get(this.usersUrl + "exam/" + idExam + "/fullEndDate", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
   }
 
 }
