@@ -18,7 +18,6 @@ import com.gestion.exams.entity.Student;
 import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.ExamRepository;
 import com.gestion.exams.repository.PeriodRepository;
-import com.gestion.exams.repository.RoomRepository;
 import com.gestion.exams.repository.UERepository;
 
 @Service
@@ -30,15 +29,14 @@ public class ExamService {
 	@Autowired
 	private PeriodRepository periodRepository;
 
-	@Autowired
-	private RoomRepository roomRepository;
-
 	private ModelMapper modelMapper = new ModelMapper();
 
 	@Autowired
 	private UERepository ueRepository;
 
-	private String msgNotPlannedYet = "To Come";
+	private String msgNotPlannedYet = "Pas planifiée pour l'instant";
+
+	private String mstNotRoomYet = "Pas de salle pour l'instant";
 
 	public List<Exam> getAllExams(){
 		return examRepository.findAll();
@@ -53,28 +51,32 @@ public class ExamService {
 	}
 
 	public List<ExamDTO> getAllExamsFromPeriod(long id){
-		Period period = periodRepository.findById(id).get();
-		List<Exam> listExam = period.getExams();
 		List<ExamDTO> listExamDTO = new ArrayList<>();
-		for(Exam exam : listExam) {
-			listExamDTO.add(convertToDTO(exam));
-		}
+		periodRepository.findById(id).ifPresent(periodValue ->{
+			List<Exam> listExam = periodValue.getExams();
+			for(Exam exam : listExam) {
+				listExamDTO.add(convertToDTO(exam));
+			}
+		});
+
 		return listExamDTO;
 	}
 
 	public List<ExamDTO> getAllExamsForAStudentFromPeriod(long id, Student student){
-		List<Exam> listAllExam = periodRepository.findById(id).get().getExams();
 		List<ExamDTO> listAllExamForAStudent = new ArrayList<>();
-		List<String> verifyListExam = new ArrayList<>();
+		periodRepository.findById(id).ifPresent(periodValue ->{
+			List<Exam> listAllExam = periodValue.getExams();
+			List<String> verifyListExam = new ArrayList<>();
 
-		for(Exam exam : listAllExam) {
-			for(Inscription inscription : exam.getUe().getInscriptions()) {
-				if(inscription.getStudent().getEmail().compareTo(student.getEmail())==0 && !verifyListExam.contains(exam.getUe().getName())) {
-					listAllExamForAStudent.add(convertToDTO(exam));
-					verifyListExam.add(exam.getUe().getName());
+			for(Exam exam : listAllExam) {
+				for(Inscription inscription : exam.getUe().getInscriptions()) {
+					if(inscription.getStudent().getEmail().compareTo(student.getEmail())==0 && !verifyListExam.contains(exam.getUe().getName())) {
+						listAllExamForAStudent.add(convertToDTO(exam));
+						verifyListExam.add(exam.getUe().getName());
+					}
 				}
 			}
-		}
+		} );
 
 		return listAllExamForAStudent;
 	}
@@ -83,7 +85,7 @@ public class ExamService {
 		ExamDTO examDTO = modelMapper.map(exam, ExamDTO.class);
 		examDTO.setUe(exam.getUe().getName());
 		if(examDTO.getNameRoom() == null) {
-			examDTO.setNameRoom("Pas de salle pour l'instant"); // TODO à changer
+			examDTO.setNameRoom(mstNotRoomYet);
 		}
 		return examDTO;
 	}
@@ -99,7 +101,7 @@ public class ExamService {
 	public Exam convertToEntity(ExamDTO examDTO) {
 		Exam exam = modelMapper.map(examDTO, Exam.class);
 		exam.setIdExam(examDTO.getIdExam());
-		exam.setUe(ueRepository.findById(examDTO.getUe()).get());
+		ueRepository.findById(examDTO.getUe()).ifPresent(exam::setUe);
 		return exam;
 	}
 
@@ -107,7 +109,7 @@ public class ExamService {
 		try {
 			Exam exam = examRepository.getById(id);
 			if(exam.getBeginDateExam()==null) {
-				return msgNotPlannedYet; //TODO à changer
+				return msgNotPlannedYet;
 			}
 			return DateService.convertDateClassToStringDate(exam.getBeginDateExam());
 		}catch(Exception exception) {
@@ -119,7 +121,7 @@ public class ExamService {
 		try {
 			Exam exam = examRepository.getById(id);
 			if(exam.getEndDateExam() == null) {
-				return msgNotPlannedYet; //TODO à changer
+				return msgNotPlannedYet;
 			}
 			return DateService.convertDateClassToStringDate(exam.getEndDateExam());
 		}catch(Exception exception) {
@@ -127,23 +129,11 @@ public class ExamService {
 		}
 	}
 
-	//	public String getBeginHourExam(long id) {
-	//		try {
-	//			Exam exam = examRepository.getById(id);
-	//			if(exam.getBeginDateExam() == null) {
-	//				return "";
-	//			}
-	//			return DateService.convertDateClassToStringDateOnlyForHour(exam.getBeginDateExam());
-	//		}catch(Exception exception) {
-	//			return null;
-	//		}
-	//	}
-
 	public String getFullBeginDateExam(long id) {
 		try {
 			Exam exam = examRepository.getById(id);
 			if(exam.getBeginDateExam() == null) {
-				return msgNotPlannedYet; // TODO à changer
+				return msgNotPlannedYet;
 			}
 			return DateService.convertDateClassToFullStringDate(exam.getBeginDateExam());
 		}catch(Exception exception) {
@@ -155,7 +145,7 @@ public class ExamService {
 		try {
 			Exam exam = examRepository.getById(id);
 			if(exam.getEndDateExam() == null) {
-				return msgNotPlannedYet; // TODO à changer
+				return msgNotPlannedYet;
 			}
 			return DateService.convertDateClassToFullStringDate(exam.getEndDateExam());
 		}catch(Exception exception) {
@@ -163,23 +153,16 @@ public class ExamService {
 		}
 	}
 
-	//	public String getEndHourExam(long id) {
-	//		try {
-	//			Exam exam = examRepository.getById(id);
-	//			if(exam.getEndDateExam() == null) {
-	//				return "";
-	//			}
-	//			return DateService.convertDateClassToStringDateOnlyForHour(exam.getEndDateExam());
-	//		}catch(Exception exception) {
-	//			return null;
-	//		}
-	//	}
-
 	private Exam getExamFromMap(Map<String, String> mapExam) {
-		Period period = periodRepository.findById(Long.parseLong(mapExam.get("idPeriod"))).get();
-		UE ue = ueRepository.findById(mapExam.get("ue")).get();
+		List<Object> listOfObject = new ArrayList<>();
+		periodRepository.findById(Long.parseLong(mapExam.get("idPeriod"))).ifPresent(listOfObject::add );
+
+		ueRepository.findById(mapExam.get("ue")).ifPresent(listOfObject::add);
+		Period period = (Period)listOfObject.get(0);
+		UE ue = (UE)listOfObject.get(1);
 		return new Exam(null, null, Integer.parseInt(mapExam.get("session")),
 				Integer.parseInt(mapExam.get("year")) , null, period, ue);
+
 
 	}
 

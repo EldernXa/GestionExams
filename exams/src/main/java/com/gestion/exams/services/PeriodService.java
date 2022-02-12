@@ -20,7 +20,6 @@ import com.gestion.exams.entity.Room;
 import com.gestion.exams.entity.Student;
 import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.PeriodRepository;
-import com.gestion.exams.repository.RoomRepository;
 
 @Service
 public class PeriodService {
@@ -30,9 +29,6 @@ public class PeriodService {
 
 	@Autowired
 	private ExamService examService;
-
-	@Autowired
-	private RoomRepository roomRepository; // TODO to remove
 
 	@Autowired
 	private RoomService roomService;
@@ -237,7 +233,9 @@ public class PeriodService {
 
 	public Period getPeriod(long id) {
 		try {
-			return periodRepository.findById(id).get();
+			List<Period> period = new ArrayList<>();
+			periodRepository.findById(id).ifPresent(period::add);
+			return period.get(0);
 		}catch(Exception exception) {
 			return null;
 		}
