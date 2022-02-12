@@ -34,7 +34,7 @@ public class ExamService {
 	@Autowired
 	private UERepository ueRepository;
 
-	private String msgNotPlannedYet = "To Come";
+	private String msgNotPlannedYet = "Pas planifiée pour l'instant";
 
 	private String mstNotRoomYet = "Pas de salle pour l'instant";
 
@@ -111,7 +111,7 @@ public class ExamService {
 		try {
 			Exam exam = examRepository.getById(id);
 			if(exam.getBeginDateExam()==null) {
-				return msgNotPlannedYet; //TODO à changer
+				return msgNotPlannedYet;
 			}
 			return DateService.convertDateClassToStringDate(exam.getBeginDateExam());
 		}catch(Exception exception) {
@@ -123,7 +123,7 @@ public class ExamService {
 		try {
 			Exam exam = examRepository.getById(id);
 			if(exam.getEndDateExam() == null) {
-				return msgNotPlannedYet; //TODO à changer
+				return msgNotPlannedYet;
 			}
 			return DateService.convertDateClassToStringDate(exam.getEndDateExam());
 		}catch(Exception exception) {
@@ -135,7 +135,7 @@ public class ExamService {
 		try {
 			Exam exam = examRepository.getById(id);
 			if(exam.getBeginDateExam() == null) {
-				return msgNotPlannedYet; // TODO à changer
+				return msgNotPlannedYet;
 			}
 			return DateService.convertDateClassToFullStringDate(exam.getBeginDateExam());
 		}catch(Exception exception) {
@@ -147,7 +147,7 @@ public class ExamService {
 		try {
 			Exam exam = examRepository.getById(id);
 			if(exam.getEndDateExam() == null) {
-				return msgNotPlannedYet; // TODO à changer
+				return msgNotPlannedYet;
 			}
 			return DateService.convertDateClassToFullStringDate(exam.getEndDateExam());
 		}catch(Exception exception) {
