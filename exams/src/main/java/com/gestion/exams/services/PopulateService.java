@@ -103,9 +103,6 @@ public class PopulateService{
 			Student student = new Student("firstName"+i, "lastName"+i, "email"+i);
 			studentRepository.save(student);
 		}
-
-
-
 	}
 
 

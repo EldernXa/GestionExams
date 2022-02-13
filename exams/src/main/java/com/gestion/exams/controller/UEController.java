@@ -28,7 +28,7 @@ public class UEController {
 
 
 	@GetMapping("/allUE")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
+	@PreAuthorize("hasAuthority('STUDENT')")
 	public List<UeDTO> getAllUE(){
 		ModelMapper modelMapper = new ModelMapper();
 		List<UE> listUe = ueService.getAllUE();
