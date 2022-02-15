@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -8,13 +8,22 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-  private httpOptions = {
+  /*private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
       'Access-Control-Allow-Origin': '*',
       'Authorization': 'Basic ' + btoa(localStorage.getItem('ident')+':' + localStorage.getItem('mdp'))
     })
+  };*/
+
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Authorization': 'Bearer ' + String(localStorage.getItem("token"))
+    })
   };
+
 
   redirectIfNotLogin(){
     if(!this.isConnected()){
@@ -23,6 +32,7 @@ export class LoginService {
   }
   
   getRole(){
+    console.log("okok");
     return localStorage.getItem("role");
   }
 
@@ -53,17 +63,19 @@ export class LoginService {
   }
 
   login(ident: string, mdp: string){
-    const map = {
-      'username' : ident,
-      'mdp' : mdp,
-    }
 
-    this.http.put<string>('http://localhost:8080/login', map, {responseType: 'text' as 'json'})
+    let params = new HttpParams().set("email", ident).set("password", mdp);
+
+    this.http.put<string>('http://localhost:8080/login', params, {responseType: 'text' as 'json'})
         .subscribe((data)=>{
-          localStorage.setItem("ident", ident);
-          localStorage.setItem("mdp", mdp);
-          localStorage.setItem("role", data);
-          this.moveOnIndexPage();
+          localStorage.setItem("token", JSON.parse(data).access_token);
+
+          this.http.put<string>('http://localhost:8080/loginRole', {}, {headers: this.getHeaders().headers, responseType:'text' as 'json'})
+            .subscribe((data) => {
+              localStorage.setItem("role", data);
+              this.moveOnIndexPage();
+            });
+
         });
   }
 
