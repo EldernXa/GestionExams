@@ -12,14 +12,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class BasicAuthConfiguration
-extends WebSecurityConfigurerAdapter {
-	@Autowired
-	PasswordEncoder passwordEncoder;
-	@Autowired
-	MyUserDetails myUserDetails;
+//@Configuration
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class BasicAuthConfiguration {
+
+    /*
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    @Autowired
+    MyUserDetails myUserDetails;*/
 
 	/*@Override
     protected void configure(AuthenticationManagerBuilder auth)
@@ -36,20 +37,18 @@ extends WebSecurityConfigurerAdapter {
                 .password(passwordEncoder.encode("password"))
                 .roles("ADMIN");
     }*/
-
-	@Override
-	protected void configure(HttpSecurity http)
-			throws Exception {
-		http.csrf().disable()
-		.authorizeRequests()
-		.antMatchers("/login").permitAll()
-		.anyRequest()
-		.authenticated()
-		.and()
-		.httpBasic();
-		http.cors();
-
-	}
+/*
+    @Override
+    protected void configure(HttpSecurity http)
+            throws Exception {
+        http.csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/login").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .httpBasic();
+    }
 
 
 	@Override
@@ -66,9 +65,9 @@ extends WebSecurityConfigurerAdapter {
 	}
 
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder(4);
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(4);
+    }*/
 
 }

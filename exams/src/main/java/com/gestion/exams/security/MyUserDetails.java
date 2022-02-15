@@ -15,11 +15,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class MyUserDetails implements UserDetailsService {
 
-    @Autowired
+@RequiredArgsConstructor
+public class MyUserDetails  {
+
+
+   /* @Autowired
     private AuthentificationRepository authentificationRepository;
 
     @Override
@@ -46,6 +47,6 @@ public class MyUserDetails implements UserDetailsService {
                 .disabled(false)//
                 .authorities(list)//
                 .build();
-    }
+    }*/
 
 }
