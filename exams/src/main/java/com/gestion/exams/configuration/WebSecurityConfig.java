@@ -43,6 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
 		customAuthenticationFilter.setFilterProcessesUrl("/login");
 		http.csrf().disable();
+		http.cors();
 		http.sessionManagement().sessionCreationPolicy(STATELESS);
 		http.authorizeRequests().antMatchers("/login").permitAll();
 		//http.authorizeRequests().antMatchers(GET, "/ue/allUE").hasAnyRole("ROlE_STUDENT");
