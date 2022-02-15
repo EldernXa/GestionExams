@@ -38,4 +38,23 @@ public class StudentController {
 
 
 
+	@Autowired
+	private StudentService studentService;
+
+	@Autowired
+	private PeriodService periodService;
+
+	@Autowired
+	private ExamService examService;
+
+	@GetMapping("/exams")
+	@PreAuthorize("hasRole('ROLE_STUDENT')")
+	public ResponseEntity<List<ExamDTO>> getNextPeriodOfExam(Principal principal) {
+		Student currentStudent = studentService.getStudentByEmail(principal.getName());
+		Period nextPeriod = periodService.getNextPeriod();
+		List<ExamDTO> listExam = examService.getAllExamsForAStudentFromPeriod(nextPeriod.getId(), currentStudent);
+
+		return new ResponseEntity<>(listExam, HttpStatus.OK);
+	}
+
 }

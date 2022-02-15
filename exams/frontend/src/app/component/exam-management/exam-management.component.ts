@@ -27,7 +27,6 @@ export class ExamManagementComponent implements OnInit {
 
   update(){
     this.examService.findAllExamFromPeriod(this.id).subscribe(data => {
-      console.log(data);
       this.listExam = data;
       for(let i=0; i<this.listExam.length; i++){
         this.examService.getNewBeginDate(this.listExam[i].idExam).subscribe(
@@ -36,11 +35,15 @@ export class ExamManagementComponent implements OnInit {
           }
         );
 
+        
+
         this.examService.getNewEndDate(this.listExam[i].idExam).subscribe(
           data2=>{
             this.listExam[i].endDateExam = data2;
           }
         );
+
+        
       }
     });
 
@@ -52,14 +55,11 @@ export class ExamManagementComponent implements OnInit {
 
   onSubmit(){
     this.exam.idPeriod = this.id;
-    console.log(this.exam.ue);
-    console.log(this.exam.year);
-    console.log(this.exam.idPeriod); // TODO : remove
     this.exam.beginDateExam = "";
     this.exam.endDateExam = "";
     this.exam.nameRoom = "";
     this.examService.save(this.exam).subscribe(result => {
-      this.redirectTo('/periodManagement/'+this.id);
+      this.redirectTo('/period/'+this.id);
     });
   }
 

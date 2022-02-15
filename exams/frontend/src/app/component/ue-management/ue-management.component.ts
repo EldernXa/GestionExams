@@ -3,6 +3,7 @@ import {FormControl} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UeService} from "../../service/ue/ue-service.service";
 import {Ue} from "../../model/ue/ue";
+import { LoginService } from 'src/app/service/login/login.service';
 
 @Component({
   selector: 'app-ue-management',
@@ -15,7 +16,9 @@ export class UeManagementComponent implements OnInit {
   ue: Ue = new Ue();
   selectControl:FormControl = new FormControl();
 
-  constructor(private route:ActivatedRoute, private ueService:UeService, private router: Router) { }
+  constructor(private route:ActivatedRoute, private ueService:UeService, private router: Router, private loginService: LoginService) {
+    this.loginService.redirectIfNotLogin();
+  }
 
   ngOnInit(): void {
     this.name = String(this.route.snapshot.paramMap.get('id'));

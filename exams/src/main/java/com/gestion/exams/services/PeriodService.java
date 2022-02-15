@@ -2,6 +2,7 @@ package com.gestion.exams.services;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +20,6 @@ import com.gestion.exams.entity.Room;
 import com.gestion.exams.entity.Student;
 import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.PeriodRepository;
-import com.gestion.exams.repository.RoomRepository;
 
 @Service
 public class PeriodService {
@@ -29,9 +29,6 @@ public class PeriodService {
 
 	@Autowired
 	private ExamService examService;
-
-	@Autowired
-	private RoomRepository roomRepository; // TODO to remove
 
 	@Autowired
 	private RoomService roomService;
@@ -57,6 +54,21 @@ public class PeriodService {
 		}
 
 		return convertToDTO(periodToPlan);
+	}
+
+	public Period getNextPeriod() {
+		Period nextPeriod = null;
+
+		Date todayDate = Calendar.getInstance().getTime();
+
+		for(Period period : periodRepository.findAll()) {
+			if((nextPeriod == null && period.getBeginDatePeriod().after(todayDate)) ||
+					(nextPeriod!=null && period.getBeginDatePeriod().after(todayDate) && period.getBeginDatePeriod().before(nextPeriod.getBeginDatePeriod()))) {
+				nextPeriod = period;
+			}
+		}
+
+		return nextPeriod;
 	}
 
 	private Date getBestDateForAnExam(Date initDate, Date currentLastDateAvailable, Period periodToPlan, Exam exam) throws ParseException {
@@ -139,7 +151,7 @@ public class PeriodService {
 		Date afterNoon = DateService.addMinute(DateService.getAfterNoonOfADate(beginDate), 1);
 		if(DateService.isBetweenDate(noon, afterNoon, beginDate) || DateService.isBetweenDate(noon, afterNoon, endDate) || DateService.isBetweenDate(beginDate, endDate, noon) ||
 				DateService.isBetweenDate(beginDate, endDate, afterNoon)) {
-			return afterNoon;
+			return DateService.getAfterNoonOfADate(beginDate);
 		}
 		return null;
 	}
@@ -221,7 +233,9 @@ public class PeriodService {
 
 	public Period getPeriod(long id) {
 		try {
-			return periodRepository.findById(id).get();
+			List<Period> period = new ArrayList<>();
+			periodRepository.findById(id).ifPresent(period::add);
+			return period.get(0);
 		}catch(Exception exception) {
 			return null;
 		}

@@ -17,6 +17,10 @@ import { UeListComponent } from './component/ue-list/ue-list.component';
 import {UeService} from "./service/ue/ue-service.service";
 import { UeFormComponent } from './component/ue-form/ue-form.component';
 import { UeManagementComponent } from './component/ue-management/ue-management.component';
+import { LoginComponent } from './component/login/login.component';
+import { LoginService } from './service/login/login.service';
+import { ExamsViewComponent } from './component/exams-view/exams-view.component';
+import { ExamViewService } from './service/exam-view/exam-view.service';
 
 @NgModule({
   declarations: [
@@ -29,6 +33,8 @@ import { UeManagementComponent } from './component/ue-management/ue-management.c
     UeListComponent,
     UeFormComponent,
     UeManagementComponent,
+    LoginComponent,
+    ExamsViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +42,7 @@ import { UeManagementComponent } from './component/ue-management/ue-management.c
     HttpClientModule,
     FormsModule
   ],
-  providers: [PeriodService, ExamService, GradeService, UeService],
+  providers: [PeriodService, ExamService, GradeService, UeService, LoginService, ExamViewService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -8,10 +8,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 //@Configuration
@@ -24,7 +22,7 @@ public class BasicAuthConfiguration {
     @Autowired
     MyUserDetails myUserDetails;*/
 
-    /*@Override
+	/*@Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
         auth
@@ -53,18 +51,18 @@ public class BasicAuthConfiguration {
     }
 
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder authenticationManager) throws Exception {
+	@Override
+	protected void configure(AuthenticationManagerBuilder authenticationManager) throws Exception {
 
-        authenticationManager.userDetailsService(myUserDetails);
-    }
+		authenticationManager.userDetailsService(myUserDetails);
+	}
 
 
-    @Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+	@Override
+	@Bean
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 
 
     @Bean

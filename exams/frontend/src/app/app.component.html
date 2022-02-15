@@ -1,10 +1,10 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <div class="card bg-dark my-5">
+      <div class="card bg-dark my-5" *ngIf="isLogin">
         <div class="card-body">
           <h2 class="card-title text-center text-white py-3">{{ title }}</h2>
-          <ul class="text-center list-inline py-3">
+          <ul class="text-center list-inline py-3" *ngIf="role == 'ADMIN'">
             <li class="list-inline-item">
               <a routerLink="/period" class="btn btn-info">Liste des périodes</a>
             </li>
@@ -16,10 +16,20 @@
             <li class="list-inline-item">
               <a routerLink="/ue" class="btn btn-info">Liste des UE</a>
             </li>
-            <li><a routerLinkActive="active" routerLink="/home">Home</a></li>
-            <li><a routerLinkActive="active" routerLink="/login">Login</a></li>
-            <li><a (click)="logout()">Logout</a></li>
+            <li class="list-inline-item">
+              <button (click)="logout()" class="btn btn-info">Déconnecter</button>
+            </li>
           </ul>
+          <ul class="text-center list-inline py-3" *ngIf="role == 'STUDENT'">
+            <li class="list-inline-item">
+              <a routerLink="/listPeriod" class="btn btn-info">Calendrier des examens</a>
+            </li>
+            <li class="list-inline-item">
+              <button (click)="logout()" class="btn btn-info">Déconnecter</button>
+            </li>
+<!--<li><a routerLinkActive="active" routerLink="/home">Home</a></li>
+            <li><a routerLinkActive="active" routerLink="/login">Login</a></li>
+            <li><a (click)="logout()">Logout</a></li>-->
           </ul>
         </div>
       </div>
