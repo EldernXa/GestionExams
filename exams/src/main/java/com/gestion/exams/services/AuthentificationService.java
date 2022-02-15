@@ -29,7 +29,7 @@ public class AuthentificationService implements UserDetailsService {
         if(authentification == null){
             throw new UsernameNotFoundException("user not found");
         }else {
-            log.info("zebi is founf");
+            log.info("User is found");
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authentification.getRoles().forEach(role ->{authorities.add(new SimpleGrantedAuthority(role.getName()));});
