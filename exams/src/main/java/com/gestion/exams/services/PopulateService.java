@@ -123,6 +123,7 @@ public class PopulateService{
 		}
 
 		for(int i=0; i<4; i++) {
+			//emailSchool1 password21
 			Authentification auth = new Authentification("emailSchool"+i, passwordEncoder.encode("password2"+i), List.of(adminRole));
 			authRepo.save(auth);
 		}
