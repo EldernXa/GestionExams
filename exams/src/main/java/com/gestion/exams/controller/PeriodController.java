@@ -48,7 +48,7 @@ public class PeriodController {
 	}
 
 	@GetMapping("/period/{id}")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Period> getPeriod(@PathVariable long id){
 		Period period = periodService.getPeriod(id);
 		if(period != null) {
@@ -58,7 +58,7 @@ public class PeriodController {
 	}
 
 	@PostMapping("/period")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public Period postPeriod(@RequestBody Map<String, String> mapPeriod) {
 		Period period = periodService.getPeriodFromMap(mapPeriod);
 		return periodService.savePeriod(period);
@@ -66,6 +66,7 @@ public class PeriodController {
 
 
 	@PutMapping("/period/{id}")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<PeriodDTO> updatePlanning(@PathVariable long id) throws ParseException{
 		PeriodDTO periodToPlan = periodService.planRoomAndDateOfExams(id);
 		if(periodToPlan != null) {
