@@ -23,7 +23,6 @@ public class PeriodController {
 	private PeriodService periodService;
 
 	@GetMapping("/periodList/{id}/beginDate")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> getBeginDatePeriod(@PathVariable long id){
 		String str = periodService.beginDatePeriodToString(id);
 		if(str != null) {
@@ -33,7 +32,6 @@ public class PeriodController {
 	}
 
 	@GetMapping("/periodList/{id}/endDate")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> getEndDatePeriod(@PathVariable long id){
 		String str = periodService.endDatePeriodToString(id);
 		if(str != null) {
@@ -43,7 +41,7 @@ public class PeriodController {
 	}
 
 	@GetMapping("/periodList")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<List<PeriodDTO>> getListPeriod(){
 		List<PeriodDTO> listPeriodDTO = periodService.getListPeriod();
 		return new ResponseEntity<>(listPeriodDTO, HttpStatus.OK);
