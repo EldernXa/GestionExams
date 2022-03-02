@@ -1,5 +1,6 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -63,17 +64,32 @@ export class LoginService {
   }
 
   login(ident: string, mdp: string){
-
+    let canConnect: boolean = true;
     let params = new HttpParams().set("email", ident).set("password", mdp);
 
-    this.http.put<string>('http://localhost:8080/login', params, {responseType: 'text' as 'json'})
+    this.http.post<string>('http://localhost:8080/login', params, {responseType: 'text' as 'json'})
         .subscribe((data)=>{
           localStorage.setItem("token", JSON.parse(data).access_token);
 
           this.http.put<string>('http://localhost:8080/loginRole', {}, {headers: this.getHeaders().headers, responseType:'text' as 'json'})
+            .pipe(
+              catchError(error => {
+                canConnect = false;
+                  if (error.error instanceof ErrorEvent) {
+                      console.log("test1");
+                      //this.errorMsg = `Error: ${error.error.message}`;
+                  } else {
+                      console.log("test2");
+                      //this.errorMsg = `Error: ${error.message}`;
+                  }
+                  return of([]);
+              })
+          )
             .subscribe((data) => {
-              localStorage.setItem("role", data);
-              this.moveOnIndexPage();
+              if(canConnect){
+                localStorage.setItem("role", String(data));
+                this.moveOnIndexPage();
+              }
             });
 
         });
