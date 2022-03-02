@@ -50,7 +50,7 @@ public class StudentController {
 	}
 
 	@GetMapping("/exams")
-	@PreAuthorize("hasRole('ROLE_STUDENT')")
+	@PreAuthorize("hasAuthority('STUDENT')")
 	public ResponseEntity<List<ExamDTO>> getNextPeriodOfExam(Principal principal) {
 		Student currentStudent = studentService.getStudentByEmail(principal.getName());
 		Period nextPeriod = periodService.getNextPeriod();

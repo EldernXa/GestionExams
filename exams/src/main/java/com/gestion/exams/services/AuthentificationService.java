@@ -41,8 +41,8 @@ public class AuthentificationService implements UserDetailsService {
 	@Autowired
 	private AuthentificationRepository authentificationRepo;
 
-	public String getRole(String username, String mdp) {
 
+	public String getRole(String username) {
 		try {
 			Authentification auth = authentificationRepo.getById(username);
 			return new ArrayList<>(auth.getRoles()).get(0).getName();

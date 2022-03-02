@@ -38,7 +38,7 @@ public class ExamController {
 	private UEService ueService;
 
 	@PostMapping("/add")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Exam> addNewExams(@RequestBody Map<String, String> mapNewExam){
 		Exam exam = examService.saveNewExam(mapNewExam);
 		if(exam != null) {
@@ -48,19 +48,18 @@ public class ExamController {
 	}
 
 	@GetMapping("/list")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<List<Exam>> getAllExams(){
 		return new ResponseEntity<>(examService.getAllExams(), HttpStatus.OK);
 	}
 
 	@GetMapping("/list/{id}")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<List<ExamDTO>> getAllExamsFromPeriod(@PathVariable long id){
 		return new ResponseEntity<>(examService.getAllExamsFromPeriod(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}/beginDate")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
 	public ResponseEntity<String> getBeginDateExam(@PathVariable long id){
 		String str = examService.getBeginDateExam(id);
 		if(str != null) {
@@ -70,7 +69,6 @@ public class ExamController {
 	}
 
 	@GetMapping("/{id}/endDate")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
 	public ResponseEntity<String> getEndDateExam(@PathVariable long id){
 		String str = examService.getEndDateExam(id);
 		if(str != null) {
@@ -98,14 +96,14 @@ public class ExamController {
 	}
 
 	@GetMapping("/listUE")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<List<String>> getListUE(){
 		List<String> listUE = ueService.getListUeName();
 		return new ResponseEntity<>(listUE, HttpStatus.OK);
 	}
 
 	@GetMapping("/listUE/{id}")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<List<String>> getListUEThatAreNotInAPeriod(@PathVariable long id){
 		List<String> listUE = new ArrayList<>();
 		for(UE ue : ueService.getAllUE()) {
@@ -117,7 +115,7 @@ public class ExamController {
 	}
 
 	@GetMapping("/{id}/nameUE")
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<String> getNameUEExam(@PathVariable long id){
 		String str = examService.getNameUE(id);
 		if(str != null) {

@@ -23,7 +23,6 @@ public class PeriodController {
 	private PeriodService periodService;
 
 	@GetMapping("/periodList/{id}/beginDate")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> getBeginDatePeriod(@PathVariable long id){
 		String str = periodService.beginDatePeriodToString(id);
 		if(str != null) {
@@ -33,7 +32,6 @@ public class PeriodController {
 	}
 
 	@GetMapping("/periodList/{id}/endDate")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<String> getEndDatePeriod(@PathVariable long id){
 		String str = periodService.endDatePeriodToString(id);
 		if(str != null) {
@@ -43,14 +41,14 @@ public class PeriodController {
 	}
 
 	@GetMapping("/periodList")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<List<PeriodDTO>> getListPeriod(){
 		List<PeriodDTO> listPeriodDTO = periodService.getListPeriod();
 		return new ResponseEntity<>(listPeriodDTO, HttpStatus.OK);
 	}
 
 	@GetMapping("/period/{id}")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Period> getPeriod(@PathVariable long id){
 		Period period = periodService.getPeriod(id);
 		if(period != null) {
@@ -60,7 +58,7 @@ public class PeriodController {
 	}
 
 	@PostMapping("/period")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public Period postPeriod(@RequestBody Map<String, String> mapPeriod) {
 		Period period = periodService.getPeriodFromMap(mapPeriod);
 		return periodService.savePeriod(period);
@@ -68,6 +66,7 @@ public class PeriodController {
 
 
 	@PutMapping("/period/{id}")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<PeriodDTO> updatePlanning(@PathVariable long id) throws ParseException{
 		PeriodDTO periodToPlan = periodService.planRoomAndDateOfExams(id);
 		if(periodToPlan != null) {
