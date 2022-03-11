@@ -5,16 +5,32 @@
         <thead class="thead-dark">
         <tr>
           <th scope="col">UE</th>
+          <th scope="col">Discipline</th>
           <th scope="col">Crédits</th>
+          <th scope="col">Durée de l'examen</th>
           <th scope="col">Année</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let inscription of inscriptions;index as index;">
-          <td>{{ inscription.ue.name }}</td>
-          <td>{{ inscription.ue.credit }}</td>
-          <td>{{ inscription.year }}</td>
-        </tr>
+
+        <ng-template ngFor let-inscription [ngForOf]="inscriptions" let-index="index">
+          <ng-template [ngIf] ="(index > 0 && inscription.year != inscriptions[index-1].year) || index == 0">
+            <tr style="background-color : lightgrey;">
+              <td></td><td></td><td></td><td></td><td>{{inscription.year}}</td>
+            </tr>
+          </ng-template>
+          <tr>
+            <td>{{ inscription.ue.name }}</td>
+            <td>{{inscription.ue.discipline}}</td>
+            <td>{{ inscription.ue.credit }}</td>
+            <td>{{inscription.ue.durationExam}} min</td>
+            <td></td>
+          </tr>
+
+        </ng-template>
+
+
+
         </tbody>
       </table>
 

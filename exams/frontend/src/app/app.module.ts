@@ -43,7 +43,7 @@ import {InscriptionsService} from "./service/inscriptions/inscriptions-service.s
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [PeriodService, ExamService, GradeService, UeService, LoginService, ExamViewService, InscriptionsService],
   bootstrap: [AppComponent]

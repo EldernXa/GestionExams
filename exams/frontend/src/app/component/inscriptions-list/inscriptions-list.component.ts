@@ -18,12 +18,14 @@ export class InscriptionsListComponent implements OnInit {
     this.inscriptions = [];
     this.inscriptionsService.findAll().subscribe(data=>{
       this.inscriptions = data;
+      this.inscriptions = this.inscriptions.sort((a,b) => b.year - a.year);
     });
   }
 
   ngOnInit(): void {
     this.inscriptionsService.findAll().subscribe(data=>{
       this.inscriptions = data;
+      this.inscriptions = this.inscriptions.sort((a,b) => b.year - a.year);
     });
   }
 

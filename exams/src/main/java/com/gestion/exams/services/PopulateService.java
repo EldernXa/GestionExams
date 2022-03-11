@@ -158,9 +158,10 @@ public class PopulateService{
 		students.add(student2);
 		students.add(student3);
 		List<UE> listUE = ueRepository.findAll();
+		Random r = new Random();
 		for (UE element : listUE) {
 			for(Student s : students) {
-				Inscription inscription = new Inscription(s, 2021, element);
+				Inscription inscription = new Inscription(s, r.nextInt((2022 - 2017) + 1 ) + 2017 , element);
 				inscriptionRepository.save(inscription);
 			}
 		}
