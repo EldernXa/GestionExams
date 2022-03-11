@@ -1,0 +1,23 @@
+<div class="card my-5">
+  <div class="card-body">
+
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">UE</th>
+          <th scope="col">Crédits</th>
+          <th scope="col">Année</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let inscription of inscriptions;index as index;">
+          <td>{{ inscription.ue.name }}</td>
+          <td>{{ inscription.ue.credit }}</td>
+          <td>{{ inscription.year }}</td>
+        </tr>
+        </tbody>
+      </table>
+
+  </div>
+</div>
+

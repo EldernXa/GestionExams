@@ -21,6 +21,8 @@ import { LoginComponent } from './component/login/login.component';
 import { LoginService } from './service/login/login.service';
 import { ExamsViewComponent } from './component/exams-view/exams-view.component';
 import { ExamViewService } from './service/exam-view/exam-view.service';
+import { InscriptionsListComponent } from './component/inscriptions-list/inscriptions-list.component';
+import {InscriptionsService} from "./service/inscriptions/inscriptions-service.service";
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { ExamViewService } from './service/exam-view/exam-view.service';
     UeManagementComponent,
     LoginComponent,
     ExamsViewComponent,
+    InscriptionsListComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,7 @@ import { ExamViewService } from './service/exam-view/exam-view.service';
     HttpClientModule,
     FormsModule
   ],
-  providers: [PeriodService, ExamService, GradeService, UeService, LoginService, ExamViewService],
+  providers: [PeriodService, ExamService, GradeService, UeService, LoginService, ExamViewService, InscriptionsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
