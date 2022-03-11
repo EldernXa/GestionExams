@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   ident: string = "";
   mdp: string = "";
   role: string = "";
+  msg: string | null = "";
 
   constructor(private route: ActivatedRoute,
     private router: Router, private http: HttpClient, private loginService: LoginService) { }
@@ -24,7 +25,30 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(){
-    this.loginService.login(this.ident, this.mdp);
+    let canConnect: boolean = true;
+    this.loginService.loginToken(this.ident, this.mdp).subscribe((data)=>{
+      this.loginService.loginRole(data).pipe(
+        catchError(error => {
+          canConnect = false;
+          switch(error.status){
+            case 410 :{
+              this.msg = "Erreur survenue lors de la vérification du token."
+              break;
+            }
+            default:{
+              this.msg = "Erreur inconnue."
+            }
+          }
+          return of([]);
+        })
+    )
+      .subscribe((data) => {
+        if(canConnect){
+          localStorage.setItem("role", String(data));
+          this.loginService.moveOnIndexPage();
+        }
+      });;
+    });
   }
 
 }

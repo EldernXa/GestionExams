@@ -63,12 +63,12 @@ export class LoginService {
     window.location.href = window.location.protocol + '//' + window.location.host + '/login';
   }
 
-  login(ident: string, mdp: string){
+  loginToken(ident: string, mdp: string){
     let canConnect: boolean = true;
     let params = new HttpParams().set("email", ident).set("password", mdp);
 
-    this.http.post<string>('http://localhost:8080/login', params, {responseType: 'text' as 'json'})
-        .subscribe((data)=>{
+    return this.http.post<string>('http://localhost:8080/login', params, {responseType: 'text' as 'json'})
+        /*.subscribe((data)=>{
           localStorage.setItem("token", JSON.parse(data).access_token);
 
           this.http.put<string>('http://localhost:8080/loginRole', {}, {headers: this.getHeaders().headers, responseType:'text' as 'json'})
@@ -92,7 +92,12 @@ export class LoginService {
               }
             });
 
-        });
+        });*/
+  }
+
+  loginRole(data: string){
+    localStorage.setItem("token", JSON.parse(data).access_token);
+    return this.http.put<string>('http://localhost:8080/loginRole', {}, {headers: this.getHeaders().headers, responseType:'text' as 'json'});
   }
 
   getHeaders(){
