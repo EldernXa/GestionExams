@@ -41,14 +41,10 @@ export class LoginComponent implements OnInit {
         this.loginService.loginRole(dataToken.toString()).pipe(
           catchError(error => {
             canConnect = false;
-            switch(error.status){
-              case 410 :{
-                this.msg = "Erreur survenue lors de la vérification du token."
-                break;
-              }
-              default:{
-                this.msg = "Erreur inconnue lors de la tentative de connexion."
-              }
+            if(error.status == 410){
+              this.msg = "Erreur survenue lors de la vérification du token."
+            }else{
+              this.msg = "Erreur inconnue lors de la tentative de connexion."
             }
             return of([]);
           })
