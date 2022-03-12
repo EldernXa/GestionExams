@@ -38,26 +38,12 @@
       <div *ngIf="!ueNameVerif" class="alert alert-danger">{{msgNameUe}}</div>
       <div class="form-group">
         <label for="beginDatePeriod">session</label>
-        <!--<input type="number" [(ngModel)]="exam.session"
-          class="form-control"
-          id="session"
-          name="session"
-          placeholder="Entrer le numéro de la session"> -->
         <select class="custom-select form-control" [(ngModel)]="exam.session" id="session" name="session" [value]='1'>
           <option value='1'>1</option>
           <option value='2'>2</option>
         </select>
         <div *ngIf="!sessionVerif" class="alert alert-danger">{{msgSession}}</div>
       </div>
-      <!--<div class="form-group">
-          <label for="endDatePeriod">année</label>
-          <input type="number" [(ngModel)]="exam.year"
-              class="form-control"
-              id="year"
-              name="year"
-              placeholder="Entrer l'année de l'examen">
-          <div *ngIf="!yearVerif" class="alert alert-danger">{{msgYear}}</div>
-      </div>-->
       <button (click)="onSubmit()" class="btn btn-info">Submit</button>
     </form>
   </div>
