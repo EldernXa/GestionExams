@@ -7,31 +7,26 @@
             class="form-control"
             id="name"
             name="name"
-            placeholder="Entrer le nom de la période"
-            required #name="ngModel">
+            placeholder="Entrer le nom de la période">
         </div>
-        <div [hidden]="!name.invalid" class="alert alert-danger">Le nom de la période est requise</div>
+        <div *ngIf="!nameVerif" class="alert alert-danger">{{msgNamePeriod}}</div>
         <div class="form-group">
           <label for="beginDatePeriod">date de début de la période</label>
           <input type="date" [(ngModel)]="period.beginDatePeriod"
             class="form-control"
             id="beginDatePeriod"
-            name="beginDatePeriod"
-            placeholder="Entrer la date de début de la période"
-            required #beginDatePeriod="ngModel">
-          <div [hidden]="!beginDatePeriod.invalid" class="alert alert-danger">La date de début est requise.</div>
+            name="beginDatePeriod">
+          <div *ngIf="!beginDatePeriodVerif" class="alert alert-danger">{{msgBeginDatePeriod}}</div>
         </div>
         <div class="form-group">
             <label for="endDatePeriod">date de fin de la période</label>
             <input type="date" [(ngModel)]="period.endDatePeriod"
                 class="form-control"
                 id="endDatePeriod"
-                name="endDatePeriod"
-                placeholder="Entrer la date de fin de la période"
-                required #endDatePeriod="ngModel">
-            <div [hidden]="!endDatePeriod.invalid" class="alert alert-danger">La date de fin est requise.</div>
+                name="endDatePeriod">
+            <div *ngIf="!endDatePeriodVerif" class="alert alert-danger">{{msgEndDatePeriod}}</div>
         </div>
-        <button type="submit" [disabled]="!periodForm.form.valid"
+        <button type="submit" 
           class="btn btn-info">Submit</button>
       </form>
     </div>
