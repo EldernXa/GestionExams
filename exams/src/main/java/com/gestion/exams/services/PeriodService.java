@@ -282,6 +282,15 @@ public class PeriodService {
 		return -1;
 	}
 
+	public boolean verifyIfNameIsAlreadyUsed(String namePeriod) {
+		for(Period period : periodRepository.findAll()) {
+			if(period.getName().contentEquals(namePeriod)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }
 
 

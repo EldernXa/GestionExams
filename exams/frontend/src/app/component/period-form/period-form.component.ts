@@ -39,7 +39,7 @@ export class PeriodFormComponent{
     if(!this.verifyNamePeriod()){
       verifySubmit = false;
     }
-    if(this.period.beginDatePeriod === '' || this.period.endDatePeriod === ''){
+    if(this.period.beginDatePeriod === '' || this.period.endDatePeriod === '' || this.period.name === ''){
       if(verifySubmit){
         this.periodService.savePeriod(this.period).subscribe(result=>{
           this.gotoPeriodList();
@@ -52,14 +52,37 @@ export class PeriodFormComponent{
             verifySubmit = false;
           }
           if(verifySubmit){
-            this.periodService.savePeriod(this.period).subscribe(result=>{
-              this.gotoPeriodList();
-            });
+            this.periodService.isPeriodNameGood(this.period.name).subscribe(
+              (isNameGood) =>{
+
+                if(!this.verifyNamePeriodGood(Boolean(isNameGood))){
+                  verifySubmit = false;
+                }
+
+                if(verifySubmit){
+                  this.periodService.savePeriod(this.period).subscribe(result=>{
+                    this.gotoPeriodList();
+                  });
+                }
+              }
+            );
           }
         }
       );
     }
     
+  }
+
+  verifyNamePeriodGood(data: boolean){
+    if(!data){
+      this.nameVerif = false;
+      this.msgNamePeriod = "Ce nom de période est déjà pris."
+      return false;
+    }
+
+    this.nameVerif = true;
+    this.msgNamePeriod = "";
+    return true;
   }
 
   verifyDate(data:number){
@@ -76,7 +99,7 @@ export class PeriodFormComponent{
 
     this.beginDatePeriodVerif = true;
     this.msgBeginDatePeriod = "";
-    this.endDatePeriodVerif = false;
+    this.endDatePeriodVerif = true;
     this.msgEndDatePeriod = "";
     return true;
   }

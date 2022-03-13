@@ -42,4 +42,10 @@ export class PeriodService {
     return this.http.get(this.usersUrl+"verifyDatePeriod/"+dateBegin+"/"+dateEnd,
     {headers: this.loginService.getHeaders().headers});
   }
+
+  public isPeriodNameGood(namePeriod: string){
+    return this.http.get(this.usersUrl + "verifyNamePeriod/" + namePeriod,
+    {headers: this.loginService.getHeaders().headers});
+  }
+
 }

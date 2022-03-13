@@ -40,6 +40,12 @@ public class PeriodController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	@GetMapping("/verifyNamePeriod/{namePeriod}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<Boolean> isNameGood(@PathVariable String namePeriod){
+		return new ResponseEntity<>(!periodService.verifyIfNameIsAlreadyUsed(namePeriod), HttpStatus.OK);
+	}
+
 	@GetMapping("/verifyDatePeriod/{dateBegin}/{dateEnd}")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Integer> isDateOfPeriodGood(@PathVariable String dateBegin, @PathVariable String dateEnd) throws ParseException{
