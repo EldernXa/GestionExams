@@ -267,6 +267,21 @@ public class PeriodService {
 		}
 	}
 
+	public int verifyPeriodDateIsGood(String beginDate, String endDate) throws ParseException {
+		Date beginDatePeriod = DateService.convertStringDateYearFirstToDateClass(beginDate);
+		Date endDatePeriod = DateService.convertStringDateYearFirstToDateClass(endDate);
+		for(Period period : periodRepository.findAll()) {
+			if(DateService.isBetweenDate(period.getBeginDatePeriod(), period.getEndDatePeriod(), beginDatePeriod)) {
+				return 1;
+			}
+			if(DateService.isBetweenDate(period.getBeginDatePeriod(), period.getEndDatePeriod(), endDatePeriod)) {
+				return 2;
+			}
+		}
+
+		return -1;
+	}
+
 }
 
 

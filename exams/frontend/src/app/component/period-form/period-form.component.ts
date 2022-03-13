@@ -39,11 +39,46 @@ export class PeriodFormComponent{
     if(!this.verifyNamePeriod()){
       verifySubmit = false;
     }
-    if(verifySubmit){
-      this.periodService.savePeriod(this.period).subscribe(result=>{
-        this.gotoPeriodList();
-      });
+    if(this.period.beginDatePeriod === '' || this.period.endDatePeriod === ''){
+      if(verifySubmit){
+        this.periodService.savePeriod(this.period).subscribe(result=>{
+          this.gotoPeriodList();
+        });
+      }
+    }else{
+      this.periodService.isPeriodDateGood(this.period.beginDatePeriod, this.period.endDatePeriod).subscribe(
+        (data) => {
+          if(!this.verifyDate(Number(data))){
+            verifySubmit = false;
+          }
+          if(verifySubmit){
+            this.periodService.savePeriod(this.period).subscribe(result=>{
+              this.gotoPeriodList();
+            });
+          }
+        }
+      );
     }
+    
+  }
+
+  verifyDate(data:number){
+    if(data === 1){
+      this.beginDatePeriodVerif = false;
+      this.msgBeginDatePeriod = "Cette date est déjà comprise par une autre période."
+      return false;
+    }
+    if(data === 2){
+      this.endDatePeriodVerif = false;
+      this.msgEndDatePeriod = "Cette date est déjà comprise par une autre période."
+      return false;
+    }
+
+    this.beginDatePeriodVerif = true;
+    this.msgBeginDatePeriod = "";
+    this.endDatePeriodVerif = false;
+    this.msgEndDatePeriod = "";
+    return true;
   }
 
   verifyNamePeriod(){
