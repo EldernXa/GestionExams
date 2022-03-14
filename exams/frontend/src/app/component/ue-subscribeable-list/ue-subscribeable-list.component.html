@@ -16,7 +16,17 @@
         <td>{{ ue.durationExam }} min</td>
         <td>{{ ue.discipline }}</td>
         <td class="d-flex justify-content-between">
-          <a (click)="subscribe(ue)" class="btn btn-danger">S'inscrire</a>
+          <!-- <a (click)="subscribe(ue)" class="btn btn-danger">S'inscrire</a> -->
+
+          <button type = "button" class = "btn btn-danger" (click) = "openModal(template)" > S'inscrire (avec confirmation)</button>
+          <ng-template #template >
+            <div class = "modal-body text-center" >
+              <p> S'inscrire à une Ue implique un engagement à l'assiduité. Confirmez-vous que vous souhaitez vous inscrire à l'Ue {{ue.name}} pour l'année {{current_year}} ? </p>
+              <button type = "button" class = "btn btn-default" (click) = "subscribe(ue)" > Oui </button>
+              <button type = "button" class = "btn btn-primary" (click) = "decline()"> Non </button>
+            </div>
+          </ng-template>
+
         </td>
       </tr>
       </tbody>

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppComponent } from './app.component';
 import { PeriodListComponent } from './component/period-list/period-list.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +24,7 @@ import { InscriptionsListComponent } from './component/inscriptions-list/inscrip
 import {InscriptionsService} from "./service/inscriptions/inscriptions-service.service";
 import { UeSubscribeableListComponent } from './component/ue-subscribeable-list/ue-subscribeable-list.component';
 import {UeSubscribeableService} from "./service/ue-subscribeable/ue-subscribeable-service.service";
+import {ModalModule} from "ngx-bootstrap";
 
 @NgModule({
   declarations: [
@@ -47,6 +47,7 @@ import {UeSubscribeableService} from "./service/ue-subscribeable/ue-subscribeabl
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ModalModule.forRoot(),
   ],
   providers: [PeriodService, ExamService, GradeService, UeService, LoginService, ExamViewService, InscriptionsService, UeSubscribeableService],
   bootstrap: [AppComponent]
