@@ -1,0 +1,26 @@
+<div class="card my-5">
+  <div class="card-body">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">UE</th>
+        <th scope="col">Credit</th>
+        <th scope="col">Durée de l'examen</th>
+        <th scope="col">Discipline</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let ue of subscribeable_ues; index as index">
+        <td>{{ ue.name }}</td>
+        <td>{{ ue.credit }}</td>
+        <td>{{ ue.durationExam }} min</td>
+        <td>{{ ue.discipline }}</td>
+        <td class="d-flex justify-content-between">
+          <a (click)="subscribe(ue)" class="btn btn-danger">S'inscrire</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

@@ -23,6 +23,8 @@ import { ExamsViewComponent } from './component/exams-view/exams-view.component'
 import { ExamViewService } from './service/exam-view/exam-view.service';
 import { InscriptionsListComponent } from './component/inscriptions-list/inscriptions-list.component';
 import {InscriptionsService} from "./service/inscriptions/inscriptions-service.service";
+import { UeSubscribeableListComponent } from './component/ue-subscribeable-list/ue-subscribeable-list.component';
+import {UeSubscribeableService} from "./service/ue-subscribeable/ue-subscribeable-service.service";
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import {InscriptionsService} from "./service/inscriptions/inscriptions-service.s
     LoginComponent,
     ExamsViewComponent,
     InscriptionsListComponent,
+    UeSubscribeableListComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,7 @@ import {InscriptionsService} from "./service/inscriptions/inscriptions-service.s
     HttpClientModule,
     FormsModule,
   ],
-  providers: [PeriodService, ExamService, GradeService, UeService, LoginService, ExamViewService, InscriptionsService],
+  providers: [PeriodService, ExamService, GradeService, UeService, LoginService, ExamViewService, InscriptionsService, UeSubscribeableService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
