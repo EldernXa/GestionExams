@@ -21,7 +21,7 @@
           <button type = "button" class = "btn btn-danger" (click) = "openModal(template)" > S'inscrire (avec confirmation)</button>
           <ng-template #template >
             <div class = "modal-body text-center" >
-              <p> S'inscrire à une Ue implique un engagement à l'assiduité. Confirmez-vous que vous souhaitez vous inscrire à l'Ue {{ue.name}} pour l'année {{current_year}} ? </p>
+              <p> S'inscrire à une Ue implique un engagement de votre part à l'assiduité et à la non possibilité de se rétracter. Confirmez-vous que vous souhaitez vous inscrire à l'Ue {{ue.name}} pour l'année {{current_year}} ? </p>
               <button type = "button" class = "btn btn-default" (click) = "subscribe(ue)" > Oui </button>
               <button type = "button" class = "btn btn-primary" (click) = "decline()"> Non </button>
             </div>

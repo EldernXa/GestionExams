@@ -14,23 +14,16 @@ import {waitForAsync} from "@angular/core/testing";
 })
 export class UeSubscribeableListComponent implements OnInit {
 
-  subscribeable_ues : Ue[];
-  all_ues : Ue[];
-  inscriptions : Inscription[];
-  inscriptions_ue_name : string[]
-  current_year: number;
-  modalRef: BsModalRef;
+  subscribeable_ues : Ue[] = [];
+  all_ues : Ue[] = [];
+  inscriptions : Inscription[] = [];
+  inscriptions_ue_name : string[] = [];
+  current_year: number = new Date().getFullYear();
+  modalRef: BsModalRef = new BsModalRef();
 
   constructor(private ueSubscribeableService: UeSubscribeableService, private modalService: BsModalService, private loginService: LoginService) {
     console.log("constructor");
     this.loginService.redirectIfNotLogin();
-    this.subscribeable_ues = [];
-    this.all_ues = [];
-    this.inscriptions = [];
-    this.inscriptions_ue_name = [];
-    this.current_year = new Date().getFullYear();
-    this.modalRef = new BsModalRef();
-
   }
 
   ngOnInit(){
@@ -71,7 +64,7 @@ export class UeSubscribeableListComponent implements OnInit {
   }
 
   subscribe(ue: Ue){
-    // if(confirm("S'inscrire à une Ue implique un engagement à l'assiduité. Confirmez-vous que vous souhaitez vous inscrire à l'Ue "+ue.name+" pour l'année "+this.current_year+ " ?"))
+    // if(confirm("S'inscrire à une Ue implique un engagement de votre part à l'assiduité et à la non possibilité de se rétracter. Confirmez-vous que vous souhaitez vous inscrire à l'Ue "+ue.name+" pour l'année "+this.current_year+ " ?"))
     this.ueSubscribeableService.subscribeToUe(this.current_year,ue).subscribe();
     this.modalRef.hide();
     this.ngOnInit();
