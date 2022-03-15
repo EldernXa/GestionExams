@@ -14,26 +14,26 @@ export class ExamService {
   }
 
   public findAllExamFromPeriod(id:number):Observable<Exam[]>{
-    return this.http.get<Exam[]>(this.usersUrl + "list/"+id, this.loginService.getHeaders());
+    return this.http.get<Exam[]>(this.usersUrl + "list/"+id);
   }
 
   public findAllUeNameForCreatingExam(id:number):Observable<string[]>{
-    return this.http.get<string[]>(this.usersUrl+"listUE/"+id, this.loginService.getHeaders());
+    return this.http.get<string[]>(this.usersUrl+"listUE/"+id);
   }
 
   public save(exam: Exam){
-    return this.http.post<Exam>(this.usersUrl + "add", exam, this.loginService.getHeaders());
+    return this.http.post<Exam>(this.usersUrl + "add", exam);
   }
 
   public getNewBeginDate(idExam: number){
-    return this.http.get(this.usersUrl + idExam + "/fullBeginDate", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
+    return this.http.get(this.usersUrl + idExam + "/fullBeginDate", {responseType: 'text'});
   }
 
   public getNewEndDate(idExam: number){
-    return this.http.get(this.usersUrl + idExam + "/fullEndDate", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
+    return this.http.get(this.usersUrl + idExam + "/fullEndDate", {responseType: 'text'});
   }
 
   public updatePlanning(idPeriod: number){
-    return this.http.put("http://localhost:8080/period/" + idPeriod,idPeriod, this.loginService.getHeaders());
+    return this.http.put("http://localhost:8080/period/" + idPeriod,idPeriod);
   }
 }
