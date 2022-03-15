@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, of } from 'rxjs';
 
 @Injectable({
@@ -7,7 +8,7 @@ import { catchError, of } from 'rxjs';
 })
 export class LoginService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   /*private httpOptions = {
     headers: new HttpHeaders({
@@ -43,7 +44,8 @@ export class LoginService {
   }
 
   moveOnLoginPage(){
-    window.location.href = window.location.protocol + '//' + window.location.host + '/login'
+    this.router.navigateByUrl("/login");
+    //window.location.href = window.location.protocol + '//' + window.location.host + '/login'
   }
 
   moveOnIndexPage(){
