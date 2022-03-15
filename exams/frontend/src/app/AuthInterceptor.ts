@@ -11,7 +11,6 @@ export class AuthInterceptor implements HttpInterceptor {
     private handleAuthError(err: HttpErrorResponse): Observable<any>{
         if(err.status === 401 || err.status === 403 || err.status === 410){
             this.loginService.logout();
-            //this.loginService.moveOnLoginPage();
             return of(err.message);
         }
         return throwError(err);
