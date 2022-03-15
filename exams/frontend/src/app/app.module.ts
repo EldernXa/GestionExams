@@ -25,6 +25,8 @@ import {InscriptionsService} from "./service/inscriptions/inscriptions-service.s
 import { UeSubscribeableListComponent } from './component/ue-subscribeable-list/ue-subscribeable-list.component';
 import {UeSubscribeableService} from "./service/ue-subscribeable/ue-subscribeable-service.service";
 import {ModalModule} from "ngx-bootstrap";
+import {GradesViewComponent } from './component/grades-view/grades-view.component';
+import {GradesViewService} from "./service/grades-view/grades-view-service.service";
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import {ModalModule} from "ngx-bootstrap";
     ExamsViewComponent,
     InscriptionsListComponent,
     UeSubscribeableListComponent,
+    GradesViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +52,7 @@ import {ModalModule} from "ngx-bootstrap";
     FormsModule,
     ModalModule.forRoot(),
   ],
-  providers: [PeriodService, ExamService, GradeService, UeService, LoginService, ExamViewService, InscriptionsService, UeSubscribeableService],
+  providers: [PeriodService, ExamService, GradeService, UeService, LoginService, ExamViewService, InscriptionsService, UeSubscribeableService, GradesViewService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
