@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { PeriodListComponent } from './component/period-list/period-list.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { PeriodService } from './service/period/period-service.service';
 import { PeriodFormComponent } from './component/period-form/period-form.component';
@@ -21,6 +21,8 @@ import { LoginComponent } from './component/login/login.component';
 import { LoginService } from './service/login/login.service';
 import { ExamsViewComponent } from './component/exams-view/exams-view.component';
 import { ExamViewService } from './service/exam-view/exam-view.service';
+import { AuthInterceptor } from './AuthInterceptor';
+import { Router } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,16 @@ import { ExamViewService } from './service/exam-view/exam-view.service';
     HttpClientModule,
     FormsModule
   ],
-  providers: [PeriodService, ExamService, GradeService, UeService, LoginService, ExamViewService],
+  providers: [PeriodService, ExamService, GradeService, UeService, LoginService, ExamViewService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useFactory: function(router: Router, loginService: LoginService){
+        return new AuthInterceptor(router, loginService);
+      },
+      multi: true,
+      deps: [Router, LoginService]
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

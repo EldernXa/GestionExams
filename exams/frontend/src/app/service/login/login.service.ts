@@ -59,7 +59,7 @@ export class LoginService {
     let canConnect: boolean = true;
     let params = new HttpParams().set("email", ident).set("password", mdp);
 
-    return this.http.post<string>('http://localhost:8080/login', params, {responseType: 'text' as 'json'})
+    return this.http.post<string>('http://localhost:8080/login', params, {headers:{skip:"true"}, responseType: 'text' as 'json'})
         /*.subscribe((data)=>{
           localStorage.setItem("token", JSON.parse(data).access_token);
 
@@ -97,7 +97,8 @@ export class LoginService {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
         'Access-Control-Allow-Origin': '*',
-        'Authorization': 'Bearer ' + String(localStorage.getItem("token"))
+        'Authorization': 'Bearer ' + String(localStorage.getItem("token")),
+        'skip': "true"
       })
     };
   }
