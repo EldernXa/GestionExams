@@ -46,14 +46,7 @@ public class GradeController {
 	@GetMapping(path="/exam/{id}")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public List<GradeDTO> getGradesByExam(@PathVariable("id") long idExam){
-		/*
-		List<StudentDTO> studentsDTO = new ArrayList<>();
-		List<Student> students = studentService.getStudentsByExamId(idExam);
-		for(Student s : students) {
-			studentsDTO.add(StudentMapper.studentToStudentDTO(s, idExam));
-		}
-		return studentsDTO;
-		*/
+		gradeService.createAllGradesByExamIfNotExists(idExam);
 		List<GradeDTO> gradesDTO = new ArrayList<>();
 		List<Grade> grades = gradeService.getGradesByExam(idExam);
 		for(Grade g : grades) {

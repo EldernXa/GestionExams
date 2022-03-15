@@ -22,6 +22,7 @@ export class ExamService {
   }
 
   public save(exam: Exam){
+    console.log(exam.year)
     return this.http.post<Exam>(this.usersUrl + "add", exam);
   }
 

@@ -21,7 +21,16 @@
         <tr>
           <td> {{ grade.ue_name }} </td>
           <td> {{ grade.session }} </td>
-          <td> {{ grade.value }} </td>
+
+          <ng-template *ngIf=" grade.value == -1 ;then content else other_content"></ng-template>
+          <ng-template #content><td> pas de note </td></ng-template>
+          <ng-template #other_content><td> {{ grade.value }} </td></ng-template>
+
+          <!--
+          <ng-template [ngIf] ="grade.value == -1 ; else elseBlock"><td> pas de note </td></ng-template>
+          <ng-template #elseBlock><td> {{ grade.value }} </td></ng-template>
+          -->
+
           <td></td>
         </tr>
 

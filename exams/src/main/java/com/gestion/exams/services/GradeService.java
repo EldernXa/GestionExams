@@ -65,7 +65,7 @@ public class GradeService {
     public void createGradeByStudentAndExamIfNotExists(Student student, Exam exam){
         if(!student.hasGradeForExam(exam)) {
             System.out.println("has no grade for exam !!!!!!!");
-            createGrade(student, exam, 0);
+            createGrade(student, exam, -1);
         }
     }
 

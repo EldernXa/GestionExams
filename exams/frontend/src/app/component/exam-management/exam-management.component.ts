@@ -42,7 +42,7 @@ export class ExamManagementComponent implements OnInit {
           }
         );
 
-        
+
 
         this.examService.getNewEndDate(this.listExam[i].idExam).subscribe(
           data2=>{
@@ -50,7 +50,7 @@ export class ExamManagementComponent implements OnInit {
           }
         );
 
-        
+
       }
     });
 
@@ -67,7 +67,7 @@ export class ExamManagementComponent implements OnInit {
       this.exam.beginDateExam = "";
       this.exam.endDateExam = "";
       this.exam.nameRoom = "";
-      this.exam.year = -1;
+      this.exam.year = new Date().getFullYear();
       this.examService.save(this.exam).subscribe(result => {
         this.redirectTo('/period/'+this.id);
       });
@@ -75,7 +75,7 @@ export class ExamManagementComponent implements OnInit {
   }
 
   verifyNameUE(){
-    if(this.exam.ue === ''){
+    if(this.exam.ue.name === ''){
       this.ueNameVerif = false;
       this.msgNameUe = "Veillez choisir une UE parmi ceux proposés.";
       return false;
