@@ -3,3 +3,5 @@
     <label>Mot de passe </label><input type="password" name="password" [(ngModel)]="mdp"/><br/>
     <button type="submit">Se connecter</button>
 </form>
+<div class="alert alert-danger" *ngIf="msg!=''">{{msg}}</div>
+

@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { PeriodListComponent } from './component/period-list/period-list.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { PeriodService } from './service/period/period-service.service';
 import { PeriodFormComponent } from './component/period-form/period-form.component';
@@ -27,6 +27,8 @@ import {UeSubscribeableService} from "./service/ue-subscribeable/ue-subscribeabl
 import {ModalModule} from "ngx-bootstrap";
 import {GradesViewComponent } from './component/grades-view/grades-view.component';
 import {GradesViewService} from "./service/grades-view/grades-view-service.service";
+import { AuthInterceptor } from './AuthInterceptor';
+import { Router } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,17 @@ import {GradesViewService} from "./service/grades-view/grades-view-service.servi
     FormsModule,
     ModalModule.forRoot(),
   ],
-  providers: [PeriodService, ExamService, GradeService, UeService, LoginService, ExamViewService, InscriptionsService, UeSubscribeableService, GradesViewService],
+
+  providers: [PeriodService, ExamService, GradeService, UeService, LoginService, ExamViewService,InscriptionsService, UeSubscribeableService, GradesViewService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useFactory: function(router: Router, loginService: LoginService){
+        return new AuthInterceptor(router, loginService);
+      },
+      multi: true,
+      deps: [Router, LoginService]
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

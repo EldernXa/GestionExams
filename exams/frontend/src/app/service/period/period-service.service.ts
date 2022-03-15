@@ -15,26 +15,35 @@ export class PeriodService {
   }
 
   public findAll() : Observable<Period[]>{
-    let list = this.http.get<Period[]>(this.usersUrl + "periodList", this.loginService.getHeaders());
+    let list = this.http.get<Period[]>(this.usersUrl + "periodList");
 
     return list;
   }
 
   public savePeriod(period: Period){
-    return this.http.post<Period>(this.usersUrl+"period", period, this.loginService.getHeaders());
+    return this.http.post<Period>(this.usersUrl+"period", period);
   }
 
   public getPeriod(index: number): Observable<Period>{
-    return this.http.get<Period>(this.usersUrl + "period/" + index, this.loginService.getHeaders());
+    return this.http.get<Period>(this.usersUrl + "period/" + index);
   }
 
   public getNewBeginPeriod(idPeriod: number){
     return this.http.get('http://localhost:8080/' + "periodList/" + idPeriod + "/beginDate",
-    {headers: this.loginService.getHeaders().headers, responseType:'text'});
+    {responseType:'text'});
   }
 
   public getNewEndPeriod(idPeriod: number){
     return this.http.get('http://localhost:8080/periodList/'+idPeriod + "/endDate",
-    {headers: this.loginService.getHeaders().headers, responseType: 'text'});
+    {responseType: 'text'});
   }
+
+  public isPeriodDateGood(dateBegin: string, dateEnd: string){
+    return this.http.get(this.usersUrl+"verifyDatePeriod/"+dateBegin+"/"+dateEnd);
+  }
+
+  public isPeriodNameGood(namePeriod: string){
+    return this.http.get(this.usersUrl + "verifyNamePeriod/" + namePeriod);
+  }
+
 }
