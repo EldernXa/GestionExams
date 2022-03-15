@@ -14,7 +14,7 @@ export class ExamViewService {
   }
 
   public findAllNextExamForAStudent():Observable<Exam[]>{
-    return this.http.get<Exam[]>(this.usersUrl + "student/exams", this.loginService.getHeaders());
+    return this.http.get<Exam[]>(this.usersUrl + "student/exams");
   }
 
   /*public getNewBeginDate(idExam: number){
@@ -34,11 +34,11 @@ export class ExamViewService {
   }*/
 
   public getNewBeginDate(idExam: number){
-    return this.http.get(this.usersUrl+"exam/" + idExam + "/fullBeginDate", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
+    return this.http.get(this.usersUrl+"exam/" + idExam + "/fullBeginDate", {responseType: 'text'});
   }
 
   public getNewEndDate(idExam: number){
-    return this.http.get(this.usersUrl + "exam/" + idExam + "/fullEndDate", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
+    return this.http.get(this.usersUrl + "exam/" + idExam + "/fullEndDate", {responseType: 'text'});
   }
 
 }
