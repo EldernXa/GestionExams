@@ -17,14 +17,6 @@ export class LoginService {
     })
   };*/
 
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Authorization': 'Bearer ' + String(localStorage.getItem("token"))
-    })
-  };
-
 
   redirectIfNotLogin(){
     if(!this.isConnected()){
@@ -97,11 +89,36 @@ export class LoginService {
 
   loginRole(data: string){
     localStorage.setItem("token", JSON.parse(data).access_token);
-    return this.http.put<string>('http://localhost:8080/loginRole', {}, {headers: this.getHeaders().headers, responseType:'text' as 'json'});
+    return this.http.put<string>('http://localhost:8080/loginRole', {}, {headers: this.getHeadersForLogin().headers, responseType:'text' as 'json'});
+  }
+
+  getHeadersForLogin(){
+    return {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': 'Bearer ' + String(localStorage.getItem("token"))
+      })
+    };
   }
 
   getHeaders(){
-    return this.httpOptions;
+    if(this.isConnected()){
+      return {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': 'Bearer ' + String(localStorage.getItem("token"))
+        })
+      };
+    }
+
+    return {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
   }
 
 }
