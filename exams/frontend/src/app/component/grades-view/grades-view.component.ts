@@ -13,19 +13,20 @@ import {GradesViewService} from "../../service/grades-view/grades-view-service.s
 })
 export class GradesViewComponent implements OnInit {
 
-  idStudent: number = -1;
   grades: Grade[] = [];
 
   constructor(private route: ActivatedRoute, private gradeViewService: GradesViewService, private loginService:LoginService) {
     this.loginService.redirectIfNotLogin();
-    this.idStudent = Number(this.route.snapshot.paramMap.get('id'));
   }
 
   ngOnInit(): void {
-    this.gradeViewService.findAll(this.idStudent).subscribe(data=>{
+    this.gradeViewService.findAll().subscribe(data=>{
       this.grades = data;
-      //this.grades = this.grades.sort((a,b) => b.exam.year - a.exam.year);
-      console.log(this.grades.length)
+      this.grades = this.grades.sort((a,b) => b.year - a.year);
+      console.log(this.grades.length);
+      console.log("student : "+this.grades[0].lastName);
+      console.log("exam : "+this.grades[0].idExam);
+
     });
   }
 

@@ -4,8 +4,15 @@ import {Ue} from "../ue/ue";
 
 export class Grade {
 
-  exam: Exam = new Exam();
-  student: Student = new Student();
-  value: number = 0;
+  //exam: Exam = new Exam();
+    idExam: number = -1;
+    year: number = -1;
+    session: number = -1;
+    ue_name: string = "";
+  //student: Student = new Student();
+    idStudent: number = -1;
+    firstName: string = "";
+    lastName: string = "";
+  value: number = -1;
 
 }

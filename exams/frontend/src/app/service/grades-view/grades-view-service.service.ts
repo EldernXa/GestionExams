@@ -14,8 +14,8 @@ export class GradesViewService {
     this.usersUrl = 'http://localhost:8080/grades/';
   }
 
-  public findAll(idStudent: number) : Observable<Grade[]>{
-    let list = this.http.get<Grade[]>(this.usersUrl + "student/" + idStudent, this.loginService.getHeaders());
+  public findAll() : Observable<Grade[]>{
+    let list = this.http.get<Grade[]>(this.usersUrl + "student", this.loginService.getHeaders());
     return list;
   }
 
