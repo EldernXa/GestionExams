@@ -1,14 +1,18 @@
 package com.gestion.exams.dto;
 
+import com.gestion.exams.dto.mapper.GradeMapper;
+import com.gestion.exams.entity.Grade;
+
+import java.util.List;
+
 public class StudentDTO {
 
 	long idStudent;
 	String firstName;
 	String lastName;
 	String email;
-	//List<GradeDTO> grades;
-	//GradeDTO grade;
-	double grade;
+
+	List<GradeDTO> grades;
 
 	public void setIdStudent(long idStudent) {
 		this.idStudent = idStudent;
@@ -25,8 +29,10 @@ public class StudentDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public void setGrade(double grade) {
-		this.grade = grade;
+
+	public void setGrades(List<Grade> grades) {
+		for(Grade g : grades)
+			this.grades.add(GradeMapper.gradeToGradeDTO(g));
 	}
 
 	public long getIdStudent() {
@@ -45,8 +51,7 @@ public class StudentDTO {
 		return email;
 	}
 
-	public double getGrade() {
-		return grade;
+	public List<GradeDTO> getGrades() {
+		return grades;
 	}
-
 }

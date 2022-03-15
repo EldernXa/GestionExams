@@ -10,6 +10,9 @@ import {UeFormComponent} from "./component/ue-form/ue-form.component";
 import {UeManagementComponent} from "./component/ue-management/ue-management.component";
 import { LoginComponent } from './component/login/login.component';
 import { ExamsViewComponent } from './component/exams-view/exams-view.component';
+import {InscriptionsListComponent} from "./component/inscriptions-list/inscriptions-list.component";
+import {UeSubscribeableListComponent} from "./component/ue-subscribeable-list/ue-subscribeable-list.component";
+import {GradesViewComponent} from "./component/grades-view/grades-view.component";
 
 const routes: Routes = [
   { path: 'listPeriod', component: ExamsViewComponent},
@@ -21,6 +24,9 @@ const routes: Routes = [
   { path: 'addue', component: UeFormComponent},
   { path: 'ueManagement/:id', component: UeManagementComponent},
   { path: 'login', component: LoginComponent},
+  { path: 'inscriptions', component: InscriptionsListComponent},
+  { path: 'ueSubscribeable', component: UeSubscribeableListComponent},
+  { path: 'gradesView', component: GradesViewComponent},
   //{ path: '**', component: PageNotFoundComponent },  // TODO Wildcard route for a 404 page
 ];
 

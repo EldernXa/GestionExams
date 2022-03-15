@@ -1,0 +1,38 @@
+<div class="card my-5">
+  <div class="card-body">
+
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">UE</th>
+        <th scope="col">Session</th>
+        <th scope="col">Note</th>
+        <th scope="col">Année</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <ng-template ngFor let-grade [ngForOf]="grades" let-index="index">
+        <ng-template [ngIf] ="(index > 0 && grade.year != grades[index-1].year) || index == 0">
+          <tr style="background-color : lightgrey;">
+            <td></td><td></td><td></td><td>{{grade.year}}</td>
+          </tr>
+        </ng-template>
+        <tr>
+          <td> {{ grade.ue_name }} </td>
+          <td> {{ grade.session }} </td>
+          <td> {{ grade.value }} </td>
+          <td></td>
+        </tr>
+
+      </ng-template>
+
+
+
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+

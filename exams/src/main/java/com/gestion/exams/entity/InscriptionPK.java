@@ -6,10 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Embeddable
 public class InscriptionPK implements Serializable{
@@ -25,6 +22,9 @@ public class InscriptionPK implements Serializable{
 	@JoinColumn
 	private Student student;
 
+	@Basic(optional = false)
+	private int year;
+
 	public InscriptionPK() {
 		super();
 	}
@@ -35,6 +35,13 @@ public class InscriptionPK implements Serializable{
 		this.student = student;
 	}
 
+	public InscriptionPK(UE ue, Student student, int year) {
+		super();
+		this.ue = ue;
+		this.student = student;
+		this.year = year;
+	}
+
 
 
 	public UE getUe() {
@@ -43,6 +50,14 @@ public class InscriptionPK implements Serializable{
 
 	public void setUe(UE ue) {
 		this.ue = ue;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public int getYear() {
+		return year;
 	}
 
 	public Student getStudent() {

@@ -60,7 +60,7 @@ public class PopulateService{
 		populateExam();
 		populateInscription();
 
-		//populateGrade();
+		populateGrade();
 	}
 
 	private void populateRoom() {
@@ -158,9 +158,10 @@ public class PopulateService{
 		students.add(student2);
 		students.add(student3);
 		List<UE> listUE = ueRepository.findAll();
+		Random r = new Random();
 		for (UE element : listUE) {
 			for(Student s : students) {
-				Inscription inscription = new Inscription(s, 2021, element);
+				Inscription inscription = new Inscription(s, r.nextInt((2022 - 2017) + 1 ) + 2017 , element);
 				inscriptionRepository.save(inscription);
 			}
 		}
@@ -177,11 +178,14 @@ public class PopulateService{
 		for(Exam exam : examRepository.findAll()) {
 			//Grade grade = new Grade(student, exam, random.nextInt()*20);
 			for(Student s : students) {
-				Grade grade = new Grade(s, exam, 0);
+				Grade grade = new Grade(s, exam, random.nextInt((20 - 0) + 1 ) + 0);
 				gradeRepository.save(grade);
 			}
 		}
+		System.out.println(student1.getIdStudent() + " a " + gradeRepository.searchGradesByStudent(student1.getIdStudent()).size() + " notes !");
+
 	}
+
 }
 
 

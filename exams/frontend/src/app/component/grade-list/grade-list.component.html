@@ -10,25 +10,25 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let student of students;index as index;">
-        <td>{{ student.firstName }}</td>
-        <td>{{ student.lastName }}</td>
+      <tr *ngFor="let grade of grades;index as index;">
+        <td>{{ grade.firstName }}</td>
+        <td>{{ grade.lastName }}</td>
         <td>
-          <form (ngSubmit)="updateGrade(index)" #grade="ngForm">
+          <form (ngSubmit)="updateGrade(index)" #gradeform="ngForm">
           <div class="form-group">
             <div class="d-flex justify-content-between">
-              <input type="number" [(ngModel)]="student.grade"
+              <input type="number" [(ngModel)]="grade.value"
                      class="form-control mr-3"
                      id="grade"
                      name="grade"
                      min="0"
                      max="20"
                      placeholder="Entrer une note"
-                     required #grade="ngModel">
-              <button type="submit" [disabled]="!grade.form.valid"
+                     required #gradeform="ngModel">
+              <button type="submit" [disabled]="!gradeform.form.valid"
                       class="btn btn-info">Sauvegarder la note</button>
             </div>
-            <div [hidden]="!grade.invalid" class="alert alert-danger">La note doit être comprise entre 0 et 20 !</div>
+            <div [hidden]="!gradeform.invalid" class="alert alert-danger">La note doit être comprise entre 0 et 20 !</div>
           </div>
           </form>
         </td>
