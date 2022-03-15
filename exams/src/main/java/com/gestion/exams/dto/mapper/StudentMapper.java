@@ -9,17 +9,9 @@ public class StudentMapper {
 
 	private static final ModelMapper modelMapper = new ModelMapper() ;
 
-	public static StudentDTO studentToStudentDTO(Student student, long idExam){
+	public static StudentDTO studentToStudentDTO(Student student){
 
 		StudentDTO studentDTO = modelMapper.map(student, StudentDTO.class);
-		if(student.getGrades().size() == 0) {
-			studentDTO.setGrade(-1);
-		}
-		for(Grade g : student.getGrades()) {
-			if(g.getGradePK().getExam().getIdExam() == idExam) {
-				studentDTO.setGrade(g.getValue());
-			}
-		}
 		return studentDTO;
 	}
 

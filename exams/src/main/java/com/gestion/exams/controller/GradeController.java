@@ -45,30 +45,42 @@ public class GradeController {
 
 	@GetMapping(path="/exam/{id}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public List<StudentDTO> getStudentsAndGradesByExam(@PathVariable("id") long idExam){
+	public List<GradeDTO> getGradesByExam(@PathVariable("id") long idExam){
+		/*
 		List<StudentDTO> studentsDTO = new ArrayList<>();
 		List<Student> students = studentService.getStudentsByExamId(idExam);
 		for(Student s : students) {
 			studentsDTO.add(StudentMapper.studentToStudentDTO(s, idExam));
 		}
 		return studentsDTO;
+		*/
+		List<GradeDTO> gradesDTO = new ArrayList<>();
+		List<Grade> grades = gradeService.getGradesByExam(idExam);
+		for(Grade g : grades) {
+			gradesDTO.add(GradeMapper.gradeToGradeDTO(g));
+			System.out.println("value of grade :"+g.getValue());
+			System.out.println("grade dto value:"+gradesDTO.get(gradesDTO.size()-1).getValue());
+			System.out.println("id exam of grade :"+g.getGradePK().getExam().getIdExam());
+			System.out.println("grade dto value:"+gradesDTO.get(gradesDTO.size()-1).getIdExam());
+			System.out.println();
+		}
+		return gradesDTO;
+
 	}
 
-	@GetMapping(path="/student/{id}")
+	@GetMapping(path="/student")
 	@PreAuthorize("hasAuthority('STUDENT')")
-	public List<Grade> getGradesOfStudent(Principal principal){
+	public List<GradeDTO> getGradesOfStudent(Principal principal){
 		Student student = studentRepository.getStudentByEmail(principal.getName());
 		List<GradeDTO> gradesDTO = new ArrayList<>();
 		List<Grade> grades = gradeService.getGradesByStudent(student.getIdStudent());
-		for(Grade g : grades)
-			System.out.println("exam = " +g.getGradePK().getExam().getIdExam() + " / UE = "+ g.getGradePK().getExam().getUe().getName());
-		return grades;
-		/*
+		//return grades;
+
 		for(Grade g : grades)
 			gradesDTO.add(GradeMapper.gradeToGradeDTO(g));
 		System.out.println("nombre de notes de "+student.getIdStudent()+" : "+ grades.size());
 		return gradesDTO;
-		 */
+
 	}
 
 	@PostMapping(path="/exams/{id}")
@@ -84,9 +96,11 @@ public class GradeController {
 
 	@PostMapping(path="/exam/{id}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public void updateGrade(@PathVariable("id") long idExam, @RequestBody Map<String, String> map){
-		System.out.println("SAVING GRADE OF EXAM :"+idExam);
-		Grade g = new Grade(this.studentService.getStudentById(Long.parseLong(map.get("idStudent"))).get(),this.examService.getExamById(idExam).get(),Double.parseDouble(map.get("grade")));
+	public void updateGrade(@PathVariable("id") long idExam, @RequestBody GradeDTO gradeDTO){
+		Grade g = GradeMapper.gradeDTOToGrade(gradeDTO,gradeService);
+		g.setValue(gradeDTO.getValue());
+		System.out.println("SAVING GRADE OF EXAM :"+idExam + " / " + g.getGradePK().getExam().getIdExam());
+		//Grade g = new Grade(this.studentService.getStudentById(Long.parseLong(map.get("idStudent"))).get(),this.examService.getExamById(idExam).get(),Double.parseDouble(map.get("grade")));
 		gradeService.createGrade(g);
 		//return g;
 	}
