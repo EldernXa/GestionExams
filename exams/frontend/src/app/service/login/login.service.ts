@@ -26,7 +26,6 @@ export class LoginService {
   }
   
   getRole(){
-    console.log("okok");
     return localStorage.getItem("role");
   }
 
