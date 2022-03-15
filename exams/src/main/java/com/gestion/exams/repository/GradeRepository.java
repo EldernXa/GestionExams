@@ -20,4 +20,7 @@ public interface GradeRepository extends JpaRepository<Grade, GradePK>{
     @Query("SELECT g FROM Grade g WHERE ( g.gradePK.student.idStudent = :searchValueStudent AND g.gradePK.exam.idExam = :searchValueExam ) ")
     Optional<Grade> getGradeByStudentAndExam(@Param("searchValueStudent") long idStudent, @Param("searchValueExam") long idExam);
 
+    @Query("SELECT g FROM Grade g WHERE ( g.gradePK.student.idStudent = :searchValueStudent ) ")
+    List<Grade> searchGradesByStudent(@Param("searchValueStudent") long idStudent);
+
 }

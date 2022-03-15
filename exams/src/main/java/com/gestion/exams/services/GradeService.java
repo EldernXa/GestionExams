@@ -73,6 +73,12 @@ public class GradeService {
         return gradeRepository.getGradeByStudentAndExam(idStudent,idExam);
     }
 
+    public List<Grade> getGradesByStudent(long idStudent){
+        List<Grade> grades = gradeRepository.searchGradesByStudent(idStudent);
+        System.out.println("nombre notes dans grade service"+grades.size());
+        return grades;
+    }
+
     public List<Grade> getAllGradesByExam(long idExam){
         return gradeRepository.searchGradeByExam(idExam);
     }

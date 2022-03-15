@@ -60,7 +60,7 @@ public class PopulateService{
 		populateExam();
 		populateInscription();
 
-		//populateGrade();
+		populateGrade();
 	}
 
 	private void populateRoom() {
@@ -178,11 +178,14 @@ public class PopulateService{
 		for(Exam exam : examRepository.findAll()) {
 			//Grade grade = new Grade(student, exam, random.nextInt()*20);
 			for(Student s : students) {
-				Grade grade = new Grade(s, exam, 0);
+				Grade grade = new Grade(s, exam, random.nextInt((20 - 0) + 1 ) + 0);
 				gradeRepository.save(grade);
 			}
 		}
+		System.out.println(student1.getIdStudent() + " a " + gradeRepository.searchGradesByStudent(student1.getIdStudent()).size() + " notes !");
+
 	}
+
 }
 
 

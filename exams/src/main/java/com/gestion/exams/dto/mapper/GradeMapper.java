@@ -13,4 +13,9 @@ public class GradeMapper {
 		System.out.println("mapper :" + g.toString());
 		return g;
 	}
+
+	public static GradeDTO gradeToGradeDTO(Grade grade){
+		GradeDTO gradeDTO = modelMapper.map(grade, GradeDTO.class);
+		return gradeDTO;
+	}
 }

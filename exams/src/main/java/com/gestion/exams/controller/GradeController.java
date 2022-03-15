@@ -1,10 +1,15 @@
 package com.gestion.exams.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.gestion.exams.dto.GradeDTO;
+import com.gestion.exams.dto.mapper.GradeMapper;
+import com.gestion.exams.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,9 +39,12 @@ public class GradeController {
 	@Autowired
 	StudentService studentService;
 	@Autowired
+	StudentRepository studentRepository;
+	@Autowired
 	ExamService examService;
 
 	@GetMapping(path="/exam/{id}")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public List<StudentDTO> getStudentsAndGradesByExam(@PathVariable("id") long idExam){
 		List<StudentDTO> studentsDTO = new ArrayList<>();
 		List<Student> students = studentService.getStudentsByExamId(idExam);
@@ -46,7 +54,25 @@ public class GradeController {
 		return studentsDTO;
 	}
 
+	@GetMapping(path="/student/{id}")
+	@PreAuthorize("hasAuthority('STUDENT')")
+	public List<Grade> getGradesOfStudent(Principal principal){
+		Student student = studentRepository.getStudentByEmail(principal.getName());
+		List<GradeDTO> gradesDTO = new ArrayList<>();
+		List<Grade> grades = gradeService.getGradesByStudent(student.getIdStudent());
+		for(Grade g : grades)
+			System.out.println("exam = " +g.getGradePK().getExam().getIdExam() + " / UE = "+ g.getGradePK().getExam().getUe().getName());
+		return grades;
+		/*
+		for(Grade g : grades)
+			gradesDTO.add(GradeMapper.gradeToGradeDTO(g));
+		System.out.println("nombre de notes de "+student.getIdStudent()+" : "+ grades.size());
+		return gradesDTO;
+		 */
+	}
+
 	@PostMapping(path="/exams/{id}")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public void updateAllGrades(@PathVariable("id") long idExam, @RequestBody List<Map<String, String>> mapStudent){
 		System.out.println("SAVING GRADES OF EXAM "+idExam);
 		for(Map<String, String> map : mapStudent){
@@ -57,6 +83,7 @@ public class GradeController {
 
 
 	@PostMapping(path="/exam/{id}")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public void updateGrade(@PathVariable("id") long idExam, @RequestBody Map<String, String> map){
 		System.out.println("SAVING GRADE OF EXAM :"+idExam);
 		Grade g = new Grade(this.studentService.getStudentById(Long.parseLong(map.get("idStudent"))).get(),this.examService.getExamById(idExam).get(),Double.parseDouble(map.get("grade")));
@@ -65,6 +92,7 @@ public class GradeController {
 	}
 
 	@DeleteMapping(path="/exam/{id}")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public void deleteGrade(@PathVariable("id") long idExam, @RequestBody Grade g){
 		gradeService.deleteGrade(g);
 	}
