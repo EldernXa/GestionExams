@@ -34,8 +34,6 @@ public class ExamService {
 	@Autowired
 	private UERepository ueRepository;
 
-	private String msgNotPlannedYet = "Pas planifiée pour l'instant";
-
 	private String mstNotRoomYet = "Pas de salle pour l'instant";
 
 	public List<Exam> getAllExams(){
@@ -111,54 +109,6 @@ public class ExamService {
 		exam.setIdExam(examDTO.getIdExam());
 		ueRepository.findById(examDTO.getUe()).ifPresent(exam::setUe);
 		return exam;
-	}
-
-	public String getBeginDateExam(long id) {
-		try {
-			Exam exam = examRepository.getById(id);
-			if(exam.getBeginDateExam()==null) {
-				return msgNotPlannedYet;
-			}
-			return DateService.convertDateClassToStringDate(exam.getBeginDateExam());
-		}catch(Exception exception) {
-			return null;
-		}
-	}
-
-	public String getEndDateExam(long id) {
-		try {
-			Exam exam = examRepository.getById(id);
-			if(exam.getEndDateExam() == null) {
-				return msgNotPlannedYet;
-			}
-			return DateService.convertDateClassToStringDate(exam.getEndDateExam());
-		}catch(Exception exception) {
-			return null;
-		}
-	}
-
-	public String getFullBeginDateExam(long id) {
-		try {
-			Exam exam = examRepository.getById(id);
-			if(exam.getBeginDateExam() == null) {
-				return msgNotPlannedYet;
-			}
-			return DateService.convertDateClassToFullStringDate(exam.getBeginDateExam());
-		}catch(Exception exception) {
-			return null;
-		}
-	}
-
-	public String getFullEndDateExam(long id) {
-		try {
-			Exam exam = examRepository.getById(id);
-			if(exam.getEndDateExam() == null) {
-				return msgNotPlannedYet;
-			}
-			return DateService.convertDateClassToFullStringDate(exam.getEndDateExam());
-		}catch(Exception exception) {
-			return null;
-		}
 	}
 
 	private Exam getExamFromMap(Map<String, String> mapExam) {
