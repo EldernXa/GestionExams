@@ -59,42 +59,6 @@ public class ExamController {
 		return new ResponseEntity<>(examService.getAllExamsFromPeriod(id), HttpStatus.OK);
 	}
 
-	@GetMapping("/{id}/beginDate")
-	public ResponseEntity<String> getBeginDateExam(@PathVariable long id){
-		String str = examService.getBeginDateExam(id);
-		if(str != null) {
-			return new ResponseEntity<>(str, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
-
-	@GetMapping("/{id}/endDate")
-	public ResponseEntity<String> getEndDateExam(@PathVariable long id){
-		String str = examService.getEndDateExam(id);
-		if(str != null) {
-			return new ResponseEntity<>(str, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
-
-	@GetMapping("/{id}/fullBeginDate")
-	public ResponseEntity<String> getBeginFullDate(@PathVariable long id){
-		String str = examService.getFullBeginDateExam(id);
-		if(str != null) {
-			return new ResponseEntity<>(str, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
-
-	@GetMapping("/{id}/fullEndDate")
-	public ResponseEntity<String> getEndFullDate(@PathVariable long id){
-		String str = examService.getFullEndDateExam(id);
-		if(str != null) {
-			return new ResponseEntity<>(str, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
-
 	@GetMapping("/listUE")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<List<String>> getListUE(){

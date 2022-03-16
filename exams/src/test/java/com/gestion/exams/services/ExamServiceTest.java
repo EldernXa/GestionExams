@@ -117,25 +117,6 @@ class ExamServiceTest {
 		assertEquals(exam.getPeriod().getId(), newExam.getPeriod().getId());
 	}
 
-	@Test
-	void testGettingBeginDateExam() {
-		assertEquals(DateService.convertDateClassToStringDate(beginDate), examService.getBeginDateExam(exam.getIdExam()));
-	}
-
-	@Test
-	void testGettingBeginDateExamForAnExamWhoDoesntExist() {
-		assertNull(examService.getBeginDateExam(-1));
-	}
-
-	@Test
-	void testGettingEndDateExam() {
-		assertEquals(DateService.convertDateClassToStringDate(endDate), examService.getEndDateExam(exam.getIdExam()));
-	}
-
-	@Test
-	void testGettingEndDateExamForAnExamWhoDoesntExist() {
-		assertNull(examService.getEndDateExam(-1));
-	}
 
 	@Test
 	void testGettingNameUE() {
