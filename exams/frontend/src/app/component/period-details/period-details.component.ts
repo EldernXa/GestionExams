@@ -28,14 +28,6 @@ export class PeriodDetailsComponent implements OnInit {
     });
     this.periodService.getPeriod(this.id).subscribe(data =>{
       this.period = data;
-      this.periodService.getNewBeginPeriod(this.period.id)
-              .subscribe(data=>{
-                this.period.beginDatePeriod = data;
-              });
-      this.periodService.getNewEndPeriod(this.period.id)
-              .subscribe(data =>{
-                this.period.endDatePeriod = data;
-              });
     });
   }
 

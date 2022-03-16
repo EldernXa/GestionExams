@@ -61,8 +61,8 @@ public class PeriodController {
 
 	@GetMapping("/period/{id}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<Period> getPeriod(@PathVariable long id){
-		Period period = periodService.getPeriod(id);
+	public ResponseEntity<PeriodDTO> getPeriod(@PathVariable long id){
+		PeriodDTO period = periodService.convertToDTO(periodService.getPeriod(id));
 		if(period != null) {
 			return new ResponseEntity<>(period, HttpStatus.OK);
 		}

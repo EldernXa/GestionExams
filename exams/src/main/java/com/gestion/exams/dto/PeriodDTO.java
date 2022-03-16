@@ -15,16 +15,24 @@ public class PeriodDTO {
 
 	private String endDatePeriod;
 
-	public Date getBeginDatePeriod() throws ParseException {
+	public Date getBeginDatePeriodInDateFormat() throws ParseException {
 		return DateService.convertStringDateToDateClass(beginDatePeriod);
+	}
+
+	public String getBeginDatePeriod() {
+		return this.beginDatePeriod;
 	}
 
 	public void setBeginDatePeriod(Date date) {
 		this.beginDatePeriod = DateService.convertDateClassToStringDate(date);
 	}
 
-	public Date getEndDatePeriod() throws ParseException {
+	public Date getEndDatePeriodInDateFormat() throws ParseException {
 		return DateService.convertStringDateToDateClass(endDatePeriod);
+	}
+
+	public String getEndDatePeriod() {
+		return this.endDatePeriod;
 	}
 
 	public void setEndDatePeriod(Date date) {

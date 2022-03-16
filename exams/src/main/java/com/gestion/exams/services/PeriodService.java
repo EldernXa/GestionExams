@@ -224,8 +224,8 @@ public class PeriodService {
 
 	public Period convertToEntity(PeriodDTO periodDTO) throws ParseException{
 		Period period = modelMapper.map(periodDTO, Period.class);
-		period.setBeginDatePeriod(periodDTO.getBeginDatePeriod());
-		period.setEndDatePeriod(periodDTO.getEndDatePeriod());
+		period.setBeginDatePeriod(periodDTO.getBeginDatePeriodInDateFormat());
+		period.setEndDatePeriod(periodDTO.getEndDatePeriodInDateFormat());
 		period.setId(periodDTO.getId());
 
 		return period;
