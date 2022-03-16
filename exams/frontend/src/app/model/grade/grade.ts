@@ -9,6 +9,7 @@ export class Grade {
     year: number = -1;
     session: number = -1;
     ue_name: string = "";
+    credit: number = -1;
   //student: Student = new Student();
     idStudent: number = -1;
     firstName: string = "";

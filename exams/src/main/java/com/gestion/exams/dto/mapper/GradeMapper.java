@@ -27,6 +27,7 @@ public class GradeMapper {
 		gradeDTO.setIdExam(grade.getGradePK().getExam().getIdExam());
 		gradeDTO.setSession(grade.getGradePK().getExam().getSession());
 		gradeDTO.setUe_name(grade.getGradePK().getExam().getUe().getName());
+		gradeDTO.setCredit(grade.getGradePK().getExam().getUe().getCredit());
 		gradeDTO.setYear(grade.getGradePK().getExam().getYear());
 		gradeDTO.setIdStudent(grade.getGradePK().getStudent().getIdStudent());
 		gradeDTO.setFirstName(grade.getGradePK().getStudent().getFirstName());

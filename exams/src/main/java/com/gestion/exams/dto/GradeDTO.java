@@ -13,6 +13,7 @@ public class GradeDTO {
 		private int year;
 		private int session;
 		private String ue_name;
+		private int credit;
     //private StudentDTO student;
 		private long idStudent;
 		private String firstName;
@@ -73,6 +74,10 @@ public class GradeDTO {
 		this.ue_name = ue_name;
 	}
 
+	public void setCredit(int credit) {
+		this.credit = credit;
+	}
+
 	public int getYear() {
 		return year;
 	}
@@ -99,5 +104,9 @@ public class GradeDTO {
 
 	public String getUe_name() {
 		return ue_name;
+	}
+
+	public int getCredit() {
+		return credit;
 	}
 }
