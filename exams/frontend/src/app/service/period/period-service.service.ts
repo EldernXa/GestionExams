@@ -28,16 +28,6 @@ export class PeriodService {
     return this.http.get<Period>(this.usersUrl + "period/" + index);
   }
 
-  public getNewBeginPeriod(idPeriod: number){
-    return this.http.get('http://localhost:8080/' + "periodList/" + idPeriod + "/beginDate",
-    {responseType:'text'});
-  }
-
-  public getNewEndPeriod(idPeriod: number){
-    return this.http.get('http://localhost:8080/periodList/'+idPeriod + "/endDate",
-    {responseType: 'text'});
-  }
-
   public isPeriodDateGood(dateBegin: string, dateEnd: string){
     return this.http.get(this.usersUrl+"verifyDatePeriod/"+dateBegin+"/"+dateEnd);
   }
