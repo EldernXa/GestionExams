@@ -183,7 +183,7 @@ public class PopulateService{
 			//Grade grade = new Grade(student, exam, random.nextInt()*20);
 			for(Inscription i : inscriptions){
 				System.out.println("entering in inscription loop");
-				if(i.getUe() == exam.getUe() && i.getYear() == exam.getYear()){
+				if(i.getUe().getName() == exam.getUe().getName() && i.getYear() == exam.getYear()){
 					Grade grade = new Grade(i.getStudent(),exam, random.nextInt((20 - 0) + 1 ) + 0);
 					gradeRepository.save(grade);
 					System.out.println(i.getStudent().getFirstName() + " a " + gradeRepository.searchGradesByStudent(i.getStudent().getIdStudent()).size() + " notes !");
