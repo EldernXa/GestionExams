@@ -65,9 +65,10 @@ export class UeSubscribeableListComponent implements OnInit {
 
   subscribe(ue: Ue){
     // if(confirm("S'inscrire à une Ue implique un engagement de votre part à l'assiduité et à la non possibilité de se rétracter. Confirmez-vous que vous souhaitez vous inscrire à l'Ue "+ue.name+" pour l'année "+this.current_year+ " ?"))
-    this.ueSubscribeableService.subscribeToUe(this.current_year,ue).subscribe();
-    this.modalRef.hide();
-    this.ngOnInit();
+    this.ueSubscribeableService.subscribeToUe(this.current_year,ue).subscribe( data => {
+      this.modalRef.hide();
+      this.ngOnInit();
+    });
   }
 
   decline(){
