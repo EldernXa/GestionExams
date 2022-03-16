@@ -89,6 +89,12 @@ public class ExamService {
 		if(examDTO.getNameRoom() == null) {
 			examDTO.setNameRoom(mstNotRoomYet);
 		}
+		if(exam.getBeginDateExam()!= null) {
+			examDTO.setBeginDateExam(exam.getBeginDateExam());
+		}
+		if(exam.getEndDateExam() != null) {
+			examDTO.setEndDateExam(exam.getEndDateExam());
+		}
 		return examDTO;
 	}
 

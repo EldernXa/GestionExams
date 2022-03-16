@@ -17,33 +17,41 @@ public class ExamDTO {
 	private String[] supervisors;
 	private int year;
 
-	public Date getBeginDateExam() throws ParseException {
+	public Date getBeginDateExamInDateFormat() throws ParseException {
 		if(beginDateExam.compareTo("")==0) {
 			return null;
 		}
 		return DateService.convertStringDateToDateClass(beginDateExam);
 	}
 
+	public String getBeginDateExam() {
+		return this.beginDateExam;
+	}
+
 	public void setBeginDateExam(Date date) {
 		if(date == null) {
 			this.beginDateExam = "";
 		}else {
-			this.beginDateExam = DateService.convertDateClassToStringDate(date);
+			this.beginDateExam = DateService.convertDateClassToFullStringDate(date);
 		}
 	}
 
-	public Date getEndDateExam() throws ParseException {
+	public Date getEndDateExamInDateFormat() throws ParseException {
 		if(endDateExam.compareTo("")==0) {
 			return null;
 		}
 		return DateService.convertStringDateToDateClass(endDateExam);
 	}
 
+	public String getEndDateExam() {
+		return this.endDateExam;
+	}
+
 	public void setEndDateExam(Date date) {
 		if(date == null) {
 			this.endDateExam = "";
 		}else {
-			this.endDateExam = DateService.convertDateClassToStringDate(date);
+			this.endDateExam = DateService.convertDateClassToFullStringDate(date);
 		}
 	}
 
