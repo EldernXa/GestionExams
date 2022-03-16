@@ -70,7 +70,9 @@ public class ExamService {
 
 			for(Exam exam : listAllExam) {
 				for(Inscription inscription : exam.getUe().getInscriptions()) {
-					if(inscription.getStudent().getEmail().compareTo(student.getEmail())==0 && !verifyListExam.contains(exam.getUe().getName())) {
+					if(inscription.getStudent().getEmail().compareTo(student.getEmail())==0 && !verifyListExam.contains(exam.getUe().getName()) &&
+							inscription.getYear() == DateService.getYear(periodValue.getBeginDatePeriod()) &&
+							inscription.getUe().getName().contentEquals(exam.getUe().getName()) && exam.getBeginDateExam() != null) {
 						listAllExamForAStudent.add(convertToDTO(exam));
 						verifyListExam.add(exam.getUe().getName());
 					}
