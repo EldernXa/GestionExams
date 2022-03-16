@@ -3,7 +3,6 @@
       <table class="table table-bordered table-striped">
         <thead class="thead-dark">
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Nom de la période</th>
             <th scope="col">Date de début</th>
             <th scope="col">Date de fin</th>
@@ -11,7 +10,6 @@
         </thead>
         <tbody>
           <tr *ngFor="let period of periods">
-            <td>{{ period.id }}</td>
             <td>{{ period.name }}</td>
             <td>{{ period.beginDatePeriod }}</td>
             <td>{{ period.endDatePeriod }}</td>
