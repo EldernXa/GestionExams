@@ -14,6 +14,7 @@ import {GradesViewService} from "../../service/grades-view/grades-view-service.s
 export class GradesViewComponent implements OnInit {
 
   grades: Grade[] = [];
+  gradesS1: Grade[] = [];
   averages: number[] = [];
   current_points: number = 0;
   current_credits: number = 0;
@@ -29,6 +30,10 @@ export class GradesViewComponent implements OnInit {
     this.gradeViewService.findAll().subscribe(data=>{
       this.grades = data;
       this.grades = this.grades.sort((a,b) => b.year - a.year);
+      for(const i in this.grades){
+        if(this.grades[i].session == 1)
+          this.gradesS1.push(this.grades[i]);
+      }
       this.setAverage()
     });
   }
@@ -41,7 +46,8 @@ export class GradesViewComponent implements OnInit {
         years.push(g.year);
     });
     years.forEach((y) => {
-      this.grades.forEach((g) => {
+      grades = [];
+      this.gradesS1.forEach((g) => {
         if (g.year == y)
           grades.push(g)
       });
@@ -49,7 +55,7 @@ export class GradesViewComponent implements OnInit {
         this.addToAverage(g)
       });
       this.averageCalculation();
-      this.averages[y]=this.current_average;
+      this.averages[y]=Math.round(this.current_average*100)/100;
     });
 
   }
@@ -70,11 +76,12 @@ export class GradesViewComponent implements OnInit {
         this.addAverageVariables(grade.value,grade.credit)
   }
 
-  averageCalculation(): void{
-      this.current_average = this.current_points / this.current_credits;
-      console.log(this.current_points + " / " + this.current_credits + " = " + this.current_average)
-      this.current_points = 0;
-      this.current_credits = 0;
+  averageCalculation(): number{
+    this.current_average = this.current_points / this.current_credits;
+    console.log(this.current_points + " / " + this.current_credits + " = " + this.current_average)
+    this.current_points = 0;
+    this.current_credits = 0;
+    return this.current_average;
   }
 
   hasSession2Grade(grade : Grade): boolean{
