@@ -163,7 +163,7 @@ public class PopulateService{
 				Period period = periodRepository.getPeriodByName("period "+year).get(0);
 				List<Exam> exams = examRepository.searchExamsByUeAndYear(ue,year);
 				if(exams.isEmpty()) {
-					Exam exam = new Exam(null, null, 1, year, /*listRoom.get(0)*/listRoom.get(0), period, ue);
+					Exam exam = new Exam(null, null, 1, year, /*listRoom.get(0)*/null, period, ue);
 					examRepository.save(exam);
 				}
 		}
