@@ -17,6 +17,8 @@ public class ExamDTO {
 	private String[] supervisors;
 	private int year;
 
+	private String msgNotPlannedYet = "Pas planifiée pour l'instant";
+
 	public Date getBeginDateExamInDateFormat() throws ParseException {
 		if(beginDateExam.compareTo("")==0) {
 			return null;
@@ -25,6 +27,9 @@ public class ExamDTO {
 	}
 
 	public String getBeginDateExam() {
+		if(this.beginDateExam.contentEquals("")) {
+			return msgNotPlannedYet;
+		}
 		return this.beginDateExam;
 	}
 
@@ -44,6 +49,9 @@ public class ExamDTO {
 	}
 
 	public String getEndDateExam() {
+		if(this.endDateExam.contentEquals("")) {
+			return this.msgNotPlannedYet;
+		}
 		return this.endDateExam;
 	}
 
