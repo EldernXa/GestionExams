@@ -54,12 +54,11 @@ public class PopulateService{
 	public void populate() {
 		populateRoom();
 		populateUE();
-		populatePeriod();
 		populateStudent();
 		populateAuthentification();
-		populateExam();
 		populateInscription();
-
+		populatePeriod();
+		populateExam();
 		populateGrade();
 	}
 
@@ -81,22 +80,6 @@ public class PopulateService{
 		ueRepository.save(ue4);
 		UE ue5 = new UE("Badminton", 3, 2*60, Discipline.SPORT);
 		ueRepository.save(ue5);
-	}
-
-	private void populatePeriod() {
-		for(int i=0; i<2; i++) {
-			//			String strBeginDate = "13/"+12+(i*5)+"/202"+(1+(i));
-			//			String strEndDate = "17/"+12+(i*5)+"/202"+(1+(i));
-			String strBeginDate = "02/05/2022";
-			String strEndDate = "13/05/2022";
-			try {
-				Period period = new Period(new SimpleDateFormat("dd/MM/yyyy").parse(strBeginDate),
-						new SimpleDateFormat("dd/MM/yyyy").parse(strEndDate), "name"+i);
-				periodRepository.save(period);
-			}catch(Exception exception) {
-				exception.printStackTrace();
-			}
-		}
 	}
 
 	private void populateStudent() {
@@ -132,23 +115,6 @@ public class PopulateService{
 		authRepo.save(auth);
 	}
 
-	private void populateExam() {
-		List<Period> listPeriod = periodRepository.findAll();
-		List<Room> listRoom = roomRepository.findAll();
-		List<UE> listUE = ueRepository.findAll();
-		for(int i = 0; i<listUE.size(); i++) {
-			//			String strBeginDate = "13/"+12+(i*5)+"/202"+(1+(i));
-			//			String strEndDate = "17/"+12+(i*5)+"/202"+(1+(i));
-			try {
-				Exam exam = new Exam(/*new SimpleDateFormat("dd/MM/yyyy").parse(strBeginDate)*/null, /*new SimpleDateFormat("dd/MM/yyyy").parse(strEndDate)*/null,
-						1, 2021, listRoom.get(0), listPeriod.get(0), listUE.get(i));
-				examRepository.save(exam);
-			}catch(Exception exception) {
-				exception.printStackTrace();
-			}
-		}
-	}
-
 	private void populateInscription() {
 		Student student1 = studentRepository.findAll().get(0);
 		Student student2 = studentRepository.findAll().get(1);
@@ -167,22 +133,70 @@ public class PopulateService{
 		}
 	}
 
+	private void populatePeriod() {
+		List<Integer> years = new ArrayList<>();
+		for(Inscription i : inscriptionRepository.findAll())
+			if(!years.contains(i.getYear()))
+				years.add(i.getYear());
+		for(int year : years) {
+			//			String strBeginDate = "13/"+12+(i*5)+"/202"+(1+(i));
+			//			String strEndDate = "17/"+12+(i*5)+"/202"+(1+(i));
+			String strBeginDate = "02/05/"+year;
+			String strEndDate = "13/05/"+year;
+			try {
+				Period period = new Period(new SimpleDateFormat("dd/MM/yyyy").parse(strBeginDate),
+						new SimpleDateFormat("dd/MM/yyyy").parse(strEndDate), "period "+year);
+				periodRepository.save(period);
+			}catch(Exception exception) {
+				exception.printStackTrace();
+			}
+		}
+	}
+
+	private void populateExam() {
+		List<Period> listPeriod = periodRepository.findAll();
+		List<Room> listRoom = roomRepository.findAll();
+		List<Inscription> inscriptions = inscriptionRepository.findAll();
+		for(int i = 0; i<inscriptions.size(); i++) {
+				UE ue = inscriptions.get(i).getUe();
+				int year = inscriptions.get(i).getYear();
+				Period period = periodRepository.getPeriodByName("period "+year).get(0);
+				List<Exam> exams = examRepository.searchExamsByUeAndYear(ue,year);
+				if(exams.isEmpty()) {
+					Exam exam = new Exam(null, null, 1, year, /*listRoom.get(0)*/listRoom.get(0), period, ue);
+					examRepository.save(exam);
+				}
+		}
+	}
+
 	private void populateGrade() {
 		Student student1 = studentRepository.findAll().get(0);
 		Student student2 = studentRepository.findAll().get(1);
 		Student student3 = studentRepository.findAll().get(2);
+		List<Inscription> inscriptions = inscriptionRepository.findAll();
 		List<Student> students = new ArrayList<>();
 		students.add(student1);
 		students.add(student2);
 		students.add(student3);
 		for(Exam exam : examRepository.findAll()) {
+			System.out.println("entering in exam loop");
 			//Grade grade = new Grade(student, exam, random.nextInt()*20);
+			for(Inscription i : inscriptions){
+				System.out.println("entering in inscription loop");
+				if(i.getUe().getName() == exam.getUe().getName() && i.getYear() == exam.getYear()){
+					Grade grade = new Grade(i.getStudent(),exam, random.nextInt((20 - 0) + 1 ) + 0);
+					gradeRepository.save(grade);
+					System.out.println(i.getStudent().getFirstName() + " a " + gradeRepository.searchGradesByStudent(i.getStudent().getIdStudent()).size() + " notes !");
+				}
+			}
+			/*
 			for(Student s : students) {
 				Grade grade = new Grade(s, exam, random.nextInt((20 - 0) + 1 ) + 0);
 				gradeRepository.save(grade);
 			}
+			 */
 		}
-		System.out.println(student1.getIdStudent() + " a " + gradeRepository.searchGradesByStudent(student1.getIdStudent()).size() + " notes !");
+
 
 	}
 
