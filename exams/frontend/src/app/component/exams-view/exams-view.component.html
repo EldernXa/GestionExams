@@ -3,7 +3,6 @@
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Nom de l'UE</th>
             <th scope="col">session</th>
             <th scope="col">La salle</th>
@@ -13,7 +12,6 @@
         </thead>
         <tbody>
           <tr *ngFor="let exam of listExam">
-            <td>{{ exam.idExam }}</td>
             <td>{{ exam.ue }}</td>
             <td>{{ exam.session }}</td>
             <td>{{ exam.nameRoom }}</td>
