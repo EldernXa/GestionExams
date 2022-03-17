@@ -20,11 +20,11 @@ export class InscriptionsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.inscriptionsService.findAll().subscribe(data=>{
-      this.inscriptions = this.inscriptions.sort((a,b) => b.year - a.year);
       for(var inscription of data){
         inscription.ue.durationExam = Number(inscription.ue.durationExam)/60;
         this.inscriptions.push(inscription);
       }
+      this.inscriptions = this.inscriptions.sort((a,b) => b.year - a.year);
     });
   }
 

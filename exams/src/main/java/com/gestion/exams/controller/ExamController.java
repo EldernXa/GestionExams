@@ -101,6 +101,14 @@ public class ExamController {
 		return new ResponseEntity<>(isFinished, HttpStatus.OK);
 	}
 
+	@GetMapping("/{idExam}/student")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<Boolean> hasStudent(@PathVariable long idExam){
+		boolean hasStudent = examService.hasStudent(idExam);
+		System.out.println(hasStudent);
+		return new ResponseEntity<>(hasStudent, HttpStatus.OK);
+	}
+
 }
 
 
