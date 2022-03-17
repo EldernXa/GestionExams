@@ -78,10 +78,10 @@ public class GradeController {
 
 	@PostMapping(path="/exams/{id}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public void updateAllGrades(@PathVariable("id") long idExam, @RequestBody List<Map<String, String>> mapStudent){
-		System.out.println("SAVING GRADES OF EXAM "+idExam);
-		for(Map<String, String> map : mapStudent){
-			Grade g = new Grade(this.studentService.getStudentById(Long.parseLong(map.get("idStudent"))).get(),this.examService.getExamById(idExam).get(),Double.parseDouble(map.get("grade")));
+	public void updateAllGrades(@PathVariable("id") long idExam, @RequestBody List<GradeDTO> gradesDTO){
+		System.out.println("SAVING GRADES OF EXAM "+idExam + " " + gradesDTO.get(0).getValue());
+		for(GradeDTO gDto : gradesDTO){
+			Grade g = GradeMapper.gradeDTOToGrade(gDto,gradeService);
 			gradeService.createGrade(g);
 		}
 	}
