@@ -36,6 +36,7 @@ export class PeriodFormComponent{
       verifySubmit = false;
     }
 
+
     if(!this.verifyNamePeriod()){
       verifySubmit = false;
     }
@@ -46,29 +47,34 @@ export class PeriodFormComponent{
         });
       }
     }else{
-      this.periodService.isPeriodDateGood(this.period.beginDatePeriod, this.period.endDatePeriod).subscribe(
-        (data) => {
-          if(!this.verifyDate(Number(data))){
-            verifySubmit = false;
-          }
-          if(verifySubmit){
-            this.periodService.isPeriodNameGood(this.period.name).subscribe(
-              (isNameGood) =>{
+      if(verifySubmit){
+        this.periodService.isPeriodDateGood(this.period.beginDatePeriod, this.period.endDatePeriod).subscribe(
+          (data) => {
+            if(!this.verifyDate(Number(data))){
+              verifySubmit = false;
+            }
+            if(verifySubmit){
+              this.periodService.isPeriodNameGood(this.period.name).subscribe(
+                (isNameGood) =>{
+                  
+                  if(!this.verifyNamePeriodGood(Boolean(isNameGood))){
+                    verifySubmit = false;
+                    this.msgNamePeriod = "le nom n'est pas bon";
+                    this.nameVerif = true;
+                  }
 
-                if(!this.verifyNamePeriodGood(Boolean(isNameGood))){
-                  verifySubmit = false;
-                }
+                  if(verifySubmit){
+                    this.periodService.savePeriod(this.period).subscribe(result=>{
+                      this.gotoPeriodList();
+                    });
 
-                if(verifySubmit){
-                  this.periodService.savePeriod(this.period).subscribe(result=>{
-                    this.gotoPeriodList();
-                  });
+                  }
                 }
-              }
-            );
+              );
+            }
           }
-        }
-      );
+        );
+      }
     }
     
   }
@@ -127,12 +133,12 @@ export class PeriodFormComponent{
     let myDate = new Date();
     let tabCurrentDate = myDate.toLocaleDateString().split('/');
     let tabBeginDatePeriod = this.period.beginDatePeriod.split('-');
-    if(tabBeginDatePeriod[0]<tabCurrentDate[2] || tabBeginDatePeriod[1]<tabCurrentDate[1] || tabBeginDatePeriod[2]<tabCurrentDate[0]){
+    if(tabBeginDatePeriod[0]<tabCurrentDate[2] || tabBeginDatePeriod[1]<tabCurrentDate[1] ||
+      (tabBeginDatePeriod[0]===tabCurrentDate[2] && tabBeginDatePeriod[1]===tabCurrentDate[1] && tabBeginDatePeriod[2]<tabCurrentDate[0])){
       this.beginDatePeriodVerif = false;
       this.msgBeginDatePeriod = "Cette date est dépassé.";
       return false;
     }
-
 
     this.beginDatePeriodVerif = true;
     this.msgBeginDatePeriod = "";
@@ -149,13 +155,30 @@ export class PeriodFormComponent{
     let tabEndDatePeriod = this.period.endDatePeriod.split('-');
     if(tabBeginDatePeriod.length ==3)
     {
-      if(tabEndDatePeriod[0]<tabBeginDatePeriod[0] || tabEndDatePeriod[1]<tabBeginDatePeriod[1] || tabEndDatePeriod[2]<tabBeginDatePeriod[2]){
+      if(tabEndDatePeriod[0]<tabBeginDatePeriod[0] || tabEndDatePeriod[1]<tabBeginDatePeriod[1] ||
+        (tabEndDatePeriod[0]===tabBeginDatePeriod[0] && tabEndDatePeriod[1]===tabBeginDatePeriod[1] && tabEndDatePeriod[2]<tabBeginDatePeriod[2])){
         this.endDatePeriodVerif = false;
         this.msgEndDatePeriod = "Vous avez indiquer une date de fin période qui précéde le début.";
         return false;
       }
 
-      if((Number(tabEndDatePeriod[2])-Number(tabBeginDatePeriod[2]))<3){
+      var dateBegin = new Date();
+      dateBegin.setDate(Number(tabBeginDatePeriod[2]));
+      dateBegin.setMonth(Number(tabBeginDatePeriod[1]));
+      dateBegin.setFullYear(Number(tabBeginDatePeriod[0]));
+      dateBegin.setHours(0);
+      dateBegin.setMinutes(0);
+
+      var dateEnd = new Date();
+      dateEnd.setDate(Number(tabEndDatePeriod[2]));
+      dateEnd.setMonth(Number(tabEndDatePeriod[1]));
+      dateEnd.setFullYear(Number(tabEndDatePeriod[0]));
+      dateEnd.setHours(0);
+      dateEnd.setMinutes(0);
+      var time = dateEnd.getTime() - dateBegin.getTime();
+      var days = time / (1000 * 3600 * 24);
+
+      if(days<3){
         this.endDatePeriodVerif = false;
         this.msgEndDatePeriod = "Votre période est trop courte (elle doit comporter au moins 3 jours)."
         return false;
