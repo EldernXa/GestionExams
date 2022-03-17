@@ -13,6 +13,7 @@ export class ExamManagementComponent implements OnInit {
 
   id: number = -1;
   listExam: Exam[] = [];
+  listHasStudent: boolean[] = [];
   exam: Exam = new Exam();
   listUE: string[]= [];
   selectControl:FormControl = new FormControl();
@@ -36,6 +37,10 @@ export class ExamManagementComponent implements OnInit {
     this.examService.findAllExamFromPeriod(this.id).subscribe(data => {
       this.listExam = data;
       for(let i=0 ; i<this.listExam.length; i++){
+         this.examService.hasStudent(this.listExam[i].idExam).subscribe( hasStudent => {
+           this.listHasStudent[i] = hasStudent;
+           console.log(hasStudent)
+        });
         this.examService.isExamFinished(this.listExam[i].idExam, this.id).subscribe((isExamFinished)=>{
           this.listExam[i].isFinish = isExamFinished;
         });

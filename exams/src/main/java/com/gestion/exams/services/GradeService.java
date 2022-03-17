@@ -57,7 +57,19 @@ public class GradeService {
         List<Student> students = studentRepository.findStudentByExamId(idExam);
         Optional<Exam> exam = examRepository.findById(idExam);
         for(Student s : students) {
-            createGradeByStudentAndExamIfNotExists(s, exam.get());
+            boolean hasMoreThan10 = false;
+            if(exam.get().getSession() == 2){
+                List<Grade> grades = s.getGrades();
+                for(Grade g : grades)
+                    if(g.getGradePK().getExam().getUe().getName() == exam.get().getUe().getName()
+                        && g.getGradePK().getExam().getYear() == exam.get().getYear()
+                        && g.getGradePK().getExam().getSession() == 1
+                        && g.getValue() >= 10)
+                        hasMoreThan10 = true;
+
+            }
+            if(!hasMoreThan10)
+                createGradeByStudentAndExamIfNotExists(s, exam.get());
             System.out.println(s.hasGradeForExam(exam.get()));
         }
     }

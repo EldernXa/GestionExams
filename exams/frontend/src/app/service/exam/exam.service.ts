@@ -26,6 +26,10 @@ export class ExamService {
     return this.http.post<Exam>(this.usersUrl + "add", exam);
   }
 
+  public hasStudent(idExam: number): Observable<boolean>{
+    return this.http.get<boolean>(this.usersUrl + idExam +"/student");
+  }
+
   public updatePlanning(idPeriod: number){
     return this.http.put("http://localhost:8080/period/" + idPeriod,idPeriod);
   }

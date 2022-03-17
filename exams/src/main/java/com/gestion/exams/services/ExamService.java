@@ -7,16 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.gestion.exams.entity.*;
+import com.gestion.exams.repository.StudentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gestion.exams.dto.ExamDTO;
-import com.gestion.exams.entity.Exam;
-import com.gestion.exams.entity.Inscription;
-import com.gestion.exams.entity.Period;
-import com.gestion.exams.entity.Student;
-import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.ExamRepository;
 import com.gestion.exams.repository.PeriodRepository;
 import com.gestion.exams.repository.UERepository;
@@ -29,6 +26,9 @@ public class ExamService {
 
 	@Autowired
 	private PeriodRepository periodRepository;
+
+	@Autowired
+	private StudentRepository studentRepository;
 
 	private ModelMapper modelMapper = new ModelMapper();
 
@@ -169,6 +169,28 @@ public class ExamService {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean hasStudent(long idExam) {
+		List<Student> all_students = studentRepository.findStudentByExamId(idExam);
+		List<Student> students = new ArrayList<>();
+		Exam exam = examRepository.findById(idExam).get();
+		for(Student s : all_students) {
+			boolean hasMoreThan10 = false;
+			if(exam.getSession() == 2){
+				List<Grade> grades = s.getGrades();
+				for(Grade g : grades)
+					if(g.getGradePK().getExam().getUe().getName() == exam.getUe().getName()
+							&& g.getGradePK().getExam().getYear() == exam.getYear()
+							&& g.getGradePK().getExam().getSession() == 1
+							&& g.getValue() >= 10)
+						hasMoreThan10 = true;
+
+			}
+			if(!hasMoreThan10)
+				students.add(s);
+		}
+		return (!students.isEmpty());
 	}
 
 }
