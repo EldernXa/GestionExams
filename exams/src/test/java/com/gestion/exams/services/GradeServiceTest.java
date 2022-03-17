@@ -18,6 +18,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.junit.Assert.assertThat;
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Transactional
 @RunWith(MockitoJUnitRunner.class)
@@ -27,23 +28,36 @@ public class GradeServiceTest {
     @Mock
     private GradeRepository gradeRepository;
 
-    @BeforeAll
-    public void initGradeForTest(){
-        Student student = new Student("Georges", "Bardaghji", "georgebardagji@gmail.com");
-        Exam exam = new Exam();
-        int value  = 20;
-        Grade grade = new Grade(student, exam, value);
-    }
+    Student student = new Student("Georges", "Bardaghji", "georgebardagji@gmail.com");
+    Exam exam = new Exam();
+    double value  = 20;
+    Grade grade = new Grade(student, exam, value);
 
     @org.junit.Test
     public void CreateGradeTest(){
-        Student student = new Student("Georges", "Bardaghji", "georgebardagji@gmail.com");
-        Exam exam = new Exam();
-        int value  = 20;
-        Grade grade = new Grade(student, exam, value);
         when(gradeRepository.save(ArgumentMatchers.any(Grade.class))).thenReturn(grade);
         Grade createdGrade = gradeService.createGrade(grade);
+
         assertEquals(createdGrade.getGradePK(), grade.getGradePK());
         verify(gradeRepository).save(grade);
     }
+
+    @org.junit.Test
+    @Transactional
+    public void updateGradeTest(){
+        Grade updatedGrade = new Grade(student, exam, value);
+        updatedGrade.setValue(10);
+
+        given(gradeRepository.findById(grade.getGradePK())).willReturn(Optional.of(grade));
+        gradeService.updateGrade(grade, updatedGrade);
+
+        verify(gradeRepository).save(grade);
+    }
+
+    @org.junit.Test
+    @Transactional
+    public void deleteGradeTest(){
+
+    }
+
 }
