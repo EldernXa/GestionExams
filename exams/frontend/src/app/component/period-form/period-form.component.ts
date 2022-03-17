@@ -54,15 +54,18 @@ export class PeriodFormComponent{
           if(verifySubmit){
             this.periodService.isPeriodNameGood(this.period.name).subscribe(
               (isNameGood) =>{
-
+                
                 if(!this.verifyNamePeriodGood(Boolean(isNameGood))){
                   verifySubmit = false;
+                  this.msgNamePeriod = "le nom n'est pas bon";
+                  this.nameVerif = true;
                 }
 
                 if(verifySubmit){
                   this.periodService.savePeriod(this.period).subscribe(result=>{
                     this.gotoPeriodList();
                   });
+
                 }
               }
             );
@@ -127,12 +130,12 @@ export class PeriodFormComponent{
     let myDate = new Date();
     let tabCurrentDate = myDate.toLocaleDateString().split('/');
     let tabBeginDatePeriod = this.period.beginDatePeriod.split('-');
-    if(tabBeginDatePeriod[0]<tabCurrentDate[2] || tabBeginDatePeriod[1]<tabCurrentDate[1] || tabBeginDatePeriod[2]<tabCurrentDate[0]){
+    if(tabBeginDatePeriod[0]<tabCurrentDate[2] || tabBeginDatePeriod[1]<tabCurrentDate[1] ||
+      (tabBeginDatePeriod[0]===tabCurrentDate[2] && tabBeginDatePeriod[1]===tabCurrentDate[1] && tabBeginDatePeriod[2]<tabCurrentDate[0])){
       this.beginDatePeriodVerif = false;
       this.msgBeginDatePeriod = "Cette date est dépassé.";
       return false;
     }
-
 
     this.beginDatePeriodVerif = true;
     this.msgBeginDatePeriod = "";
@@ -149,7 +152,8 @@ export class PeriodFormComponent{
     let tabEndDatePeriod = this.period.endDatePeriod.split('-');
     if(tabBeginDatePeriod.length ==3)
     {
-      if(tabEndDatePeriod[0]<tabBeginDatePeriod[0] || tabEndDatePeriod[1]<tabBeginDatePeriod[1] || tabEndDatePeriod[2]<tabBeginDatePeriod[2]){
+      if(tabEndDatePeriod[0]<tabBeginDatePeriod[0] || tabEndDatePeriod[1]<tabBeginDatePeriod[1] ||
+        (tabEndDatePeriod[0]===tabBeginDatePeriod[0] && tabEndDatePeriod[1]===tabBeginDatePeriod[1] && tabEndDatePeriod[2]<tabBeginDatePeriod[2])){
         this.endDatePeriodVerif = false;
         this.msgEndDatePeriod = "Vous avez indiquer une date de fin période qui précéde le début.";
         return false;
