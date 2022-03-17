@@ -39,8 +39,8 @@
         <label for="discipline">Discipline</label>
         <select type="text" name="discipline" [(ngModel)]="ue.discipline" id="discipline" class="form-control"  required #discipline="ngModel">
           <option value="INFORMATIQUE">Informatique</option>
-          <option value="SPORT">Mathématiques</option>
-          <option value="sport">Sport</option>
+          <option value="MATH">Mathématiques</option>
+          <option value="SPORT">Sport</option>
           <option value="PHYSIQUE">Physique</option>
         </select>
         <div [hidden]="!discipline.invalid" class="alert alert-danger">La discipline de l'UE est requise</div>
