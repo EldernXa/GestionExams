@@ -139,4 +139,20 @@ public class ExamService {
 
 	}
 
+	public int getNextSessionOfAnExam(String nameUE, long idPeriod) {
+		int number = 1;
+		for(Exam exam : examRepository.findAll()) {
+			if(exam.getUe().getName().contentEquals(nameUE) &&
+					(DateService.getYear(periodRepository.findById(idPeriod).get().getBeginDatePeriod()) == DateService.getYear(exam.getPeriod().getBeginDatePeriod()))) {
+				if(exam.getSession() == 2) {
+					return -1;
+				}
+				if (exam.getSession() == 1) {
+					number = 2;
+				}
+			}
+		}
+		return number;
+	}
+
 }

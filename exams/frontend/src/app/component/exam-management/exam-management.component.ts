@@ -17,7 +17,7 @@ export class ExamManagementComponent implements OnInit {
   listUE: string[]= [];
   selectControl:FormControl = new FormControl();
   ueNameVerif = true;
-  sessionVerif = true;
+  sessionVerif = false;
   yearVerif = true;
   msgNameUe = "";
   msgSession = "";
@@ -41,6 +41,13 @@ export class ExamManagementComponent implements OnInit {
       this.listUE = data;
     });
 
+  }
+
+  onChange(newValue:string){
+    this.examService.getNextSessionForAnExam(newValue, this.id).subscribe((data)=>{
+      this.exam.session = data;
+      this.sessionVerif = true;
+    });
   }
 
   onSubmit(){

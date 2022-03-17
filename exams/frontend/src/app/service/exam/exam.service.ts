@@ -29,4 +29,8 @@ export class ExamService {
   public updatePlanning(idPeriod: number){
     return this.http.put("http://localhost:8080/period/" + idPeriod,idPeriod);
   }
+
+  public getNextSessionForAnExam(nameUE: string, idPeriod: number):Observable<number>{
+    return this.http.get<number>(this.usersUrl + "session/" + nameUE+"/"+idPeriod);
+  }
 }

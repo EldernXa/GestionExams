@@ -29,19 +29,14 @@
     <form #periodForm="ngForm">
       <div class="form-group">
         <label for="name">Nom de l'UE</label>
-        <select class="custom-select form-control" [(ngModel)]="exam.ue" id="ueName" name="ueName">
+        <select class="custom-select form-control" [(ngModel)]="exam.ue" id="ueName" name="ueName" (ngModelChange)="onChange($event)">
             <option value="" disabled>Choisisez le nom de l'UE</option>
             <option *ngFor="let ue of listUE" [ngValue]="ue">{{ue}}</option>
          </select>
       </div>
       <div *ngIf="!ueNameVerif" class="alert alert-danger">{{msgNameUe}}</div>
-      <div class="form-group">
-        <label for="beginDatePeriod">session</label>
-        <select class="custom-select form-control" [(ngModel)]="exam.session" id="session" name="session" [value]='1'>
-          <option value='1'>1</option>
-          <option value='2'>2</option>
-        </select>
-        <div *ngIf="!sessionVerif" class="alert alert-danger">{{msgSession}}</div>
+      <div class="form-group" *ngIf="sessionVerif">
+        <label for="beginDatePeriod">session : {{this.exam.session}}</label>
       </div>
 
       <button (click)="onSubmit()" class="btn btn-info">Submit</button>

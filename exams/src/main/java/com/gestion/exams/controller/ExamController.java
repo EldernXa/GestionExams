@@ -47,6 +47,12 @@ public class ExamController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	@GetMapping("/session/{nameUE}/{idPeriod}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<Integer> getNextSessionOfAnExam(@PathVariable String nameUE, @PathVariable long idPeriod){
+		return new ResponseEntity<>(examService.getNextSessionOfAnExam(nameUE, idPeriod), HttpStatus.OK);
+	}
+
 	@GetMapping("/list")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<List<Exam>> getAllExams(){
@@ -71,7 +77,7 @@ public class ExamController {
 	public ResponseEntity<List<String>> getListUEThatAreNotInAPeriod(@PathVariable long id){
 		List<String> listUE = new ArrayList<>();
 		for(UE ue : ueService.getAllUE()) {
-			if(!periodService.verifyIfExamAlreadyExist(ue, id)) {
+			if(!periodService.verifyIfExamCanBeAddedToAPeriod(ue, id)) {
 				listUE.add(ue.getName());
 			}
 		}
