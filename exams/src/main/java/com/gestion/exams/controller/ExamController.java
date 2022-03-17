@@ -77,7 +77,7 @@ public class ExamController {
 	public ResponseEntity<List<String>> getListUEThatAreNotInAPeriod(@PathVariable long id){
 		List<String> listUE = new ArrayList<>();
 		for(UE ue : ueService.getAllUE()) {
-			if(!periodService.verifyIfExamAlreadyExist(ue, id)) {
+			if(!periodService.verifyIfExamCanBeAddedToAPeriod(ue, id)) {
 				listUE.add(ue.getName());
 			}
 		}
