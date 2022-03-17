@@ -35,6 +35,11 @@ export class ExamManagementComponent implements OnInit {
   update(){
     this.examService.findAllExamFromPeriod(this.id).subscribe(data => {
       this.listExam = data;
+      for(let i=0 ; i<this.listExam.length; i++){
+        this.examService.isExamFinished(this.listExam[i].idExam, this.id).subscribe((isExamFinished)=>{
+          this.listExam[i].isFinish = isExamFinished;
+        });
+      }
     });
 
     this.examService.findAllUeNameForCreatingExam(this.id).subscribe(data=>{

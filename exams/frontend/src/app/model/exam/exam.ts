@@ -13,6 +13,7 @@ export class Exam {
         nameRoom: string = "";
         beginDateExam: string = "";
         endDateExam: string = "";
+        isFinish = false;
 
 
 }

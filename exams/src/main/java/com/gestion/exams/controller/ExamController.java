@@ -94,7 +94,28 @@ public class ExamController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	@GetMapping("/isFinish/{idExam}/{idPeriod}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<Boolean> isFinish(@PathVariable long idExam, @PathVariable long idPeriod){
+		boolean isFinished = examService.isExamFinished(idExam, idPeriod);
+		return new ResponseEntity<>(isFinished, HttpStatus.OK);
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

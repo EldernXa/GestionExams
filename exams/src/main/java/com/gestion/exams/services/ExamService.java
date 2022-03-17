@@ -1,6 +1,7 @@
 package com.gestion.exams.services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -153,6 +154,16 @@ public class ExamService {
 			}
 		}
 		return number;
+	}
+
+	public boolean isExamFinished(long idExam, long idPeriod) {
+		Exam exam = examRepository.findById(idExam).get();
+		Period period = periodRepository.findById(idPeriod).get();
+		Date currentDate = Calendar.getInstance().getTime();
+		if(currentDate.after(period.getEndDatePeriod()) || (exam.getEndDateExam() != null && currentDate.after(exam.getEndDateExam()))) {
+			return true;
+		}
+		return false;
 	}
 
 }

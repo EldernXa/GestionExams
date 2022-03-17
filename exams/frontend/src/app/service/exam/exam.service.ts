@@ -33,4 +33,8 @@ export class ExamService {
   public getNextSessionForAnExam(nameUE: string, idPeriod: number):Observable<number>{
     return this.http.get<number>(this.usersUrl + "session/" + nameUE+"/"+idPeriod);
   }
+
+  public isExamFinished(idExam: number, idPeriod: number): Observable<boolean>{
+    return this.http.get<boolean>(this.usersUrl + "isFinish/" + idExam + "/" + idPeriod);
+  }
 }
