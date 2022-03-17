@@ -189,4 +189,8 @@ public class ExamService {
 
 	}
 
+	public List<Exam> getExamsByUeAndYear(UE ue, int year){
+		return examRepository.searchExamsByUeAndYear(ue,year);
+	}
+
 }

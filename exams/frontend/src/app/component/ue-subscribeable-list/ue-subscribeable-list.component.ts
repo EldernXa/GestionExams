@@ -22,41 +22,16 @@ export class UeSubscribeableListComponent implements OnInit {
   modalRef: BsModalRef = new BsModalRef();
 
   constructor(private ueSubscribeableService: UeSubscribeableService, private modalService: BsModalService, private loginService: LoginService) {
-    console.log("constructor");
     this.loginService.redirectIfNotLogin();
   }
 
   ngOnInit(){
 
-    console.log("ngOnInit");
-
     this.subscribeable_ues = [];
-    this.all_ues = [];
-    this.inscriptions = [];
-    this.inscriptions_ue_name = [];
 
-    this.ueSubscribeableService.findAllUe().subscribe(data=>{
-      this.all_ues = data;
-      console.log("all ue : "+ this.all_ues.length);
-      this.ueSubscribeableService.findAllInscriptions().subscribe(data=>{
-        this.inscriptions = data;
-        console.log("all inscriptions : "+this.inscriptions.length);
-        this.inscriptions.forEach((inscription) => {
-          // get inscription of this year
-          if(inscription.year == this.current_year){
-            console.log("inscription year ="+inscription.year + " = " + this.current_year);
-            this.inscriptions_ue_name.push(inscription.ue.name);
-          }
-        });
-        console.log("inscriptions name : "+this.inscriptions_ue_name.length)
-        this.all_ues.forEach((ue) => {
-          console.log("entering in all ues for loop");
-          if(!this.inscriptions_ue_name.includes(ue.name))
-            this.subscribeable_ues.push(ue);
-        });
-        console.log("subscribeable ue : "+this.subscribeable_ues.length);
-      });
-    });
+    this.ueSubscribeableService.findAllSubscribeableUes(this.current_year).subscribe( data => {
+      this.subscribeable_ues = data;
+    })
   }
 
   openModal(template: TemplateRef<any>) {
