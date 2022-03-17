@@ -36,6 +36,7 @@ export class PeriodFormComponent{
       verifySubmit = false;
     }
 
+
     if(!this.verifyNamePeriod()){
       verifySubmit = false;
     }
@@ -46,32 +47,34 @@ export class PeriodFormComponent{
         });
       }
     }else{
-      this.periodService.isPeriodDateGood(this.period.beginDatePeriod, this.period.endDatePeriod).subscribe(
-        (data) => {
-          if(!this.verifyDate(Number(data))){
-            verifySubmit = false;
-          }
-          if(verifySubmit){
-            this.periodService.isPeriodNameGood(this.period.name).subscribe(
-              (isNameGood) =>{
-                
-                if(!this.verifyNamePeriodGood(Boolean(isNameGood))){
-                  verifySubmit = false;
-                  this.msgNamePeriod = "le nom n'est pas bon";
-                  this.nameVerif = true;
-                }
+      if(verifySubmit){
+        this.periodService.isPeriodDateGood(this.period.beginDatePeriod, this.period.endDatePeriod).subscribe(
+          (data) => {
+            if(!this.verifyDate(Number(data))){
+              verifySubmit = false;
+            }
+            if(verifySubmit){
+              this.periodService.isPeriodNameGood(this.period.name).subscribe(
+                (isNameGood) =>{
+                  
+                  if(!this.verifyNamePeriodGood(Boolean(isNameGood))){
+                    verifySubmit = false;
+                    this.msgNamePeriod = "le nom n'est pas bon";
+                    this.nameVerif = true;
+                  }
 
-                if(verifySubmit){
-                  this.periodService.savePeriod(this.period).subscribe(result=>{
-                    this.gotoPeriodList();
-                  });
+                  if(verifySubmit){
+                    this.periodService.savePeriod(this.period).subscribe(result=>{
+                      this.gotoPeriodList();
+                    });
 
+                  }
                 }
-              }
-            );
+              );
+            }
           }
-        }
-      );
+        );
+      }
     }
     
   }
