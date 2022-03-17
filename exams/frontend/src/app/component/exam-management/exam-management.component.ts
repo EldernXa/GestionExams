@@ -43,6 +43,12 @@ export class ExamManagementComponent implements OnInit {
 
   }
 
+  onChange(newValue:string){
+    this.examService.getNextSessionForAnExam(newValue, this.id).subscribe((data)=>{
+      console.log(data);
+    });
+  }
+
   onSubmit(){
 
     if(this.verifyNameUE()){

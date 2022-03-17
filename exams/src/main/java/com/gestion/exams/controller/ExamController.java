@@ -47,6 +47,12 @@ public class ExamController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	@GetMapping("/session/{nameUE}/{idPeriod}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<Integer> getNextSessionOfAnExam(@PathVariable String nameUE, @PathVariable long idPeriod){
+		return new ResponseEntity<>(examService.getNextSessionOfAnExam(nameUE, idPeriod), HttpStatus.OK);
+	}
+
 	@GetMapping("/list")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<List<Exam>> getAllExams(){

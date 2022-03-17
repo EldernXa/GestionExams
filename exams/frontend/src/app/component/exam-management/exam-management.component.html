@@ -29,7 +29,7 @@
     <form #periodForm="ngForm">
       <div class="form-group">
         <label for="name">Nom de l'UE</label>
-        <select class="custom-select form-control" [(ngModel)]="exam.ue" id="ueName" name="ueName">
+        <select class="custom-select form-control" [(ngModel)]="exam.ue" id="ueName" name="ueName" (ngModelChange)="onChange($event)">
             <option value="" disabled>Choisisez le nom de l'UE</option>
             <option *ngFor="let ue of listUE" [ngValue]="ue">{{ue}}</option>
          </select>
