@@ -1,6 +1,6 @@
 <div class="card my-5">
   <div class="card-body">
-    <form (ngSubmit)="onSubmit()" #gradeForm="ngForm">
+    <!-- <form (ngSubmit)="onSubmit()" #gradesForm="ngForm"> -->
     <table class="table table-bordered table-striped">
       <thead class="thead-dark">
       <tr>
@@ -10,33 +10,36 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let grade of grades;index as index;">
+      <tr *ngFor="let grade of grades; index as i;">
         <td>{{ grade.firstName }}</td>
         <td>{{ grade.lastName }}</td>
         <td>
-          <form (ngSubmit)="updateGrade(index)" #gradeform="ngForm">
+          <form #gradeform="ngForm">
           <div class="form-group">
             <div class="d-flex justify-content-between">
-              <input type="number" [(ngModel)]="grade.value"
+              <input type="number"
+                     [(ngModel)]="grades[i].value"
                      class="form-control mr-3"
                      id="grade"
                      name="grade"
                      min="0"
                      max="20"
                      placeholder="Entrer une note"
-                     required #gradeform="ngModel">
-              <button type="submit" [disabled]="!gradeform.form.valid"
-                      class="btn btn-info">Sauvegarder la note</button>
+                     required #gradeForm="ngModel"
+                     (ngModelChange)="checkValidity()">
+              <!-- <button type="submit" [disabled]="!gradeform.form.valid" class="btn btn-info">Sauvegarder la note</button> -->
             </div>
             <div [hidden]="!gradeform.invalid" class="alert alert-danger">La note doit être comprise entre 0 et 20 !</div>
           </div>
           </form>
         </td>
       </tr>
+      <!-- <button type="submit" [disabled]="!gradesForm.form.valid" class="btn btn-info">Sauvegarder les notes</button> -->
+      <button type="button" [disabled]="!isValid" class="btn btn-info" (click)="saveAll()">Sauvegarder les notes</button>
       </tbody>
     </table>
-    <button type="submit" [disabled]="true"
-            class="btn btn-info">Sauvegarder les notes</button>
-    </form>
+    <!-- </form> -->
   </div>
 </div>
+
+

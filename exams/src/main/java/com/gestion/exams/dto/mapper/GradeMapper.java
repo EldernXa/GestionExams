@@ -19,7 +19,9 @@ public class GradeMapper {
 		System.out.println("mapper :" + g.toString());
 		return g;
 		 */
-		return gradeService.getGradeByStudentAndExam(gradeDTO.getIdStudent(),gradeDTO.getIdExam()).get();
+		Grade grade = gradeService.getGradeByStudentAndExam(gradeDTO.getIdStudent(),gradeDTO.getIdExam()).get();
+		grade.setValue(gradeDTO.getValue());
+		return grade;
 	}
 
 	public static GradeDTO gradeToGradeDTO(Grade grade){
@@ -27,6 +29,7 @@ public class GradeMapper {
 		gradeDTO.setIdExam(grade.getGradePK().getExam().getIdExam());
 		gradeDTO.setSession(grade.getGradePK().getExam().getSession());
 		gradeDTO.setUe_name(grade.getGradePK().getExam().getUe().getName());
+		gradeDTO.setCredit(grade.getGradePK().getExam().getUe().getCredit());
 		gradeDTO.setYear(grade.getGradePK().getExam().getYear());
 		gradeDTO.setIdStudent(grade.getGradePK().getStudent().getIdStudent());
 		gradeDTO.setFirstName(grade.getGradePK().getStudent().getFirstName());

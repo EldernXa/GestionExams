@@ -29,6 +29,11 @@ export class UeSubscribeableService {
     return list;
   }
 
+  public findAllSubscribeableUes(year: number): Observable<Ue[]>{
+    let list = this.http.get<Ue[]>(this.ueUrl + "subscribeable/"+year, this.loginService.getHeaders());
+    return list;
+  }
+
   public subscribeToUe(year: number, ue: Ue){
     return this.http.post<Inscription>(this.inscriptionUrl + "register/"+year+"/"+ue.name,ue, this.loginService.getHeaders());
   }
