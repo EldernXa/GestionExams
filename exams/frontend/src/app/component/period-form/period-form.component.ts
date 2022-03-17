@@ -162,7 +162,23 @@ export class PeriodFormComponent{
         return false;
       }
 
-      if((Number(tabEndDatePeriod[2])-Number(tabBeginDatePeriod[2]))<3){
+      var dateBegin = new Date();
+      dateBegin.setDate(Number(tabBeginDatePeriod[2]));
+      dateBegin.setMonth(Number(tabBeginDatePeriod[1]));
+      dateBegin.setFullYear(Number(tabBeginDatePeriod[0]));
+      dateBegin.setHours(0);
+      dateBegin.setMinutes(0);
+
+      var dateEnd = new Date();
+      dateEnd.setDate(Number(tabEndDatePeriod[2]));
+      dateEnd.setMonth(Number(tabEndDatePeriod[1]));
+      dateEnd.setFullYear(Number(tabEndDatePeriod[0]));
+      dateEnd.setHours(0);
+      dateEnd.setMinutes(0);
+      var time = dateEnd.getTime() - dateBegin.getTime();
+      var days = time / (1000 * 3600 * 24);
+
+      if(days<3){
         this.endDatePeriodVerif = false;
         this.msgEndDatePeriod = "Votre période est trop courte (elle doit comporter au moins 3 jours)."
         return false;
