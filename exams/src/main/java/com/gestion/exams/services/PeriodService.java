@@ -198,7 +198,8 @@ public class PeriodService {
 	public boolean verifyIfExamAlreadyExist(UE ue, long id) {
 		Period period = getPeriod(id);
 		for(Exam exam: period.getExams()) {
-			if(exam.getUe().getName().compareTo(ue.getName())==0) {
+			int nextSessionUe = examService.getNextSessionOfAnExam(ue.getName(), id);
+			if(exam.getUe().getName().compareTo(ue.getName())==0 || exam.getSession() != nextSessionUe) {
 				return true;
 			}
 		}
