@@ -47,6 +47,12 @@ public class ExamController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	@GetMapping("/session/{nameUE}/{idPeriod}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<Integer> getNextSessionOfAnExam(@PathVariable String nameUE, @PathVariable long idPeriod){
+		return new ResponseEntity<>(examService.getNextSessionOfAnExam(nameUE, idPeriod), HttpStatus.OK);
+	}
+
 	@GetMapping("/list")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<List<Exam>> getAllExams(){
@@ -57,42 +63,6 @@ public class ExamController {
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<List<ExamDTO>> getAllExamsFromPeriod(@PathVariable long id){
 		return new ResponseEntity<>(examService.getAllExamsFromPeriod(id), HttpStatus.OK);
-	}
-
-	@GetMapping("/{id}/beginDate")
-	public ResponseEntity<String> getBeginDateExam(@PathVariable long id){
-		String str = examService.getBeginDateExam(id);
-		if(str != null) {
-			return new ResponseEntity<>(str, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
-
-	@GetMapping("/{id}/endDate")
-	public ResponseEntity<String> getEndDateExam(@PathVariable long id){
-		String str = examService.getEndDateExam(id);
-		if(str != null) {
-			return new ResponseEntity<>(str, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
-
-	@GetMapping("/{id}/fullBeginDate")
-	public ResponseEntity<String> getBeginFullDate(@PathVariable long id){
-		String str = examService.getFullBeginDateExam(id);
-		if(str != null) {
-			return new ResponseEntity<>(str, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
-
-	@GetMapping("/{id}/fullEndDate")
-	public ResponseEntity<String> getEndFullDate(@PathVariable long id){
-		String str = examService.getFullEndDateExam(id);
-		if(str != null) {
-			return new ResponseEntity<>(str, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 	@GetMapping("/listUE")
@@ -107,7 +77,7 @@ public class ExamController {
 	public ResponseEntity<List<String>> getListUEThatAreNotInAPeriod(@PathVariable long id){
 		List<String> listUE = new ArrayList<>();
 		for(UE ue : ueService.getAllUE()) {
-			if(!periodService.verifyIfExamAlreadyExist(ue, id)) {
+			if(!periodService.verifyIfExamCanBeAddedToAPeriod(ue, id)) {
 				listUE.add(ue.getName());
 			}
 		}
@@ -124,7 +94,28 @@ public class ExamController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	@GetMapping("/isFinish/{idExam}/{idPeriod}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<Boolean> isFinish(@PathVariable long idExam, @PathVariable long idPeriod){
+		boolean isFinished = examService.isExamFinished(idExam, idPeriod);
+		return new ResponseEntity<>(isFinished, HttpStatus.OK);
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,6 +1,7 @@
 package com.gestion.exams.services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +34,6 @@ public class ExamService {
 
 	@Autowired
 	private UERepository ueRepository;
-
-	private String msgNotPlannedYet = "Pas planifiée pour l'instant";
 
 	private String mstNotRoomYet = "Pas de salle pour l'instant";
 
@@ -113,54 +112,6 @@ public class ExamService {
 		return exam;
 	}
 
-	public String getBeginDateExam(long id) {
-		try {
-			Exam exam = examRepository.getById(id);
-			if(exam.getBeginDateExam()==null) {
-				return msgNotPlannedYet;
-			}
-			return DateService.convertDateClassToStringDate(exam.getBeginDateExam());
-		}catch(Exception exception) {
-			return null;
-		}
-	}
-
-	public String getEndDateExam(long id) {
-		try {
-			Exam exam = examRepository.getById(id);
-			if(exam.getEndDateExam() == null) {
-				return msgNotPlannedYet;
-			}
-			return DateService.convertDateClassToStringDate(exam.getEndDateExam());
-		}catch(Exception exception) {
-			return null;
-		}
-	}
-
-	public String getFullBeginDateExam(long id) {
-		try {
-			Exam exam = examRepository.getById(id);
-			if(exam.getBeginDateExam() == null) {
-				return msgNotPlannedYet;
-			}
-			return DateService.convertDateClassToFullStringDate(exam.getBeginDateExam());
-		}catch(Exception exception) {
-			return null;
-		}
-	}
-
-	public String getFullEndDateExam(long id) {
-		try {
-			Exam exam = examRepository.getById(id);
-			if(exam.getEndDateExam() == null) {
-				return msgNotPlannedYet;
-			}
-			return DateService.convertDateClassToFullStringDate(exam.getEndDateExam());
-		}catch(Exception exception) {
-			return null;
-		}
-	}
-
 	private Exam getExamFromMap(Map<String, String> mapExam) {
 		List<Object> listOfObject = new ArrayList<>();
 		periodRepository.findById(Long.parseLong(mapExam.get("idPeriod"))).ifPresent(listOfObject::add );
@@ -191,6 +142,33 @@ public class ExamService {
 
 	public List<Exam> getExamsByUeAndYear(UE ue, int year){
 		return examRepository.searchExamsByUeAndYear(ue,year);
+	
+	}
+	
+	public int getNextSessionOfAnExam(String nameUE, long idPeriod) {
+		int number = 1;
+		for(Exam exam : examRepository.findAll()) {
+			if(exam.getUe().getName().contentEquals(nameUE) &&
+					(DateService.getYear(periodRepository.findById(idPeriod).get().getBeginDatePeriod()) == DateService.getYear(exam.getPeriod().getBeginDatePeriod()))) {
+				if(exam.getSession() == 2) {
+					return -1;
+				}
+				if (exam.getSession() == 1) {
+					number = 2;
+				}
+			}
+		}
+		return number;
+	}
+
+	public boolean isExamFinished(long idExam, long idPeriod) {
+		Exam exam = examRepository.findById(idExam).get();
+		Period period = periodRepository.findById(idPeriod).get();
+		Date currentDate = Calendar.getInstance().getTime();
+		if(currentDate.after(period.getEndDatePeriod()) || (exam.getEndDateExam() != null && currentDate.after(exam.getEndDateExam()))) {
+			return true;
+		}
+		return false;
 	}
 
 }
