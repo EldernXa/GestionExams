@@ -21,7 +21,7 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Transactional
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class GradeServiceTest {
     @InjectMocks
     GradeService gradeService;
@@ -57,7 +57,11 @@ public class GradeServiceTest {
     @org.junit.Test
     @Transactional
     public void deleteGradeTest(){
-
+        when(gradeRepository.findById(grade.getGradePK())).thenReturn(Optional.of(grade));
+        gradeService.deleteGrade(grade);
+        verify(gradeRepository).delete(grade);
     }
+
+
 
 }
