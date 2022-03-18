@@ -99,26 +99,20 @@ public class PeriodService {
 		if(newDate != null) {
 			dateToReturn = newDate;
 		}
-		newDate = correctDateInTheEndOfTheWeek(dateToReturn);
-		if(newDate != null) {
-			dateToReturn = newDate;
-		}
-		else {
-			saveDate = dateToReturn;
-			if(newDate == null) {
-				newDate = correctDateBetweenNoon(dateToReturn, DateService.addHours(dateToReturn, exam.getUe().getDurationExam()));
-				if(newDate != null && !canPassNoon) {
+		saveDate = dateToReturn;
+		if(newDate == null) {
+			newDate = correctDateBetweenNoon(dateToReturn, DateService.addHours(dateToReturn, exam.getUe().getDurationExam()));
+			if(newDate != null && !canPassNoon) {
+				dateToReturn = newDate;
+			}
+			else {
+				newDate = correctDateInTheEndOfTheDay(dateToReturn, DateService.addHours(dateToReturn, exam.getUe().getDurationExam()));
+				if(newDate != null) {
 					dateToReturn = newDate;
 				}
-				else {
-					newDate = correctDateInTheEndOfTheDay(dateToReturn, DateService.addHours(dateToReturn, exam.getUe().getDurationExam()));
-					if(newDate != null) {
-						dateToReturn = newDate;
-					}
-				}
-				if(saveDate.compareTo(dateToReturn) == 0) {
-					canPassNoon = true;
-				}
+			}
+			if(saveDate.compareTo(dateToReturn) == 0) {
+				canPassNoon = true;
 			}
 		}
 
