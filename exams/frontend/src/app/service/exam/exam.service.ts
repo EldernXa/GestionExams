@@ -41,4 +41,12 @@ export class ExamService {
   public isExamFinished(idExam: number, idPeriod: number): Observable<boolean>{
     return this.http.get<boolean>(this.usersUrl + "isFinish/" + idExam + "/" + idPeriod);
   }
+
+  public isPeriodCanBeUndone(idPeriod: number): Observable<boolean>{
+    return this.http.get<boolean>("http://localhost:8080/period/undoPlanify/"+idPeriod);
+  }
+
+  public initPeriod(idPeriod: number){
+    return this.http.put("http://localhost:8080/period/initPeriod/" + idPeriod, idPeriod);
+  }
 }

@@ -99,6 +99,18 @@ public class PeriodController {
 		return new ResponseEntity<>(periodService.verifyIfAPeriodIsPlanify(idPeriod), HttpStatus.OK);
 	}
 
+	@GetMapping("/period/undoPlanify/{idPeriod}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<Boolean> verifyIfPeriodCanBeUndone(@PathVariable long idPeriod){
+		return new ResponseEntity<>(periodService.verifyIfAPeriodCanBeUndone(idPeriod), HttpStatus.OK);
+	}
+
+	@PutMapping("/period/initPeriod/{idPeriod}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public void reinitPlanning(@PathVariable long idPeriod){
+		periodService.initPeriod(idPeriod);
+	}
+
 }
 
 
