@@ -116,8 +116,6 @@ public class PeriodService {
 			}
 		}
 
-		//correctDateInTheEndOfTheWeek(dateToReturn);
-
 		HashMap<Integer, Object> mapToReturn = new HashMap<>();
 		mapToReturn.put(1, newDate);
 		mapToReturn.put(2, dateToReturn);
