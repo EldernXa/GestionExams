@@ -168,6 +168,7 @@ public class PeriodService {
 	private void changeExam(Exam exam, Date beginDate, Date endDate, Period periodToPlan) throws ParseException {
 		exam.setBeginDateExam(beginDate);
 		exam.setEndDateExam(endDate);
+		exam.setYear(DateService.getYear(beginDate));
 		setRoom(exam, periodToPlan);
 		examService.updateExam(exam);
 	}
