@@ -15,14 +15,35 @@ export class PeriodListComponent implements OnInit {
   constructor(private periodService: PeriodService, private loginService: LoginService) {
     this.loginService.redirectIfNotLogin();
     this.periods = [];
-    this.periodService.findAll().subscribe(data=>{
-      this.periods = data;
-    });
+    
   }
 
   ngOnInit(){
     this.periodService.findAll().subscribe(data=>{
       this.periods = data;
+      for(let i = 0; i<this.periods.length; i++){
+        this.isDisabled(this.periods[i].id, i);
+      }
+    });
+  }
+
+  deletePeriod(idPeriod: number){
+    this.periodService.deletePeriod(idPeriod).subscribe(
+      ()=>{
+        this.periods = [];
+        this.periodService.findAll().subscribe(data=>{
+          this.periods = data;
+          for(let i = 0; i<this.periods.length; i++){
+            this.isDisabled(this.periods[i].id, i);
+          }
+        });
+      }
+    );
+  }
+
+  isDisabled(idPeriod: number, idTab: number){
+    this.periodService.isDisabled(idPeriod).subscribe((isDisabled)=>{
+      this.periods[idTab].isPlanify = isDisabled;
     });
   }
 
