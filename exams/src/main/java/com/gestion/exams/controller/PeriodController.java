@@ -105,6 +105,12 @@ public class PeriodController {
 		return new ResponseEntity<>(periodService.verifyIfAPeriodCanBeUndone(idPeriod), HttpStatus.OK);
 	}
 
+	@PutMapping("/period/initPeriod/{idPeriod}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public void reinitPlanning(@PathVariable long idPeriod){
+		periodService.initPeriod(idPeriod);
+	}
+
 }
 
 

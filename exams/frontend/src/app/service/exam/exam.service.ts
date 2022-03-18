@@ -45,4 +45,8 @@ export class ExamService {
   public isPeriodCanBeUndone(idPeriod: number): Observable<boolean>{
     return this.http.get<boolean>("http://localhost:8080/period/undoPlanify/"+idPeriod);
   }
+
+  public initPeriod(idPeriod: number){
+    return this.http.put("http://localhost:8080/period/initPeriod/" + idPeriod, idPeriod);
+  }
 }

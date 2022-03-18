@@ -101,8 +101,13 @@ export class ExamManagementComponent implements OnInit {
 
  verifyPlanify(){
    this.examService.isPeriodCanBeUndone(this.id).subscribe((data)=>{
-     console.log(data);
      this.isDisable = data;
+   });
+ }
+
+ initPeriod(){
+   this.examService.initPeriod(this.id).subscribe(()=>{
+     this.update();
    });
  }
 

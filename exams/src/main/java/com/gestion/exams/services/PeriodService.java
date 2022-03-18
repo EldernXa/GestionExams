@@ -276,7 +276,7 @@ public class PeriodService {
 		return periodRepository.save(periodToSave);
 	}
 
-	private void initPeriod(long idPeriod) {
+	public void initPeriod(long idPeriod) {
 		Period periodToInit = periodRepository.getById(idPeriod);
 		List<Exam> listExamFromAPeriod = periodToInit.getExams();
 		for(Exam exam : listExamFromAPeriod) {
