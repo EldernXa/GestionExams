@@ -307,6 +307,10 @@ public class PeriodService {
 		return false;
 	}
 
+	public void deletePeriod(long idPeriod) {
+		periodRepository.deleteById(idPeriod);
+	}
+
 }
 
 

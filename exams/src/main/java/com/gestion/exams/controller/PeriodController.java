@@ -87,6 +87,12 @@ public class PeriodController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	@DeleteMapping("/period/{idPeriod}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public void deletePeriod(@PathVariable long idPeriod) {
+		periodService.deletePeriod(idPeriod);
+	}
+
 }
 
 
