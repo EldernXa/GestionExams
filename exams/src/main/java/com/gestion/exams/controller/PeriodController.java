@@ -1,6 +1,7 @@
 package com.gestion.exams.controller;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -109,6 +110,16 @@ public class PeriodController {
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public void reinitPlanning(@PathVariable long idPeriod){
 		periodService.initPeriod(idPeriod);
+	}
+
+	@GetMapping("/period/isFinished/{idPeriod}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<Boolean> isPeriodFinished(@PathVariable long idPeriod) {
+		Period period = periodService.getPeriod(idPeriod);
+		if(period == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(period.getEndDatePeriod().before(Calendar.getInstance().getTime()), HttpStatus.OK);
 	}
 
 }

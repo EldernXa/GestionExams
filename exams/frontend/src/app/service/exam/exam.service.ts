@@ -49,4 +49,8 @@ export class ExamService {
   public initPeriod(idPeriod: number){
     return this.http.put("http://localhost:8080/period/initPeriod/" + idPeriod, idPeriod);
   }
+
+  public isPeriodFinish(idPeriod: number):Observable<boolean>{
+    return this.http.get<boolean>("http://localhost:8080/period/isFinished/"+idPeriod);
+  }
 }
