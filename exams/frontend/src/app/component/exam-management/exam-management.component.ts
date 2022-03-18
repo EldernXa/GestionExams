@@ -25,6 +25,7 @@ export class ExamManagementComponent implements OnInit {
   msgSession = "";
   msgYear = "";
   isDisable = true;
+  isPeriodFinish = false;
 
   constructor(private route:ActivatedRoute, private examService:ExamService,
               private router: Router) { }
@@ -54,7 +55,9 @@ export class ExamManagementComponent implements OnInit {
     });
 
     this.verifyPlanify();
-
+    this.examService.isPeriodFinish(this.id).subscribe((isFinished)=>{
+      this.isPeriodFinish = isFinished;
+    });
   }
 
   onChange(newValue:string){
