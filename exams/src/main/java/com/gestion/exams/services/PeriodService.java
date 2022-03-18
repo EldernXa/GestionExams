@@ -138,10 +138,8 @@ public class PeriodService {
 		for(Exam exam : period.getExams()) {
 			if(examService.isExamDateBetweenOtherDate(exam, beginDate, endDate)) {
 				for(Inscription inscription : exam.getUe().getInscriptions()) {
-					if(inscription.getYear() == exam.getYear()) {
-						if(inscription.getStudent().getIdStudent() == student.getIdStudent()) {
-							return exam.getEndDateExam();
-						}
+					if(inscription.getYear() == exam.getYear() && inscription.getStudent().getIdStudent() == student.getIdStudent()) {
+						return exam.getEndDateExam();
 					}
 				}
 			}
