@@ -13,7 +13,8 @@
             <td>{{ period.name }}</td>
             <td>{{ period.beginDatePeriod }}</td>
             <td>{{ period.endDatePeriod }}</td>
-            <td><a [routerLink]="['/period', period.id]" class="btn btn-info">Détails</a><button (click)="deletePeriod(period.id)" class="btn btn-danger">Supprimer</button></td>
+            <td><a [routerLink]="['/period', period.id]" class="btn btn-info">Détails</a>
+              <button [disabled]="period.isPlanify" (click)="deletePeriod(period.id)" class="btn btn-danger">Supprimer</button></td>
           </tr>
         </tbody>
       </table>

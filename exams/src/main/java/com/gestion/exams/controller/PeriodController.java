@@ -93,6 +93,12 @@ public class PeriodController {
 		periodService.deletePeriod(idPeriod);
 	}
 
+	@GetMapping("/period/verifyPlanify/{idPeriod}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<Boolean> verifyIfPeriodIsPlanify(@PathVariable long idPeriod){
+		return new ResponseEntity<>(periodService.verifyIfAPeriodIsPlanify(idPeriod), HttpStatus.OK);
+	}
+
 }
 
 

@@ -318,6 +318,12 @@ public class PeriodService {
 		periodRepository.deleteById(idPeriod);
 	}
 
+	public boolean verifyIfAPeriodIsPlanify(long idPeriod) {
+		Period period = periodRepository.findById(idPeriod).get();
+		return !period.getExams().isEmpty() && period.getExams().get(0).getBeginDateExam() != null;
+
+	}
+
 }
 
 

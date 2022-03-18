@@ -21,6 +21,9 @@ export class PeriodListComponent implements OnInit {
   ngOnInit(){
     this.periodService.findAll().subscribe(data=>{
       this.periods = data;
+      for(let i = 0; i<this.periods.length; i++){
+        this.isDisabled(this.periods[i].id, i);
+      }
     });
   }
 
@@ -30,9 +33,18 @@ export class PeriodListComponent implements OnInit {
         this.periods = [];
         this.periodService.findAll().subscribe(data=>{
           this.periods = data;
+          for(let i = 0; i<this.periods.length; i++){
+            this.isDisabled(this.periods[i].id, i);
+          }
         });
       }
     );
+  }
+
+  isDisabled(idPeriod: number, idTab: number){
+    this.periodService.isDisabled(idPeriod).subscribe((isDisabled)=>{
+      this.periods[idTab].isPlanify = isDisabled;
+    });
   }
 
 }

@@ -40,4 +40,8 @@ export class PeriodService {
     return this.http.delete(this.usersUrl + "period/" + idPeriod);
   }
 
+  public isDisabled(idPeriod: number): Observable<boolean>{
+    return this.http.get<boolean>(this.usersUrl+"period/verifyPlanify/"+idPeriod);
+  }
+
 }
