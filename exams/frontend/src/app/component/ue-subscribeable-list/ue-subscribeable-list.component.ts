@@ -15,9 +15,8 @@ import {waitForAsync} from "@angular/core/testing";
 export class UeSubscribeableListComponent implements OnInit {
 
   subscribeable_ues : Ue[] = [];
-  all_ues : Ue[] = [];
+  hoursAndMin: string[] = [];
   inscriptions : Inscription[] = [];
-  inscriptions_ue_name : string[] = [];
   current_year: number = new Date().getFullYear();
   modalRef: BsModalRef = new BsModalRef();
 
@@ -28,9 +27,10 @@ export class UeSubscribeableListComponent implements OnInit {
   ngOnInit(){
 
     this.subscribeable_ues = [];
-
     this.ueSubscribeableService.findAllSubscribeableUes(this.current_year).subscribe( data => {
       this.subscribeable_ues = data;
+      for(let i=0; i<this.subscribeable_ues.length; i++)
+        this.hoursAndMin[i] = this.minToHoursAndMin(this.subscribeable_ues[i].durationExam);
     })
   }
 
@@ -39,7 +39,6 @@ export class UeSubscribeableListComponent implements OnInit {
   }
 
   subscribe(ue: Ue){
-    // if(confirm("S'inscrire à une Ue implique un engagement de votre part à l'assiduité et à la non possibilité de se rétracter. Confirmez-vous que vous souhaitez vous inscrire à l'Ue "+ue.name+" pour l'année "+this.current_year+ " ?"))
     this.ueSubscribeableService.subscribeToUe(this.current_year,ue).subscribe( data => {
       this.modalRef.hide();
       this.ngOnInit();
@@ -48,6 +47,16 @@ export class UeSubscribeableListComponent implements OnInit {
 
   decline(){
     this.modalRef.hide();
+  }
+
+  public minToHoursAndMin(minutes: number): string{
+    let h = Math.floor(minutes/60);
+    let hours = h.toString();
+    let m = minutes%60;
+    let min = (m<10) ? ("0"+m.toString()) : (m.toString());
+    let hoursAndMin = hours + "h" + min;
+    console.log(hoursAndMin);
+    return hoursAndMin;
   }
 
 }

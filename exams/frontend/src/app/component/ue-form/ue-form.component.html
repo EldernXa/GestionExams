@@ -1,3 +1,6 @@
+<p class="d-flex justify-content-center">
+  <button routerLink="/ue" class="btn btn-info" >Retour</button>
+</p>
 <div class="card my-5">
   <div class="card-body">
     <form (ngSubmit)="onSubmit()" #ueForm="ngForm">
@@ -10,7 +13,7 @@
                name="name"
                placeholder="Entrer le nom de l'UE"
                required #name="ngModel">
-        <div [hidden]="!name.invalid" class="alert alert-danger">Le nom de l'UE est requis</div>
+        <div [hidden]="!name.invalid || !name.dirty" class="alert alert-danger">Le nom de l'UE est requis</div>
       </div>
 
       <div class="form-group">
@@ -21,7 +24,7 @@
                name="credit"
                placeholder="Entrer le nombre de crédits de l'UE"
                required #credit="ngModel">
-        <div [hidden]="!credit.invalid" class="alert alert-danger">Le nombre de crédits est requis.</div>
+        <div [hidden]="!credit.invalid || !credit.dirty" class="alert alert-danger">Le nombre de crédits est requis.</div>
       </div>
 
       <div class="form-group">
@@ -32,7 +35,7 @@
                name="duration"
                placeholder="Entrer la durée de l'examen (en minutes)"
                required #duration="ngModel">
-        <div [hidden]="!duration.invalid" class="alert alert-danger">La durée de l'examen est requise.</div>
+        <div [hidden]="!duration.invalid || !duration.dirty" class="alert alert-danger">La durée de l'examen est requise.</div>
       </div>
 
       <div class="form-group">
@@ -43,7 +46,7 @@
           <option value="SPORT">Sport</option>
           <option value="PHYSIQUE">Physique</option>
         </select>
-        <div [hidden]="!discipline.invalid" class="alert alert-danger">La discipline de l'UE est requise</div>
+        <div [hidden]="!discipline.invalid || !discipline.dirty" class="alert alert-danger">La discipline de l'UE est requise</div>
       </div>
 
       <button type="submit" [disabled]="!ueForm.form.valid"

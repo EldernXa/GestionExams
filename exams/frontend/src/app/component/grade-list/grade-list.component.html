@@ -1,6 +1,9 @@
 <div class="card my-5">
   <div class="card-body">
     <!-- <form (ngSubmit)="onSubmit()" #gradesForm="ngForm"> -->
+    <div class="d-flex justify-content-center mb-3">
+      <button type="button" [disabled]="!isValid" class="btn btn-info" (click)="saveAll()">Sauvegarder les notes et quitter</button>
+    </div>
     <table class="table table-bordered table-striped">
       <thead class="thead-dark">
       <tr>
@@ -35,9 +38,12 @@
         </td>
       </tr>
       <!-- <button type="submit" [disabled]="!gradesForm.form.valid" class="btn btn-info">Sauvegarder les notes</button> -->
-      <button type="button" [disabled]="!isValid" class="btn btn-info" (click)="saveAll()">Sauvegarder les notes</button>
       </tbody>
+
     </table>
+    <div class="d-flex justify-content-center">
+      <button type="button" [disabled]="!isValid" class="btn btn-info" (click)="saveAll()">Sauvegarder les notes et quitter</button>
+    </div>
     <!-- </form> -->
   </div>
 </div>

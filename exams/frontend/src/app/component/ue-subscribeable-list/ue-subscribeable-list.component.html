@@ -13,12 +13,12 @@
       <tr *ngFor="let ue of subscribeable_ues; index as index">
         <td>{{ ue.name }}</td>
         <td>{{ ue.credit }}</td>
-        <td>{{ ue.durationExam }} min</td>
+        <td>{{ hoursAndMin[index] }} min</td>
         <td>{{ ue.discipline }}</td>
         <td class="d-flex justify-content-between">
           <!-- <a (click)="subscribe(ue)" class="btn btn-danger">S'inscrire</a> -->
 
-          <button type = "button" class = "btn btn-danger" (click) = "openModal(template)" > S'inscrire (avec confirmation)</button>
+          <button type = "button" class = "btn btn-info" (click) = "openModal(template)" >S'inscrire</button>
           <ng-template #template >
             <div class = "modal-body text-center" >
               <p> S'inscrire à une Ue implique un engagement de votre part à l'assiduité et à la non possibilité de se rétracter. Confirmez-vous que vous souhaitez vous inscrire à l'Ue {{ue.name}} pour l'année {{current_year}} ? </p>
