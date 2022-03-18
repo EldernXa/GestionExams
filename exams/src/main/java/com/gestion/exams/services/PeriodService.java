@@ -227,7 +227,6 @@ public class PeriodService {
 
 	public List<PeriodDTO> getListPeriod(){
 		List<PeriodDTO> listPeriodDTO = new ArrayList<>();
-
 		for(Period period : periodRepository.findAll()) {
 			listPeriodDTO.add(convertToDTO(period));
 		}
@@ -239,6 +238,7 @@ public class PeriodService {
 		PeriodDTO periodDTO = modelMapper.map(period, PeriodDTO.class);
 		periodDTO.setBeginDatePeriod(period.getBeginDatePeriod());
 		periodDTO.setEndDatePeriod(period.getEndDatePeriod());
+		periodDTO.setYear(period.getBeginDatePeriod().getYear()+1900);
 		return periodDTO;
 	}
 
@@ -247,7 +247,6 @@ public class PeriodService {
 		period.setBeginDatePeriod(periodDTO.getBeginDatePeriodInDateFormat());
 		period.setEndDatePeriod(periodDTO.getEndDatePeriodInDateFormat());
 		period.setId(periodDTO.getId());
-
 		return period;
 	}
 

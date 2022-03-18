@@ -6,18 +6,39 @@
             <th scope="col">Nom de la période</th>
             <th scope="col">Date de début</th>
             <th scope="col">Date de fin</th>
+            <td class="p-0 pl-4 pt-1"><a routerLink="/addperiod" class="btn btn-info m-0">Ajouter une période</a></td>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let period of periods">
-            <td>{{ period.name }}</td>
-            <td>{{ period.beginDatePeriod }}</td>
-            <td>{{ period.endDatePeriod }}</td>
-            <td><a [routerLink]="['/period', period.id]" class="btn btn-info">Détails</a>
-              <button [disabled]="period.isPlanify" (click)="deletePeriod(period.id)" class="btn btn-danger">Supprimer</button></td>
-          </tr>
+          <ng-template ngFor let-period [ngForOf]="periods" let-i="index">
+            <!-- <ng-template [ngIf]="i==0 && periods[i].year > currentYear"> -->
+            <ng-template [ngIf]="i==0 && periods[i].year > currentYear">
+              <tr style="background-color : lightgrey;">
+                <td>Les prochaines années</td><td></td><td></td><td style="background-color: white"></td>
+              </tr>
+            </ng-template>
+            <ng-template [ngIf]="(i==0 || periods[i-1].year > currentYear) && periods[i].year == currentYear">
+              <tr style="background-color : lightgrey;">
+                <td>Cette année</td><td></td><td></td><td style="background-color: white"></td>
+              </tr>
+            </ng-template>
+            <ng-template [ngIf]="(i==0 || periods[i-1].year >= currentYear) && periods[i].year < currentYear">
+              <tr style="background-color : lightgrey;">
+                <td>Les années précédentes</td><td></td><td></td><td style="background-color: white"></td>
+              </tr>
+            </ng-template>
+            <tr>
+              <td>{{ period.name }}</td>
+              <td>{{ period.beginDatePeriod }}</td>
+              <td>{{ period.endDatePeriod }}</td>
+              <td>
+                <button [routerLink]="['/period', period.id]" class="btn btn-info">Détails</button>
+                <button [disabled]="period.isPlanify" (click)="deletePeriod(period.id)" class="btn btn-danger ml-4">Supprimer</button>
+              </td>
+            </tr>
+          </ng-template>
         </tbody>
       </table>
-      <a routerLink="/addperiod" class="btn btn-info">Ajouter une période</a>
+
     </div>
   </div>

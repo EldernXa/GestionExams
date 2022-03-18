@@ -5,5 +5,6 @@ export class Period {
     beginDatePeriod: string = "";
     endDatePeriod: string = "";
     isPlanify = false;
+    year : number =0;
 
 }

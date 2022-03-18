@@ -11,18 +11,21 @@ import { PeriodService } from 'src/app/service/period/period-service.service';
 export class PeriodListComponent implements OnInit {
 
   periods: Period[];
+  currentYear = new Date().getFullYear();
 
   constructor(private periodService: PeriodService, private loginService: LoginService) {
     this.loginService.redirectIfNotLogin();
     this.periods = [];
-    
+
   }
 
   ngOnInit(){
     this.periodService.findAll().subscribe(data=>{
       this.periods = data;
+      this.periods = this.periods.sort((a,b) => b.year - a.year);
       for(let i = 0; i<this.periods.length; i++){
         this.isDisabled(this.periods[i].id, i);
+        console.log(this.periods[i].year);
       }
     });
   }
@@ -33,6 +36,7 @@ export class PeriodListComponent implements OnInit {
         this.periods = [];
         this.periodService.findAll().subscribe(data=>{
           this.periods = data;
+          this.periods = this.periods.sort((a,b) => b.year - a.year);
           for(let i = 0; i<this.periods.length; i++){
             this.isDisabled(this.periods[i].id, i);
           }
