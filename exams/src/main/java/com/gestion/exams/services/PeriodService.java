@@ -19,6 +19,7 @@ import com.gestion.exams.entity.Period;
 import com.gestion.exams.entity.Room;
 import com.gestion.exams.entity.Student;
 import com.gestion.exams.entity.UE;
+import com.gestion.exams.repository.ExamRepository;
 import com.gestion.exams.repository.PeriodRepository;
 
 @Service
@@ -29,6 +30,9 @@ public class PeriodService {
 
 	@Autowired
 	private ExamService examService;
+
+	@Autowired
+	private ExamRepository examRepository;
 
 	@Autowired
 	private RoomService roomService;
@@ -308,6 +312,9 @@ public class PeriodService {
 	}
 
 	public void deletePeriod(long idPeriod) {
+		for(Exam exam : periodRepository.findById(idPeriod).get().getExams()) {
+			examRepository.delete(exam);
+		}
 		periodRepository.deleteById(idPeriod);
 	}
 
