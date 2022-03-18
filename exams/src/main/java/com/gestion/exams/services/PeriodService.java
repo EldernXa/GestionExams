@@ -47,6 +47,10 @@ public class PeriodService {
 			if(newDate != null) {
 				dateBeginWithHour = newDate;
 			}
+			newDate = correctDateInTheEndOfTheWeek(dateBeginWithHour);
+			if(newDate != null) {
+				dateBeginWithHour = newDate;
+			}
 
 			dateBeginWithHour = getBestDateForAnExam(dateBeginWithHour, newDate, periodToPlan, exam);
 			// TODO if not room available repeat loop for date
@@ -95,22 +99,30 @@ public class PeriodService {
 		if(newDate != null) {
 			dateToReturn = newDate;
 		}
-		saveDate = dateToReturn;
-		if(newDate == null) {
-			newDate = correctDateBetweenNoon(dateToReturn, DateService.addHours(dateToReturn, exam.getUe().getDurationExam()));
-			if(newDate != null && !canPassNoon) {
-				dateToReturn = newDate;
-			}
-			else {
-				newDate = correctDateInTheEndOfTheDay(dateToReturn, DateService.addHours(dateToReturn, exam.getUe().getDurationExam()));
-				if(newDate != null) {
+		newDate = correctDateInTheEndOfTheWeek(dateToReturn);
+		if(newDate != null) {
+			dateToReturn = newDate;
+		}
+		else {
+			saveDate = dateToReturn;
+			if(newDate == null) {
+				newDate = correctDateBetweenNoon(dateToReturn, DateService.addHours(dateToReturn, exam.getUe().getDurationExam()));
+				if(newDate != null && !canPassNoon) {
 					dateToReturn = newDate;
 				}
-			}
-			if(saveDate.compareTo(dateToReturn) == 0) {
-				canPassNoon = true;
+				else {
+					newDate = correctDateInTheEndOfTheDay(dateToReturn, DateService.addHours(dateToReturn, exam.getUe().getDurationExam()));
+					if(newDate != null) {
+						dateToReturn = newDate;
+					}
+				}
+				if(saveDate.compareTo(dateToReturn) == 0) {
+					canPassNoon = true;
+				}
 			}
 		}
+
+		//correctDateInTheEndOfTheWeek(dateToReturn);
 
 		HashMap<Integer, Object> mapToReturn = new HashMap<>();
 		mapToReturn.put(1, newDate);
@@ -162,6 +174,14 @@ public class PeriodService {
 		Date afterDay = DateService.getAfterDayOfADate(beginDate);
 		if(beginDate.after(afterDay) || endDate.after(afterDay)) {
 			return DateService.getTheDayAfterAt8Hour(beginDate);
+		}
+		return null;
+	}
+
+	private Date correctDateInTheEndOfTheWeek(Date beginDate) throws ParseException {
+		String dayNameForBeginName = DateService.getDayInString(beginDate);
+		if(dayNameForBeginName.contentEquals("samedi") || dayNameForBeginName.contentEquals("dimanche")) {
+			return DateService.getTheDayAfterWeekEnd(beginDate);
 		}
 		return null;
 	}
