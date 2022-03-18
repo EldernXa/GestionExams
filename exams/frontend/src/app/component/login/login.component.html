@@ -6,10 +6,10 @@
     <div class="form-group mb-3">
       <label>Mot de passe </label><input class="form-control" type="password" name="password" [(ngModel)]="mdp"/>
     </div>
-
+    <div class="alert alert-danger" *ngIf="msg!=''">{{msg}}</div>
     <button type="submit" class="btn-info">Se connecter</button>
   </form>
-  <div class="alert alert-danger" *ngIf="msg!=''">{{msg}}</div>
+
 </div>
 
 

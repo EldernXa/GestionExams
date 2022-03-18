@@ -6,13 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 public class Period {
@@ -23,7 +17,7 @@ public class Period {
 	@Column(nullable = false)
 	private Date endDatePeriod;
 
-	@OneToMany(mappedBy = "period")
+	@OneToMany(mappedBy = "period", fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<Exam> exams = new ArrayList<>();
 

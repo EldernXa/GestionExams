@@ -1,22 +1,24 @@
 package com.gestion.exams.entity;
 
 public enum Discipline {
-	INFORMATIQUE, MATH, SPORT, PHYSIQUE;
+	INFORMATIQUE, MATH, SPORT, PHYSIQUE, AUTRE;
 
 	// TODO à tester
 	public String toString(Discipline discipline) {
 
 		switch(discipline) {
-		case INFORMATIQUE:
-			return "Informatique";
-		case MATH:
-			return "Mathématique";
-		case SPORT:
-			return "Sport";
-		case PHYSIQUE:
-			return "Physique";
-		default:
-			return null;
+			case INFORMATIQUE:
+				return "Informatique";
+			case MATH:
+				return "Mathématique";
+			case SPORT:
+				return "Sport";
+			case PHYSIQUE:
+				return "Physique";
+			case AUTRE:
+					return "Autre";
+			default:
+				return null;
 		}
 	}
 
@@ -24,17 +26,19 @@ public enum Discipline {
 	public Discipline toEnum(String stringToEnum) {
 
 		switch(stringToEnum.toLowerCase()) {
-		case "informatique":
-			return INFORMATIQUE;
-		case "mathématique":
-			return MATH;
-		case "sport":
-			return SPORT;
-		case "physique":
-			return PHYSIQUE;
-		default:
-			return null;
-		}
+			case "informatique":
+				return INFORMATIQUE;
+			case "mathématique":
+				return MATH;
+			case "sport":
+				return SPORT;
+			case "physique":
+				return PHYSIQUE;
+			case "autre":
+				return AUTRE;
+			default:
+				return null;
+			}
 	}
 
 }
