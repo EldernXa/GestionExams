@@ -144,8 +144,8 @@ public class PopulateService{
 			}
 		}
 		int countUe = 0;
-		int countStudent = 0;
 		for (UE element : listUE) {
+			int countStudent = 0;
 			for(Student s : students) {
 				if(countUe >= 2 && countStudent > 0){
 					Inscription inscription = new Inscription(s, 2022 , element);
@@ -184,7 +184,7 @@ public class PopulateService{
 				int year = inscriptions.get(i).getYear();
 				Period period = periodRepository.getPeriodByName("période "+year).get(0);
 				List<Exam> exams = examRepository.searchExamsByUeAndYear(ue,year);
-				if(exams.isEmpty() && (year != 2022 || period.getExams().size() < 5)) {
+				if(exams.isEmpty() && (year != 2022 || period.getExams().size() < 2)) {
 					Exam exam = new Exam(null, null, 1, year, /*listRoom.get(0)*/null, period, ue);
 					examRepository.save(exam);
 				}
@@ -209,10 +209,11 @@ public class PopulateService{
 			//Grade grade = new Grade(student, exam, random.nextInt()*20);
 			for(Inscription i : inscriptions){
 				if(i.getUe().getName() == exam.getUe().getName() && i.getYear() == exam.getYear()){
-					if(i.getYear()!=2022){
+					//if(i.getYear()!=2022){
 						Grade grade = new Grade(i.getStudent(),exam, random.nextInt((20 - 0) + 1 ) + 0);
 						gradeRepository.save(grade);
-					}
+					//}
+					/*
 					List<Grade> grades = i.getStudent().getGrades();
 					int count2022Grades = 0;
 					for(Grade g : grades) {
@@ -223,6 +224,7 @@ public class PopulateService{
 						Grade grade = new Grade(i.getStudent(), exam, random.nextInt((20 - 0) + 1) + 0);
 						gradeRepository.save(grade);
 					}
+					 */
 				}
 			}
 			/*
