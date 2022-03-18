@@ -47,6 +47,10 @@ public class PeriodService {
 			if(newDate != null) {
 				dateBeginWithHour = newDate;
 			}
+			newDate = correctDateInTheEndOfTheWeek(dateBeginWithHour);
+			if(newDate != null) {
+				dateBeginWithHour = newDate;
+			}
 
 			dateBeginWithHour = getBestDateForAnExam(dateBeginWithHour, newDate, periodToPlan, exam);
 			// TODO if not room available repeat loop for date
@@ -124,9 +128,11 @@ public class PeriodService {
 		Date newBeginDate = DateService.addMinute(beginDate, 1);
 		Date dateToReturn = null;
 		for(Inscription inscription : exam.getUe().getInscriptions()) {
-			Date date = isStudentAvailable(inscription.getStudent(), period, newBeginDate, endDate);
-			if (date != null && (dateToReturn == null || dateToReturn.after(date))) {
-				dateToReturn = date;
+			if(inscription.getYear() == DateService.getYear(period.getBeginDatePeriod())) {
+				Date date = isStudentAvailable(inscription.getStudent(), period, newBeginDate, endDate);
+				if (date != null && (dateToReturn == null || dateToReturn.after(date))) {
+					dateToReturn = date;
+				}
 			}
 		}
 		return dateToReturn;
@@ -136,7 +142,7 @@ public class PeriodService {
 		for(Exam exam : period.getExams()) {
 			if(examService.isExamDateBetweenOtherDate(exam, beginDate, endDate)) {
 				for(Inscription inscription : exam.getUe().getInscriptions()) {
-					if(inscription.getStudent().getIdStudent() == student.getIdStudent()) {
+					if(inscription.getYear() == exam.getYear() && inscription.getStudent().getIdStudent() == student.getIdStudent()) {
 						return exam.getEndDateExam();
 					}
 				}
@@ -164,10 +170,19 @@ public class PeriodService {
 		return null;
 	}
 
+	private Date correctDateInTheEndOfTheWeek(Date beginDate) throws ParseException {
+		String dayNameForBeginName = DateService.getDayInString(beginDate);
+		if(dayNameForBeginName.contentEquals("samedi") || dayNameForBeginName.contentEquals("dimanche")) {
+			return DateService.getTheDayAfterWeekEnd(beginDate);
+		}
+		return null;
+	}
+
 
 	private void changeExam(Exam exam, Date beginDate, Date endDate, Period periodToPlan) throws ParseException {
 		exam.setBeginDateExam(beginDate);
 		exam.setEndDateExam(endDate);
+		exam.setYear(DateService.getYear(beginDate));
 		setRoom(exam, periodToPlan);
 		examService.updateExam(exam);
 	}
