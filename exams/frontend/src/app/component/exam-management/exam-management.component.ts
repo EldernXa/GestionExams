@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Exam } from 'src/app/model/exam/exam';
 import { ExamService } from 'src/app/service/exam/exam.service';
+import { PeriodService } from 'src/app/service/period/period-service.service';
 
 @Component({
   selector: 'app-exam-management',
@@ -23,6 +24,7 @@ export class ExamManagementComponent implements OnInit {
   msgNameUe = "";
   msgSession = "";
   msgYear = "";
+  isDisable = true;
 
   constructor(private route:ActivatedRoute, private examService:ExamService,
               private router: Router) { }
@@ -50,6 +52,8 @@ export class ExamManagementComponent implements OnInit {
     this.examService.findAllUeNameForCreatingExam(this.id).subscribe(data=>{
       this.listUE = data;
     });
+
+    this.verifyPlanify();
 
   }
 
@@ -93,6 +97,13 @@ export class ExamManagementComponent implements OnInit {
   redirectTo(uri:string){
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
     this.router.navigate([uri]));
+ }
+
+ verifyPlanify(){
+   this.examService.isPeriodCanBeUndone(this.id).subscribe((data)=>{
+     console.log(data);
+     this.isDisable = data;
+   });
  }
 
 }

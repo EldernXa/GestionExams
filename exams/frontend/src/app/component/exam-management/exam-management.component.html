@@ -1,5 +1,6 @@
 <div *ngIf="listExam.length>0">
   <button *ngIf="listExam.length>0" (click)="onPlan()" class="btn btn-info">Planifier les salles et les horaires</button>
+  <button *ngIf="isDisable" class="btn btn-danger">Réinitialiser les salles et les horaires</button>
   <p>Exam qui sont actuellement enregistrée dans la période :</p>
   <table class="table table-bordered table-striped">
       <thead class="thead-dark">
