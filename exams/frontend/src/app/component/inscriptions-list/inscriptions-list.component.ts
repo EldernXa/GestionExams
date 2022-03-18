@@ -12,6 +12,7 @@ import {InscriptionsService} from "../../service/inscriptions/inscriptions-servi
 export class InscriptionsListComponent implements OnInit {
 
   inscriptions: Inscription[];
+  hoursAndMin: string[] = [];
 
   constructor(private route: ActivatedRoute, private inscriptionsService: InscriptionsService, private loginService:LoginService) {
     this.loginService.redirectIfNotLogin();
@@ -20,12 +21,24 @@ export class InscriptionsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.inscriptionsService.findAll().subscribe(data=>{
+      let count = 0;
       for(var inscription of data){
-        inscription.ue.durationExam = Number(inscription.ue.durationExam)/60;
+        //inscription.ue.durationExam = Number(inscription.ue.durationExam)/60;
+        this.hoursAndMin[count] = this.minToHoursAndMin(inscription.ue.durationExam);
         this.inscriptions.push(inscription);
+        count++;
       }
       this.inscriptions = this.inscriptions.sort((a,b) => b.year - a.year);
     });
   }
 
+  public minToHoursAndMin(minutes: number): string{
+    let h = Math.floor(minutes/60);
+    let hours = h.toString();
+    let m = minutes%60;
+    let min = (m<10) ? ("0"+m.toString()) : (m.toString());
+    let hoursAndMin = hours + "h" + min;
+    console.log(hoursAndMin);
+    return hoursAndMin;
+  }
 }

@@ -30,7 +30,7 @@ public class Student {
 	private String email;
 
 
-	@OneToMany(mappedBy = "gradePK.student", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "gradePK.student", fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<Grade> grades = new ArrayList<>();
 
