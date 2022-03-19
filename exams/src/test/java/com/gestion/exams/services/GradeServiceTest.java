@@ -25,6 +25,7 @@ import java.util.Optional;
 @Transactional
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class GradeServiceTest {
+
     @InjectMocks
     GradeService gradeService;
     @Mock
