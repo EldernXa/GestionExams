@@ -60,7 +60,7 @@ export class PeriodListComponent implements OnInit {
 
   getToolTipTextDetailsButton(period: Period): string{
     if(!period.isPlanify && period.year >= this.currentYear)
-      return "La période n'est pas encore planifiée !";
+      return "La période est vide ou n'est pas encore planifiée !";
     return "";
   }
 

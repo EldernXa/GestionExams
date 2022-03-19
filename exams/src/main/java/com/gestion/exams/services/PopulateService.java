@@ -133,7 +133,7 @@ public class PopulateService{
 		 */
 		List<UE> listUE = ueRepository.findAll();
 		Random r = new Random();
-		for(int year=2017 ; year<=2021; year++){
+		for(int year=2020 ; year<=2021; year++){
 			for (UE element : listUE) {
 				for(Student s : students) {
 					if(r.nextBoolean()){

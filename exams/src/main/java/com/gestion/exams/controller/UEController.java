@@ -6,6 +6,7 @@ import com.gestion.exams.entity.Inscription;
 import com.gestion.exams.entity.Student;
 import com.gestion.exams.entity.UE;
 import com.gestion.exams.services.ExamService;
+import com.gestion.exams.services.GradeService;
 import com.gestion.exams.services.StudentService;
 import com.gestion.exams.services.UEService;
 import org.modelmapper.ModelMapper;
@@ -34,6 +35,8 @@ public class UEController {
 	StudentService studentService;
 	@Autowired
 	ExamService examService;
+	@Autowired
+	GradeService gradeService;
 
 
 	@GetMapping("/allUE")
@@ -100,6 +103,8 @@ public class UEController {
 					isSubscribeable = false;
 				}
 			}
+			if(!gradeService.getGradesMoreThan10ByStudentAndUE(student.getIdStudent(),ue.getName()).isEmpty())
+				isSubscribeable = false;
 			if(isSubscribeable) {
 				subscribeable_ues.add(ue);
 			}
