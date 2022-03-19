@@ -32,6 +32,7 @@ import { Router } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatButtonModule} from "@angular/material/button";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthGuard } from './service/auth/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatButtonModule,
   ],
 
-  providers: [PeriodService, ExamService, GradeService, UeService, LoginService, ExamViewService,InscriptionsService, UeSubscribeableService, GradesViewService,
+  providers: [PeriodService, AuthGuard, ExamService, GradeService, UeService, LoginService, ExamViewService,InscriptionsService, UeSubscribeableService, GradesViewService,
     {
       provide: HTTP_INTERCEPTORS,
       useFactory: function(router: Router, loginService: LoginService){
