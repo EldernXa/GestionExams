@@ -39,4 +39,8 @@ export class UeService {
   public getHttp() :HttpClient {
     return this.http;
   }
+
+  public isUeNameGood(ueName: string): Observable<boolean>{
+    return this.http.get<boolean>(this.usersUrl + "isUeNameGood/"+ueName);
+  }
 }

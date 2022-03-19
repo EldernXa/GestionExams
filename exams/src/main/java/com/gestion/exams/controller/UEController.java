@@ -11,6 +11,7 @@ import com.gestion.exams.services.UEService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -90,15 +91,18 @@ public class UEController {
 			boolean isSubscribeable = true;
 			List<Exam> exams_of_ue_during_year = examService.getExamsByUeAndYear(ue,year);
 			for (Inscription i : student_inscriptions) {
-				if (i.getUe().getName() == ue.getName() && i.getYear() == year)
+				if (i.getUe().getName() == ue.getName() && i.getYear() == year) {
 					isSubscribeable = false;
+				}
 			}
 			for(Exam e : exams_of_ue_during_year){
-				if(e.getBeginDateExam()!=null)
+				if(e.getBeginDateExam()!=null) {
 					isSubscribeable = false;
+				}
 			}
-			if(isSubscribeable)
+			if(isSubscribeable) {
 				subscribeable_ues.add(ue);
+			}
 		}
 		return subscribeable_ues;
 	}
@@ -119,6 +123,17 @@ public class UEController {
 	@GetMapping("/accessall")
 	public String testAccessAll(){
 		return "Anyone is connected";
+	}
+
+	@GetMapping("/isUeNameGood/{nameUE}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<Boolean> isUeNameGood(@PathVariable String nameUE){
+		for(UE ue : ueService.getAllUE()) {
+			if(ue.getName().contentEquals(nameUE)) {
+				return new ResponseEntity<>(false, HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<>(true, HttpStatus.OK);
 	}
 
 

@@ -14,6 +14,7 @@
                placeholder="Entrer le nom de l'UE"
                required #name="ngModel">
         <div [hidden]="!name.invalid || !name.dirty" class="alert alert-danger">Le nom de l'UE est requis</div>
+        <div [hidden]="isNameGood" class="alert alert-danger" >Cette ue existe déjà.</div>
       </div>
 
       <div class="form-group">

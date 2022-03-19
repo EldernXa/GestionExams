@@ -13,6 +13,7 @@ import { LoginService } from 'src/app/service/login/login.service';
 export class UeFormComponent {
 
   ue: Ue;
+  isNameGood = true;
 
   constructor(private route: ActivatedRoute, private router: Router, private ueService: UeService, private loginService: LoginService){
     this.loginService.redirectIfNotLogin();
@@ -20,9 +21,20 @@ export class UeFormComponent {
   }
 
   onSubmit(){
-    this.ueService.addUe(this.ue).subscribe(result=>{
-      this.gotoPeriodList();
-    });
+    this.ueService.isUeNameGood(this.ue.name).subscribe(
+      (isUeNameGood)=>{
+        if(isUeNameGood){
+          this.isNameGood = true;
+          this.ueService.addUe(this.ue).subscribe(result=>{
+            this.gotoPeriodList();
+          });
+        }
+        else{
+          this.isNameGood = false;
+        }
+      }
+    );
+    
   }
 
   gotoPeriodList(){
