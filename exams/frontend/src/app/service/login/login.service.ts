@@ -1,14 +1,16 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, of } from 'rxjs';
+import {catchError, Observable, of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor(private http: HttpClient, private router: Router) { }
+
+  constructor(private http: HttpClient, private router: Router) {
+  }
 
   /*private httpOptions = {
     headers: new HttpHeaders({
@@ -24,9 +26,13 @@ export class LoginService {
       this.moveOnLoginPage();
     }
   }
-  
+
   getRole(){
     return localStorage.getItem("role");
+  }
+
+  getName(): Observable<string>{
+    return this.http.get<string>('http://localhost:8080/loggedMessage', {responseType: 'text' as 'json'});
   }
 
   redirectIfLogin(){

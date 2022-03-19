@@ -1,8 +1,6 @@
-<p class="d-flex justify-content-center">
-  <button routerLink="/period" class="btn btn-info" >Retour</button>
-</p>
-<p>Nom de la période : {{period.name}}</p>
-<p>Date de début de la période : {{ period.beginDatePeriod }}</p>
-<p>Date de fin de la période : {{ period.endDatePeriod }}</p>
+<div>
+  <button routerLink="/period" class="btn btn-info" ><i class="arrow left"></i> Retour</button>
+  <h3 class="mt-5">Gestion de la période :</h3>
+  <h5>{{period.name}} : de {{ period.beginDatePeriod }} à {{ period.endDatePeriod }}</h5>
+</div>
 <app-exam-management id="{{period.id}}"></app-exam-management>
-<!--<p><a [routerLink]="['/periodManagement', period.id]" class="btn btn-info">Gestion des examens</a></p> -->

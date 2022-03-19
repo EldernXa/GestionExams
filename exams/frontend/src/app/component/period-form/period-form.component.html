@@ -1,36 +1,27 @@
-<p class="d-flex justify-content-center">
-  <button routerLink="/period" class="btn btn-info" >Retour</button>
-</p>
+<div>
+  <button routerLink="/period" class="btn btn-info" ><i class="arrow left"></i> Retour</button>
+  <h3 class="mt-5">Ajout d'une période :</h3>
+</div>
+
 <div class="card my-5">
-    <div class="card-body">
-      <form (ngSubmit)="onSubmit()" #periodForm="ngForm">
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" [(ngModel)]="period.name"
-            class="form-control"
-            id="name"
-            name="name"
-            placeholder="Entrer le nom de la période">
-          <div *ngIf="!nameVerif" class="alert alert-danger">{{msgNamePeriod}}</div>
-        </div>
-        <div class="form-group">
-          <label for="beginDatePeriod">date de début de la période</label>
-          <input type="date" [(ngModel)]="period.beginDatePeriod"
-            class="form-control"
-            id="beginDatePeriod"
-            name="beginDatePeriod">
-          <div *ngIf="!beginDatePeriodVerif" class="alert alert-danger">{{msgBeginDatePeriod}}</div>
-        </div>
-        <div class="form-group">
-            <label for="endDatePeriod">date de fin de la période</label>
-            <input type="date" [(ngModel)]="period.endDatePeriod"
-                class="form-control"
-                id="endDatePeriod"
-                name="endDatePeriod">
-            <div *ngIf="!endDatePeriodVerif" class="alert alert-danger">{{msgEndDatePeriod}}</div>
-        </div>
-        <button type="submit"
-          class="btn btn-info">Ajouter cette période</button>
-      </form>
-    </div>
+  <div class="card-body">
+    <form (ngSubmit)="onSubmit()" #periodForm="ngForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" [(ngModel)]="period.name" class="form-control" id="name" name="name" placeholder="Entrer le nom de la période">
+        <div *ngIf="!nameVerif" class="alert alert-danger">{{msgNamePeriod}}</div>
+      </div>
+      <div class="form-group">
+        <label for="beginDatePeriod">date de début de la période</label>
+        <input type="date" [(ngModel)]="period.beginDatePeriod" class="form-control" id="beginDatePeriod" name="beginDatePeriod">
+        <div *ngIf="!beginDatePeriodVerif" class="alert alert-danger">{{msgBeginDatePeriod}}</div>
+      </div>
+      <div class="form-group">
+        <label for="endDatePeriod">date de fin de la période</label>
+        <input type="date" [(ngModel)]="period.endDatePeriod" class="form-control" id="endDatePeriod" name="endDatePeriod">
+        <div *ngIf="!endDatePeriodVerif" class="alert alert-danger">{{msgEndDatePeriod}}</div>
+      </div>
+      <button type="submit" class="btn btn-info">Ajouter cette période</button>
+    </form>
   </div>
+</div>

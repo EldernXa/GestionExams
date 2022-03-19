@@ -8,16 +8,22 @@ import { LoginService } from './service/login/login.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
   title: string;
+  welcomeMessage: string ="";
   role: string | null = "";
   isLogin: boolean = false;
   state: string = ""
+  currentYear = new Date().getFullYear();
 
   constructor(private router:Router, private loginService: LoginService){
     this.title = 'NotePlus';
     if(this.loginService.isConnected()){
       this.isLogin = true;
       this.role = this.loginService.getRole();
+      this.loginService.getName().subscribe( data => {
+        this.welcomeMessage = data;
+      });
     }else{
       this.router.navigate(['/login']);
     }

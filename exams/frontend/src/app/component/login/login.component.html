@@ -1,4 +1,8 @@
-<div class="mt-5 card-body d-flex justify-content-center">
+<div class="card-body mt-5">
+  <h1 class="card-title text-center text-dark py-3" style="font-size: 50px;">NotePlus</h1>
+  <h3 class="card-title text-center text-dark">Connexion</h3>
+</div>
+<div class="mt-3 card-body d-flex justify-content-center">
   <form (ngSubmit)="onSubmit()" class="form-group">
     <div class="form-group mb-3">
       <label>Identifiant </label><input class="form-control" type="text" name="ident" [(ngModel)]="ident"/>
@@ -7,7 +11,9 @@
       <label>Mot de passe </label><input class="form-control" type="password" name="password" [(ngModel)]="mdp"/>
     </div>
     <div class="alert alert-danger" *ngIf="msg!=''">{{msg}}</div>
-    <button type="submit" class="btn btn-info">Se connecter</button>
+    <div class="d-flex justify-content-center">
+      <button type="submit" class="btn btn-info">Se connecter</button>
+    </div>
   </form>
 
 </div>
