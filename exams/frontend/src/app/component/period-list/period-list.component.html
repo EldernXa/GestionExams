@@ -1,4 +1,9 @@
-<div class="card my-5">
+<div>
+  <h3>Toutes les périodes d'examens :</h3>
+</div>
+
+<span *ngIf="periods.length>0">
+  <div class="card my-5">
     <div class="card-body">
       <table class="table table-bordered table-striped">
         <thead class="thead-dark">
@@ -6,12 +11,11 @@
             <th scope="col">Nom de la période</th>
             <th scope="col">Date de début</th>
             <th scope="col">Date de fin</th>
-            <td class="p-0 pl-4 pt-1"><a routerLink="/addperiod" class="btn btn-info m-0">Ajouter une période</a></td>
+            <td class="pb-0 d-flex justify-content-center "><a routerLink="/addperiod" class="btn btn-info m-0">Ajouter une période</a></td>
           </tr>
         </thead>
         <tbody>
           <ng-template ngFor let-period [ngForOf]="periods" let-i="index">
-            <!-- <ng-template [ngIf]="i==0 && periods[i].year > currentYear"> -->
             <ng-template [ngIf]="i==0 && periods[i].year > currentYear">
               <tr style="background-color : lightgrey;">
                 <td>Les prochaines années</td><td></td><td></td><td style="background-color: white"></td>
@@ -31,23 +35,33 @@
               <td>{{ period.name }}</td>
               <td>{{ period.beginDatePeriod }}</td>
               <td>{{ period.endDatePeriod }}</td>
-              <td>
+              <td class="d-flex justify-content-between">
                 <span [matTooltip]="getToolTipTextDetailsButton(period)" matTooltipPosition="below">
                   <span class="notification">
-                    <button [routerLink]="['/period', period.id]" class="btn btn-info">Détails</button>
+                    <button [routerLink]="['/period', period.id]" class="btn btn-info">Gérer</button>
                     <ng-template [ngIf]="!period.isPlanify && period.year >= currentYear">
                       <span class="badge">!</span>
                     </ng-template>
                   </span>
                 </span>
                 <span [matTooltip]="getToolTipTextDeleteButton(period)" matTooltipPosition="below">
-                <button [disabled]="period.isPlanify" (click)="deletePeriod(period.id)" class="btn btn-danger ml-4">Supprimer</button>
+                <button [disabled]="period.isPlanify" (click)="deletePeriod(period.id)" class="btn btn-danger">Supprimer</button>
                 </span>
               </td>
             </tr>
           </ng-template>
         </tbody>
       </table>
-
     </div>
   </div>
+</span>
+
+<span *ngIf="periods.length==0">
+  <div class="m-5 d-flex justify-content-center">
+      Aucune période.
+  </div>
+  <div class="m-5 d-flex justify-content-center">
+    <a routerLink="/addperiod" class="btn btn-info m-0">Ajouter une période</a>
+  </div>
+</span>
+

@@ -1,14 +1,15 @@
+<div>
+  <button type="button" [disabled]="!isValid" class="btn btn-info" (click)="saveAll()"><i class="arrow left"></i> Sauvegarder les notes et quitter</button>
+  <h3 class="mt-5">Gestion des notes :</h3>
+</div>
+
 <div class="card my-5">
   <div class="card-body">
-    <!-- <form (ngSubmit)="onSubmit()" #gradesForm="ngForm"> -->
-    <div class="d-flex justify-content-center mb-3">
-      <button type="button" [disabled]="!isValid" class="btn btn-info" (click)="saveAll()">Sauvegarder les notes et quitter</button>
-    </div>
     <table class="table table-bordered table-striped">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">FirstName</th>
-        <th scope="col">LastName</th>
+        <th scope="col">Prénom</th>
+        <th scope="col">Nom</th>
         <th scope="col">Note</th>
       </tr>
       </thead>
@@ -30,22 +31,19 @@
                      placeholder="Entrer une note"
                      required #gradeForm="ngModel"
                      (ngModelChange)="checkValidity()">
-              <!-- <button type="submit" [disabled]="!gradeform.form.valid" class="btn btn-info">Sauvegarder la note</button> -->
             </div>
             <div [hidden]="!gradeform.invalid" class="alert alert-danger">La note doit être comprise entre 0 et 20 !</div>
           </div>
           </form>
         </td>
       </tr>
-      <!-- <button type="submit" [disabled]="!gradesForm.form.valid" class="btn btn-info">Sauvegarder les notes</button> -->
       </tbody>
-
     </table>
-    <div class="d-flex justify-content-center">
-      <button type="button" [disabled]="!isValid" class="btn btn-info" (click)="saveAll()">Sauvegarder les notes et quitter</button>
-    </div>
-    <!-- </form> -->
   </div>
+</div>
+
+<div class="mb-5">
+  <button type="button" [disabled]="!isValid" class="btn btn-info" (click)="saveAll()"><i class="arrow left"></i> Sauvegarder les notes et quitter</button>
 </div>
 
 

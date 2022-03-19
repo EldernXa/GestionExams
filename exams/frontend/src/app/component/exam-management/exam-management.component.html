@@ -1,59 +1,72 @@
 <div *ngIf="listExam.length>0">
-  <button *ngIf="listExam.length>0 && !isPeriodFinish" (click)="onPlan()" class="btn btn-info">Planifier les salles et les horaires</button>
-  <button *ngIf="isDisable" (click)="initPeriod() " class="btn btn-danger">Réinitialiser les salles et les horaires</button>
-  <p>Exam qui sont actuellement enregistrée dans la période :</p>
-  <table class="table table-bordered table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">Nom de l'UE</th>
-          <th scope="col">session</th>
-          <th scope="col">La salle</th>
-          <th scope="col">Date de début</th>
-          <th scope="col">Date de fin</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let exam of listExam, index as i">
-          <td>{{ exam.ue }}</td>
-          <td>{{ exam.session }}</td>
-          <td>{{ exam.nameRoom }}</td>
-          <td>{{ exam.beginDateExam }}</td>
-          <td>{{ exam.endDateExam }}</td>
-          <td>
-            <!--
-            <div (mouseover)="mouseOver()" (mouseout)="mouseOut()">
-              <a [routerLink]="['/grades/exam/',exam.idExam]" title="bouton" [class.disabled]="!exam.isFinish ||!listHasStudent[i]" class="btn btn-info">Gérer les notes</a>
-            </div>
-            <p>{{mouseOverText}}</p>
-            -->
-            <div [matTooltip]="getToolTipText(exam,i)" matTooltipPosition="below">
-              <a [routerLink]="['/grades/exam/',exam.idExam]" [class.disabled]="!exam.isFinish ||!listHasStudent[i]" class="btn btn-info">Gérer les notes</a>
-            </div>
+  <div class="m-5 d-flex justify-content-around">
+    <button *ngIf="listExam.length>0 && !isPeriodFinish" (click)="onPlan()" class="btn btn-info">Planifier les salles et les horaires</button>
+    <button *ngIf="isDisable" (click)="initPeriod() " class="btn btn-danger">Réinitialiser les salles et les horaires</button>
+  </div>
 
+  <div>
+    <h3>Liste des examens :</h3>
+  </div>
 
-          </td>
-          <!-- <td><a [routerLink]="['/grades/exam/',exam.idExam]" [class.disabled]="!listHasStudent[i]" class="btn btn-info">Gérer les notes</a></td> -->
-        </tr>
-      </tbody>
-    </table>
+  <div class="card my-5">
+    <div class="card-body">
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">UE</th>
+            <th scope="col">Session</th>
+            <th scope="col">Salle</th>
+            <th scope="col">Début</th>
+            <th scope="col">Fin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let exam of listExam, index as i">
+            <td>{{ exam.ue }}</td>
+            <td>{{ exam.session }}</td>
+            <td>{{ exam.nameRoom }}</td>
+            <td>{{ exam.beginDateExam }}</td>
+            <td>{{ exam.endDateExam }}</td>
+            <td>
+              <div [matTooltip]="getToolTipText(exam,i)" matTooltipPosition="below">
+                <a [routerLink]="['/grades/exam/',exam.idExam]" [class.disabled]="!exam.isFinish ||!listHasStudent[i]" class="btn btn-info">Gérer les notes</a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
-  <div class="card-body" *ngIf="listUE.length>0 && !isPeriodFinish">
-    <p>Nouvelle exam : </p>
+<span *ngIf="listExam.length==0">
+  <div class="mt-5">
+    <h3>Liste des examens :</h3>
+  </div>
+  <div class="m-5 d-flex justify-content-center">
+      Aucun examen dans la période.
+  </div>
+</span>
+
+<span class="mb-5" *ngIf="listUE.length>0 && !isPeriodFinish">
+  <div>
+    <h3>Ajouter un examen à la période :</h3>
+  </div>
+  <div class="card-body w-75 mb-5">
     <form #periodForm="ngForm">
       <div class="form-group">
         <label>Nom de l'UE</label>
         <select class="custom-select form-control" [(ngModel)]="exam.ue" id="ueName" name="ueName" (ngModelChange)="onChange($event)">
-            <option value="" disabled>Choisisez le nom de l'UE</option>
-            <option *ngFor="let ue of listUE" [ngValue]="ue">{{ue}}</option>
-         </select>
+          <option value="" disabled>Choisisez le nom de l'UE</option>
+          <option *ngFor="let ue of listUE" [ngValue]="ue">{{ue}}</option>
+        </select>
       </div>
       <div *ngIf="!ueNameVerif" class="alert alert-danger">{{msgNameUe}}</div>
       <div class="form-group" *ngIf="sessionVerif">
         <label>session : {{this.exam.session}}</label>
       </div>
-
-      <button (click)="onSubmit()" class="btn btn-info">Submit</button>
+      <button (click)="onSubmit()" class="btn btn-info">Ajouter l'examen</button>
     </form>
   </div>
+</span>
 

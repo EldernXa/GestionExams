@@ -19,8 +19,10 @@ export class ExamsViewComponent implements OnInit {
     });
   }
 
-  getToolTipText():string {
-    return "Uniquement pour ceux ayant échoué en session 1 !"
+  getToolTipText(exam: Exam):string {
+    if(exam.session == 2)
+      return "Uniquement pour ceux ayant échoué en session 1 !"
+    return "";
   }
 
 }
