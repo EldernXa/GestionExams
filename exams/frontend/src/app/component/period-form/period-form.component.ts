@@ -59,8 +59,6 @@ export class PeriodFormComponent{
                   
                   if(!this.verifyNamePeriodGood(Boolean(isNameGood))){
                     verifySubmit = false;
-                    this.msgNamePeriod = "le nom n'est pas bon";
-                    this.nameVerif = true;
                   }
 
                   if(verifySubmit){
