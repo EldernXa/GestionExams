@@ -1,5 +1,6 @@
 <div *ngIf="listExam.length>0">
   <button *ngIf="listExam.length>0" (click)="onPlan()" class="btn btn-info">Planifier les salles et les horaires</button>
+  <button *ngIf="isDisable" (click)="initPeriod() " class="btn btn-danger">Réinitialiser les salles et les horaires</button>
   <p>Exam qui sont actuellement enregistrée dans la période :</p>
   <table class="table table-bordered table-striped">
       <thead class="thead-dark">
@@ -28,7 +29,7 @@
     </table>
 </div>
 
-  <div class="card-body" *ngIf="listUE.length>0">
+  <div class="card-body" *ngIf="listUE.length>0 && !isPeriodFinish">
     <p>Nouvelle exam : </p>
     <form #periodForm="ngForm">
       <div class="form-group">

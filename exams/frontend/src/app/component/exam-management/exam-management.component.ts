@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Exam } from 'src/app/model/exam/exam';
 import { ExamService } from 'src/app/service/exam/exam.service';
+import { PeriodService } from 'src/app/service/period/period-service.service';
 
 @Component({
   selector: 'app-exam-management',
@@ -24,6 +25,8 @@ export class ExamManagementComponent implements OnInit {
   msgSession = "";
   msgYear = "";
   mouseOverText = "";
+  isDisable = true;
+  isPeriodFinish = false;
 
   constructor(private route:ActivatedRoute, private examService:ExamService,
               private router: Router) { }
@@ -52,6 +55,10 @@ export class ExamManagementComponent implements OnInit {
       this.listUE = data;
     });
 
+    this.verifyPlanify();
+    this.examService.isPeriodFinish(this.id).subscribe((isFinished)=>{
+      this.isPeriodFinish = isFinished;
+    });
   }
 
   onChange(newValue:string){
@@ -102,6 +109,17 @@ export class ExamManagementComponent implements OnInit {
 
  mouseOut(){
     this.mouseOverText = "";
+
+ verifyPlanify(){
+   this.examService.isPeriodCanBeUndone(this.id).subscribe((data)=>{
+     this.isDisable = data;
+   });
+ }
+
+ initPeriod(){
+   this.examService.initPeriod(this.id).subscribe(()=>{
+     this.update();
+   });
  }
 
 }

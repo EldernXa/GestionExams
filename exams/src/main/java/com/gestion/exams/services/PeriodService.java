@@ -275,7 +275,7 @@ public class PeriodService {
 		return periodRepository.save(periodToSave);
 	}
 
-	private void initPeriod(long idPeriod) {
+	public void initPeriod(long idPeriod) {
 		Period periodToInit = periodRepository.getById(idPeriod);
 		List<Exam> listExamFromAPeriod = periodToInit.getExams();
 		for(Exam exam : listExamFromAPeriod) {
@@ -319,8 +319,17 @@ public class PeriodService {
 
 	public boolean verifyIfAPeriodIsPlanify(long idPeriod) {
 		Period period = periodRepository.findById(idPeriod).get();
-		return !period.getExams().isEmpty() && period.getExams().get(0).getBeginDateExam() != null;
+		return (!period.getExams().isEmpty() && period.getExams().get(0).getBeginDateExam() != null) ||
+				period.getBeginDatePeriod().before(Calendar.getInstance().getTime());
+	}
 
+	public boolean verifyIfAPeriodCanBeUndone (long idPeriod) {
+		Period period = periodRepository.findById(idPeriod).get();
+		System.err.println(idPeriod);
+		if(period.getBeginDatePeriod().before(Calendar.getInstance().getTime())) {
+			return false;
+		}
+		return (!period.getExams().isEmpty() && period.getExams().get(0).getBeginDateExam() != null);
 	}
 
 }
