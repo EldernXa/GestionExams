@@ -216,9 +216,12 @@ public class PeriodService {
 
 	public boolean verifyIfExamCanBeAddedToAPeriod(UE ue, long id) {
 		Period period = getPeriod(id);
+		if(period.getExams().isEmpty() && examService.getNextSessionOfAnExam(ue.getName(), id) == -1) {
+			return true;
+		}
 		for(Exam exam: period.getExams()) {
 			int nextSessionUe = examService.getNextSessionOfAnExam(ue.getName(), id);
-			if(exam.getUe().getName().compareTo(ue.getName())==0 || exam.getSession() != nextSessionUe) {
+			if(exam.getUe().getName().compareTo(ue.getName())==0 || exam.getSession() != nextSessionUe || nextSessionUe == -1) {
 				return true;
 			}
 		}
