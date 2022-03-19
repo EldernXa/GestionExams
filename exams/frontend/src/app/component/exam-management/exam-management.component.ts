@@ -109,7 +109,7 @@ export class ExamManagementComponent implements OnInit {
 
  mouseOut(){
     this.mouseOverText = "";
-
+ }
  verifyPlanify(){
    this.examService.isPeriodCanBeUndone(this.id).subscribe((data)=>{
      this.isDisable = data;
