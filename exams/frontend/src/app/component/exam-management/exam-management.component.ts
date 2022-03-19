@@ -24,7 +24,6 @@ export class ExamManagementComponent implements OnInit {
   msgNameUe = "";
   msgSession = "";
   msgYear = "";
-  mouseOverText = "";
   isDisable = true;
   isPeriodFinish = false;
 
@@ -103,13 +102,14 @@ export class ExamManagementComponent implements OnInit {
     this.router.navigate([uri]));
  }
 
- mouseOver(){
-    this.mouseOverText = "Non cliquable !"
+ getToolTipText(exam: Exam, i: number): string{
+    if(!exam.isFinish)
+      return "L'examen n'est pas encore terminé !";
+    if(!this.listHasStudent[i])
+      return "Aucun étudiant pour cet examen !";
+    return "";
  }
 
- mouseOut(){
-    this.mouseOverText = "";
- }
  verifyPlanify(){
    this.examService.isPeriodCanBeUndone(this.id).subscribe((data)=>{
      this.isDisable = data;

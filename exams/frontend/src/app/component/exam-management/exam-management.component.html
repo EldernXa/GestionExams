@@ -20,8 +20,17 @@
           <td>{{ exam.beginDateExam }}</td>
           <td>{{ exam.endDateExam }}</td>
           <td>
-            <a [routerLink]="['/grades/exam/',exam.idExam]" [class.disabled]="!exam.isFinish ||!listHasStudent[i]" class="btn btn-info" (mouseover)="mouseOver()" (mouseout)="mouseOut()">Gérer les notes</a>
+            <!--
+            <div (mouseover)="mouseOver()" (mouseout)="mouseOut()">
+              <a [routerLink]="['/grades/exam/',exam.idExam]" title="bouton" [class.disabled]="!exam.isFinish ||!listHasStudent[i]" class="btn btn-info">Gérer les notes</a>
+            </div>
             <p>{{mouseOverText}}</p>
+            -->
+            <div [matTooltip]="getToolTipText(exam,i)" matTooltipPosition="below">
+              <a [routerLink]="['/grades/exam/',exam.idExam]" [class.disabled]="!exam.isFinish ||!listHasStudent[i]" class="btn btn-info">Gérer les notes</a>
+            </div>
+
+
           </td>
           <!-- <td><a [routerLink]="['/grades/exam/',exam.idExam]" [class.disabled]="!listHasStudent[i]" class="btn btn-info">Gérer les notes</a></td> -->
         </tr>
@@ -47,3 +56,4 @@
       <button (click)="onSubmit()" class="btn btn-info">Submit</button>
     </form>
   </div>
+

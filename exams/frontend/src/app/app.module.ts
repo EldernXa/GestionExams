@@ -29,10 +29,13 @@ import {GradesViewComponent } from './component/grades-view/grades-view.componen
 import {GradesViewService} from "./service/grades-view/grades-view-service.service";
 import { AuthInterceptor } from './AuthInterceptor';
 import { Router } from '@angular/router';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import {MatButtonModule} from "@angular/material/button";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthGuard } from './service/auth/auth-guard.service';
+
 
 @NgModule({
   declarations: [
@@ -60,6 +63,8 @@ import { AuthGuard } from './service/auth/auth-guard.service';
     BrowserAnimationsModule,
     MatTooltipModule,
     MatButtonModule,
+    MatSelectModule,
+    MatInputModule,
   ],
 
   providers: [PeriodService, AuthGuard, ExamService, GradeService, UeService, LoginService, ExamViewService,InscriptionsService, UeSubscribeableService, GradesViewService,

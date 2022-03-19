@@ -33,7 +33,9 @@
               <td>{{ period.endDatePeriod }}</td>
               <td>
                 <button [routerLink]="['/period', period.id]" class="btn btn-info">Détails</button>
+                <span [matTooltip]="getToolTipText(period)" matTooltipPosition="below">
                 <button [disabled]="period.isPlanify" (click)="deletePeriod(period.id)" class="btn btn-danger ml-4">Supprimer</button>
+                </span>
               </td>
             </tr>
           </ng-template>

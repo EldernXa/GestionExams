@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Period } from 'src/app/model/period/period';
 import { LoginService } from 'src/app/service/login/login.service';
 import { PeriodService } from 'src/app/service/period/period-service.service';
+import {Exam} from "../../model/exam/exam";
 
 @Component({
   selector: 'app-period-list',
@@ -49,6 +50,12 @@ export class PeriodListComponent implements OnInit {
     this.periodService.isDisabled(idPeriod).subscribe((isDisabled)=>{
       this.periods[idTab].isPlanify = isDisabled;
     });
+  }
+
+  getToolTipText(period: Period): string{
+    if(period.isPlanify)
+      return "La période est déjà planifiée !";
+    return "";
   }
 
 }
