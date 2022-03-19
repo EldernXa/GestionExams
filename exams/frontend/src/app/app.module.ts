@@ -29,6 +29,9 @@ import {GradesViewComponent } from './component/grades-view/grades-view.componen
 import {GradesViewService} from "./service/grades-view/grades-view-service.service";
 import { AuthInterceptor } from './AuthInterceptor';
 import { Router } from '@angular/router';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatButtonModule} from "@angular/material/button";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -53,6 +56,9 @@ import { Router } from '@angular/router';
     HttpClientModule,
     FormsModule,
     ModalModule.forRoot(),
+    BrowserAnimationsModule,
+    MatTooltipModule,
+    MatButtonModule,
   ],
 
   providers: [PeriodService, ExamService, GradeService, UeService, LoginService, ExamViewService,InscriptionsService, UeSubscribeableService, GradesViewService,

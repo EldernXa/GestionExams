@@ -23,6 +23,7 @@ export class ExamManagementComponent implements OnInit {
   msgNameUe = "";
   msgSession = "";
   msgYear = "";
+  mouseOverText = "";
 
   constructor(private route:ActivatedRoute, private examService:ExamService,
               private router: Router) { }
@@ -93,6 +94,14 @@ export class ExamManagementComponent implements OnInit {
   redirectTo(uri:string){
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
     this.router.navigate([uri]));
+ }
+
+ mouseOver(){
+    this.mouseOverText = "Non cliquable !"
+ }
+
+ mouseOut(){
+    this.mouseOverText = "";
  }
 
 }
