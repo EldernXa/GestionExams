@@ -133,7 +133,8 @@ export class PeriodFormComponent{
     let myDate = new Date();
     let tabCurrentDate = myDate.toLocaleDateString().split('/');
     let tabBeginDatePeriod = this.period.beginDatePeriod.split('-');
-    if(tabBeginDatePeriod[0]<tabCurrentDate[2] || tabBeginDatePeriod[1]<tabCurrentDate[1] ||
+    console.log(tabBeginDatePeriod + " -- " + tabCurrentDate);
+    if(tabBeginDatePeriod[0]<tabCurrentDate[2] || (tabBeginDatePeriod[0]=== tabCurrentDate[2] && tabBeginDatePeriod[1]<tabCurrentDate[1]) ||
       (tabBeginDatePeriod[0]===tabCurrentDate[2] && tabBeginDatePeriod[1]===tabCurrentDate[1] && tabBeginDatePeriod[2]<tabCurrentDate[0])){
       this.beginDatePeriodVerif = false;
       this.msgBeginDatePeriod = "Cette date est dépassé.";
