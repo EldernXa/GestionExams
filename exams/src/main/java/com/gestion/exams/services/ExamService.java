@@ -142,14 +142,18 @@ public class ExamService {
 
 	public List<Exam> getExamsByUeAndYear(UE ue, int year){
 		return examRepository.searchExamsByUeAndYear(ue,year);
-	
+
 	}
-	
+
 	public int getNextSessionOfAnExam(String nameUE, long idPeriod) {
+		Optional<Period> optionalPeriod = periodRepository.findById(idPeriod);
+		if(optionalPeriod.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
 		int number = 1;
 		for(Exam exam : examRepository.findAll()) {
 			if(exam.getUe().getName().contentEquals(nameUE) &&
-					(DateService.getYear(periodRepository.findById(idPeriod).get().getBeginDatePeriod()) == DateService.getYear(exam.getPeriod().getBeginDatePeriod()))) {
+					(DateService.getYear(optionalPeriod.get().getBeginDatePeriod()) == DateService.getYear(exam.getPeriod().getBeginDatePeriod()))) {
 				if(exam.getSession() == 2) {
 					return -1;
 				}
@@ -162,33 +166,42 @@ public class ExamService {
 	}
 
 	public boolean isExamFinished(long idExam, long idPeriod) {
-		Exam exam = examRepository.findById(idExam).get();
-		Period period = periodRepository.findById(idPeriod).get();
-		Date currentDate = Calendar.getInstance().getTime();
-		if(currentDate.after(period.getEndDatePeriod()) || (exam.getEndDateExam() != null && currentDate.after(exam.getEndDateExam()))) {
-			return true;
+		Optional<Exam> optionalExam = examRepository.findById(idExam);
+		Optional<Period> optionalPeriod = periodRepository.findById(idPeriod);
+		if(optionalExam.isEmpty() || optionalPeriod.isEmpty()) {
+			throw new IllegalArgumentException();
 		}
-		return false;
+		Exam exam = optionalExam.get();
+		Period period = optionalPeriod.get();
+		Date currentDate = Calendar.getInstance().getTime();
+		return currentDate.after(period.getEndDatePeriod()) || (exam.getEndDateExam() != null && currentDate.after(exam.getEndDateExam()));
 	}
 
 	public boolean hasStudent(long idExam) {
-		List<Student> all_students = studentRepository.findStudentByExamId(idExam);
+		Optional<Exam> optionalExam = examRepository.findById(idExam);
+		if(optionalExam.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
+		List<Student> allStudents = studentRepository.findStudentByExamId(idExam);
 		List<Student> students = new ArrayList<>();
-		Exam exam = examRepository.findById(idExam).get();
-		for(Student s : all_students) {
+		Exam exam = optionalExam.get();
+		for(Student s : allStudents) {
 			boolean hasMoreThan10 = false;
 			if(exam.getSession() == 2){
 				List<Grade> grades = s.getGrades();
-				for(Grade g : grades)
-					if(g.getGradePK().getExam().getUe().getName() == exam.getUe().getName()
+				for(Grade g : grades) {
+					if(g.getGradePK().getExam().getUe().getName().contentEquals(exam.getUe().getName())
 							&& g.getGradePK().getExam().getYear() == exam.getYear()
 							&& g.getGradePK().getExam().getSession() == 1
-							&& g.getValue() >= 10)
+							&& g.getValue() >= 10) {
 						hasMoreThan10 = true;
+					}
+				}
 
 			}
-			if(!hasMoreThan10)
+			if(!hasMoreThan10) {
 				students.add(s);
+			}
 		}
 		return (!students.isEmpty());
 	}

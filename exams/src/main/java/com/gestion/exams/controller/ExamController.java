@@ -50,7 +50,11 @@ public class ExamController {
 	@GetMapping("/session/{nameUE}/{idPeriod}")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Integer> getNextSessionOfAnExam(@PathVariable String nameUE, @PathVariable long idPeriod){
-		return new ResponseEntity<>(examService.getNextSessionOfAnExam(nameUE, idPeriod), HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(examService.getNextSessionOfAnExam(nameUE, idPeriod), HttpStatus.OK);
+		}catch(Exception exception) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@GetMapping("/list")
@@ -97,16 +101,23 @@ public class ExamController {
 	@GetMapping("/isFinish/{idExam}/{idPeriod}")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Boolean> isFinish(@PathVariable long idExam, @PathVariable long idPeriod){
-		boolean isFinished = examService.isExamFinished(idExam, idPeriod);
-		return new ResponseEntity<>(isFinished, HttpStatus.OK);
+		try {
+			boolean isFinished = examService.isExamFinished(idExam, idPeriod);
+			return new ResponseEntity<>(isFinished, HttpStatus.OK);
+		}catch(Exception exception) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@GetMapping("/{idExam}/student")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Boolean> hasStudent(@PathVariable long idExam){
-		boolean hasStudent = examService.hasStudent(idExam);
-		System.out.println(hasStudent);
-		return new ResponseEntity<>(hasStudent, HttpStatus.OK);
+		try {
+			boolean hasStudent = examService.hasStudent(idExam);
+			return new ResponseEntity<>(hasStudent, HttpStatus.OK);
+		}catch(Exception exception) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
 	}
 
 }
