@@ -11,7 +11,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let exam of listExam">
+          <tr [matTooltip]="getToolTipText()" matTooltipPosition="below" *ngFor="let exam of listExam">
             <td>{{ exam.ue }}</td>
             <td>{{ exam.session }}</td>
             <td>{{ exam.nameRoom }}</td>

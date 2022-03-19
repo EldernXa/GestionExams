@@ -12,7 +12,7 @@
                id="name"
                name="name"
                placeholder="Entrer le nom de l'UE"
-               required #name="ngModel">
+               required #name="ngModel" readonly>
         <div [hidden]="!name.invalid" class="alert alert-danger">Le nom de l'UE est requis</div>
       </div>
 
@@ -42,9 +42,10 @@
         <label for="discipline">Discipline</label>
         <select type="text" name="discipline" [(ngModel)]="ue.discipline" id="discipline" class="form-control"  required #discipline="ngModel">
           <option value="INFORMATIQUE">Informatique</option>
-          <option value="SPORT">Mathématiques</option>
-          <option value="sport">Sport</option>
+          <option value="MATH">Mathématiques</option>
+          <option value="SPORT">Sport</option>
           <option value="PHYSIQUE">Physique</option>
+          <option value="AUTRE">Autre</option>
         </select>
         <div [hidden]="!discipline.invalid" class="alert alert-danger">La discipline de l'UE est requise</div>
       </div>
