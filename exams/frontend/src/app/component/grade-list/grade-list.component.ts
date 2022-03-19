@@ -40,6 +40,7 @@ export class GradeListComponent implements OnInit {
 
   saveAll(){
     this.gradeService.saveAllGrades(this.idExam,this.grades).subscribe();
+    window.history.back();
   }
 
   checkValidity(){

@@ -15,6 +15,8 @@ public class PeriodDTO {
 
 	private String endDatePeriod;
 
+	private int year;
+
 	public Date getBeginDatePeriodInDateFormat() throws ParseException {
 		return DateService.convertStringDateToDateClass(beginDatePeriod);
 	}
@@ -55,5 +57,11 @@ public class PeriodDTO {
 		this.name = name;
 	}
 
+	public void setYear(int year) {
+		this.year = year;
+	}
 
+	public int getYear() {
+		return year;
+	}
 }

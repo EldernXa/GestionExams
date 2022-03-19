@@ -24,6 +24,7 @@ export class ExamManagementComponent implements OnInit {
   msgNameUe = "";
   msgSession = "";
   msgYear = "";
+  mouseOverText = "";
   isDisable = true;
   isPeriodFinish = false;
 
@@ -101,6 +102,13 @@ export class ExamManagementComponent implements OnInit {
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
     this.router.navigate([uri]));
  }
+
+ mouseOver(){
+    this.mouseOverText = "Non cliquable !"
+ }
+
+ mouseOut(){
+    this.mouseOverText = "";
 
  verifyPlanify(){
    this.examService.isPeriodCanBeUndone(this.id).subscribe((data)=>{

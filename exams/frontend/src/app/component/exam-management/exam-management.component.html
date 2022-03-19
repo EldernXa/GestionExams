@@ -19,7 +19,10 @@
           <td>{{ exam.nameRoom }}</td>
           <td>{{ exam.beginDateExam }}</td>
           <td>{{ exam.endDateExam }}</td>
-          <td><a [routerLink]="['/grades/exam/',exam.idExam]" [class.disabled]="!exam.isFinish ||!listHasStudent[i]" class="btn btn-info">Gérer les notes</a></td>
+          <td>
+            <a [routerLink]="['/grades/exam/',exam.idExam]" [class.disabled]="!exam.isFinish ||!listHasStudent[i]" class="btn btn-info" (mouseover)="mouseOver()" (mouseout)="mouseOut()">Gérer les notes</a>
+            <p>{{mouseOverText}}</p>
+          </td>
           <!-- <td><a [routerLink]="['/grades/exam/',exam.idExam]" [class.disabled]="!listHasStudent[i]" class="btn btn-info">Gérer les notes</a></td> -->
         </tr>
       </tbody>
@@ -44,4 +47,3 @@
       <button (click)="onSubmit()" class="btn btn-info">Submit</button>
     </form>
   </div>
-

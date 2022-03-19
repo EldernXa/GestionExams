@@ -3,18 +3,18 @@
     <table class="table table-bordered table-striped">
       <thead class="thead-dark">
       <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Credit</th>
-        <th scope="col">Duration</th>
+        <th scope="col">UE</th>
         <th scope="col">Discipline</th>
+        <th scope="col">Crédits</th>
+        <th scope="col">Durée de l'examen</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let ue of ues; index as index">
         <td>{{ ue.name }}</td>
-        <td>{{ ue.credit }}</td>
-        <td>{{ ue.durationExam }} min</td>
         <td>{{ ue.discipline }}</td>
+        <td>{{ ue.credit }}</td>
+        <td>{{ hoursAndMin[index] }} min</td>
         <td class="d-flex justify-content-between">
           <a [routerLink]="['/ueManagement/'+ue.name]" class="btn btn-info">Modifier</a>
           <!-- <a (click)="delete(index)" class="btn btn-danger">Supprimer</a> -->
