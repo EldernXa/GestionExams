@@ -19,7 +19,6 @@ public class AuthentificationController {
 	private AuthentificationService authentificationService;
 
 	@PutMapping(value = "/loginRole")
-	//	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
 	public ResponseEntity<String> login(Principal principal){
 		String role = authentificationService.getRole(principal.getName());
 

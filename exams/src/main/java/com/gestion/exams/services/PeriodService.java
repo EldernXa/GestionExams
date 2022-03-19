@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -241,7 +242,7 @@ public class PeriodService {
 		PeriodDTO periodDTO = modelMapper.map(period, PeriodDTO.class);
 		periodDTO.setBeginDatePeriod(period.getBeginDatePeriod());
 		periodDTO.setEndDatePeriod(period.getEndDatePeriod());
-		periodDTO.setYear(period.getBeginDatePeriod().getYear()+1900);
+		periodDTO.setYear(DateService.getYear(period.getBeginDatePeriod()));
 		return periodDTO;
 	}
 
@@ -314,21 +315,31 @@ public class PeriodService {
 	}
 
 	public void deletePeriod(long idPeriod) {
-		for(Exam exam : periodRepository.findById(idPeriod).get().getExams()) {
-			examRepository.delete(exam);
+		Optional<Period> optionalPeriod = periodRepository.findById(idPeriod);
+		if(!optionalPeriod.isEmpty()) {
+			for(Exam exam : optionalPeriod.get().getExams()) {
+				examRepository.delete(exam);
+			}
+			periodRepository.deleteById(idPeriod);
 		}
-		periodRepository.deleteById(idPeriod);
 	}
 
 	public boolean verifyIfAPeriodIsPlanify(long idPeriod) {
-		Period period = periodRepository.findById(idPeriod).get();
+		Optional<Period> optionalPeriod = periodRepository.findById(idPeriod);
+		if(optionalPeriod.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
+		Period period = optionalPeriod.get();
 		return (!period.getExams().isEmpty() && period.getExams().get(0).getBeginDateExam() != null) ||
 				period.getBeginDatePeriod().before(Calendar.getInstance().getTime());
 	}
 
 	public boolean verifyIfAPeriodCanBeUndone (long idPeriod) {
-		Period period = periodRepository.findById(idPeriod).get();
-		System.err.println(idPeriod);
+		Optional<Period> optionalPeriod = periodRepository.findById(idPeriod);
+		if(optionalPeriod.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
+		Period period = optionalPeriod.get();
 		if(period.getBeginDatePeriod().before(Calendar.getInstance().getTime())) {
 			return false;
 		}
