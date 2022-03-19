@@ -13,20 +13,21 @@ import { ExamsViewComponent } from './component/exams-view/exams-view.component'
 import {InscriptionsListComponent} from "./component/inscriptions-list/inscriptions-list.component";
 import {UeSubscribeableListComponent} from "./component/ue-subscribeable-list/ue-subscribeable-list.component";
 import {GradesViewComponent} from "./component/grades-view/grades-view.component";
+import { AuthGuard } from './service/auth/auth-guard.service';
 
 const routes: Routes = [
-  { path: 'listPeriod', component: ExamsViewComponent},
-  { path: 'period', component: PeriodListComponent},
-  { path: 'addperiod', component: PeriodFormComponent},
-  { path: 'period/:id', component: PeriodDetailsComponent},
-  { path: 'grades/exam/:id', component: GradeListComponent},
-  { path: 'ue', component: UeListComponent},
-  { path: 'addue', component: UeFormComponent},
-  { path: 'ueManagement/:id', component: UeManagementComponent},
+  { path: 'listPeriod', component: ExamsViewComponent, canActivate: [AuthGuard], data:{ role: 'STUDENT'}},
+  { path: 'period', component: PeriodListComponent, canActivate:[AuthGuard], data:{role: 'ADMIN'}},
+  { path: 'addperiod', component: PeriodFormComponent, canActivate:[AuthGuard], data:{role: 'ADMIN'}},
+  { path: 'period/:id', component: PeriodDetailsComponent, canActivate:[AuthGuard], data:{role: 'ADMIN'}},
+  { path: 'grades/exam/:id', component: GradeListComponent, canActivate:[AuthGuard], data:{role: 'ADMIN'}},
+  { path: 'ue', component: UeListComponent, canActivate:[AuthGuard], data:{role: 'ADMIN'}},
+  { path: 'addue', component: UeFormComponent, canActivate:[AuthGuard], data:{role: 'ADMIN'}},
+  { path: 'ueManagement/:id', component: UeManagementComponent, canActivate:[AuthGuard], data:{role: 'ADMIN'}},
   { path: 'login', component: LoginComponent},
-  { path: 'inscriptions', component: InscriptionsListComponent},
-  { path: 'ueSubscribeable', component: UeSubscribeableListComponent},
-  { path: 'gradesView', component: GradesViewComponent},
+  { path: 'inscriptions', component: InscriptionsListComponent, canActivate:[AuthGuard], data:{role: 'STUDENT'}},
+  { path: 'ueSubscribeable', component: UeSubscribeableListComponent, canActivate:[AuthGuard], data:{role: 'STUDENT'}},
+  { path: 'gradesView', component: GradesViewComponent, canActivate:[AuthGuard], data:{role: 'STUDENT'}},
   //{ path: '**', component: PageNotFoundComponent },  // TODO Wildcard route for a 404 page
 ];
 
