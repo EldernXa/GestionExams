@@ -89,7 +89,12 @@ public class GradeServiceTest {
     @org.junit.Test
     @Transactional
     public void getAllGradesTest(){
+        List<Grade> allGrades = new ArrayList<>();
+        when(gradeRepository.findAll()).thenReturn(allGrades);
+        List<Grade> expectedAllGrades = gradeService.getAllGrades();
 
+        assertEquals(expectedAllGrades, allGrades);
+        verify(gradeRepository).findAll();
     }
 
 }
