@@ -18,6 +18,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.junit.Assert.assertThat;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Transactional
@@ -59,9 +61,35 @@ public class GradeServiceTest {
     public void deleteGradeTest(){
         when(gradeRepository.findById(grade.getGradePK())).thenReturn(Optional.of(grade));
         gradeService.deleteGrade(grade);
+
         verify(gradeRepository).delete(grade);
     }
 
+    @org.junit.Test
+    @Transactional
+    public void getGradeByStudentAndExam(){
+        when(gradeRepository.getGradeByStudentAndExam(student.getIdStudent(), exam.getIdExam())).thenReturn(Optional.of(grade));
+        Optional<Grade> studentGrade = gradeService.getGradeByStudentAndExam(student.getIdStudent(), exam.getIdExam());
 
+        assertEquals(studentGrade.get().getGradePK(), grade.getGradePK());
+        verify(gradeRepository).getGradeByStudentAndExam(student.getIdStudent(), exam.getIdExam());
+    }
+
+    @org.junit.Test
+    @Transactional
+    public void getAllGradesByExamTest(){
+        List<Grade> grades  = new ArrayList<>();
+        when(gradeRepository.searchGradeByExam(exam.getIdExam())).thenReturn(grades);
+        List<Grade> searchedGrades =  gradeService.getAllGradesByExam(exam.getIdExam());
+
+        assertEquals(searchedGrades, grades);
+        verify(gradeRepository).searchGradeByExam(exam.getIdExam());
+    }
+
+    @org.junit.Test
+    @Transactional
+    public void getAllGradesTest(){
+
+    }
 
 }
