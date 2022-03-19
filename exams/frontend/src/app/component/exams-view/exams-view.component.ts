@@ -17,7 +17,10 @@ export class ExamsViewComponent implements OnInit {
     this.examViewService.findAllNextExamForAStudent().subscribe(data=>{
       this.listExam = data;
     });
+  }
 
+  getToolTipText():string {
+    return "Uniquement pour ceux ayant échoué en session 1 !"
   }
 
 }

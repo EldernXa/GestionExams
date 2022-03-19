@@ -32,8 +32,15 @@
               <td>{{ period.beginDatePeriod }}</td>
               <td>{{ period.endDatePeriod }}</td>
               <td>
-                <button [routerLink]="['/period', period.id]" class="btn btn-info">Détails</button>
-                <span [matTooltip]="getToolTipText(period)" matTooltipPosition="below">
+                <span [matTooltip]="getToolTipTextDetailsButton(period)" matTooltipPosition="below">
+                  <span class="notification">
+                    <button [routerLink]="['/period', period.id]" class="btn btn-info">Détails</button>
+                    <ng-template [ngIf]="!period.isPlanify && period.year >= currentYear">
+                      <span class="badge">!</span>
+                    </ng-template>
+                  </span>
+                </span>
+                <span [matTooltip]="getToolTipTextDeleteButton(period)" matTooltipPosition="below">
                 <button [disabled]="period.isPlanify" (click)="deletePeriod(period.id)" class="btn btn-danger ml-4">Supprimer</button>
                 </span>
               </td>

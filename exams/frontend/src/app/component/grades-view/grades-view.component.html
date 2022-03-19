@@ -21,7 +21,7 @@
               <td></td>
               <td></td>
               <td></td>
-              <td>{{averages[gradesS1[index-1].year]}}/20</td>
+              <td [matTooltip]="getToolTipText()" matTooltipPosition="below" >{{averages[gradesS1[index-1].year]}}/20</td>
             </tr>
           </ng-template>
           <tr style="background-color : lightgrey;">
@@ -55,7 +55,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>{{averages[gradesS1[index].year]}}/20</td>
+            <td [matTooltip]="getToolTipText()" matTooltipPosition="below">{{averages[gradesS1[index].year]}}/20</td>
           </tr>
         </ng-template>
 

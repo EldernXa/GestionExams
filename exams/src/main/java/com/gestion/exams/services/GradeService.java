@@ -104,4 +104,8 @@ public class GradeService {
         return gradeRepository.findAll();
     }
 
+    public List<Grade> getGradesMoreThan10ByStudentAndUE(long idStudent, String ue_name){
+        return gradeRepository.getGradesMoreThan10ByStudentAndUE(idStudent,ue_name);
+    }
+
 }

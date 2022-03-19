@@ -52,9 +52,15 @@ export class PeriodListComponent implements OnInit {
     });
   }
 
-  getToolTipText(period: Period): string{
+  getToolTipTextDeleteButton(period: Period): string{
     if(period.isPlanify)
-      return "La période est déjà planifiée !";
+      return "La période est déjà planifiée ou terminée!";
+    return "";
+  }
+
+  getToolTipTextDetailsButton(period: Period): string{
+    if(!period.isPlanify && period.year >= this.currentYear)
+      return "La période est vide ou n'est pas encore planifiée !";
     return "";
   }
 

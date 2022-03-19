@@ -106,4 +106,8 @@ export class GradesViewComponent implements OnInit {
     console.log(message);
   }
 
+  getToolTipText():string {
+    return "Moyenne calculée à partir des UE notées de l'année !"
+  }
+
 }
