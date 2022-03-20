@@ -3,7 +3,6 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Exam } from 'src/app/model/exam/exam';
 import { ExamService } from 'src/app/service/exam/exam.service';
-import { PeriodService } from 'src/app/service/period/period-service.service';
 
 @Component({
   selector: 'app-exam-management',
