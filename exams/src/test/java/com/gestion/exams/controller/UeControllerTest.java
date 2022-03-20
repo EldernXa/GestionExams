@@ -49,13 +49,13 @@ public class UeControllerTest{
     @Before
     public void authenticate() throws Exception {
         Map<String, String> user = Map.of(
-                "email", "emailSchool0",
-                "password", "password20"
+                "email", "school1@noteplus.fr",
+                "password", "password2"
         );
        MvcResult mvcResult =  mvc.perform(post("/login")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("email", "email0")
-                .param("password", "password"))
+                .param("email", "school1@noteplus.fr")
+                .param("password", "password2"))
                 .andExpect(status().isOk())
                 .andReturn();
         String json = mvcResult.getResponse().getContentAsString();
