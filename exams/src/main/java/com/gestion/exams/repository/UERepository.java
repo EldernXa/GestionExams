@@ -8,4 +8,5 @@ import com.gestion.exams.entity.UE;
 @Repository
 public interface UERepository extends JpaRepository<UE, String>{
     public UE getUEByName(String name);
+    public UE deleteByName(String name);
 }

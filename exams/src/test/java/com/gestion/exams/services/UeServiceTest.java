@@ -1,4 +1,4 @@
-package com.gestion.exams;
+package com.gestion.exams.services;
 
 import com.gestion.exams.entity.Discipline;
 import com.gestion.exams.entity.UE;
@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -61,10 +62,19 @@ public class UeServiceTest {
 
     @org.junit.Test
     public void updateUeTest(){
-
+        UE ue3 = new UE();
+        ue3.setName("ASR");
+        ue3.setCredit(3);
+        ue3.setDurationExam(2);
+        ue3.setDiscipline(Discipline.INFORMATIQUE);
+        ue3.setCredit(6);
+        given(ueRepository.getUEByName(ue3.getName())).willReturn(ue3);
+        ueService.updateUE(ue3, ue3.getName());
+        verify(ueRepository).save(ue3);
+        verify(ueRepository).getUEByName(ue3.getName());
     }
 
-    @Test
+    @org.junit.Test
     public void getAllUeTest(){
         List<UE> ues = new ArrayList<>();
         ues.add(ue1);
@@ -75,13 +85,27 @@ public class UeServiceTest {
         verify(ueRepository).findAll();
     }
 
-    @Test
+    @org.junit.Test
     public void getUeByNameTest(){
+        when(ueRepository.getUEByName("MATH")).thenReturn(new UE("MATH", 3, 3*60, Discipline.INFORMATIQUE));
+        UE ue  = ueRepository.getUEByName("MATH");
+        assertEquals("MATH", ue.getName());
+        assertEquals(3, ue.getCredit());
+        assertEquals(3*60, ue.getDurationExam());
+        assertEquals(Discipline.INFORMATIQUE, ue.getDiscipline());
 
     }
 
-    @Test
+    @org.junit.Test
+    @Transactional
     public void deleteUeTest(){
-
+        UE ue3 = new UE();
+        ue3.setName("ASR");
+        ue3.setCredit(3);
+        ue3.setDurationExam(2);
+        ue3.setDiscipline(Discipline.INFORMATIQUE);
+        when(ueRepository.getUEByName(ue3.getName())).thenReturn(ue3);
+        ueService.deleteUE(ue3.getName());
+        verify(ueRepository).delete(ue3);
     }
 }
