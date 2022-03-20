@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Student } from '../../model/student/student';
-import { map, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http'
+import { Observable } from 'rxjs';
 import { LoginService } from '../login/login.service';
 import {Grade} from "../../model/grade/grade";
 
@@ -15,8 +14,7 @@ export class GradeService {
   }
 
   public findAll(idExam: number) : Observable<Grade[]>{
-    let list = this.http.get<Grade[]>(this.usersUrl + "exam/"+idExam, this.loginService.getHeaders());
-    return list;
+    return this.http.get<Grade[]>(this.usersUrl + "exam/"+idExam, this.loginService.getHeaders());
   }
 
   public saveAllGrades(idExam: number, grades : Grade[]){
