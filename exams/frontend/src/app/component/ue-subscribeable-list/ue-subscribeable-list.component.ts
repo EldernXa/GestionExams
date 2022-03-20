@@ -1,11 +1,9 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import {Ue} from "../../model/ue/ue";
-import {UeService} from "../../service/ue/ue-service.service";
 import {LoginService} from "../../service/login/login.service";
 import {UeSubscribeableService} from "../../service/ue-subscribeable/ue-subscribeable-service.service";
 import {Inscription} from "../../model/inscription/inscription";
-import {waitForAsync} from "@angular/core/testing";
 
 @Component({
   selector: 'app-ue-subscribeable-list',
