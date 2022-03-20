@@ -35,7 +35,6 @@ public class RoomRepositoryTest {
     public void createRoomTest(){
         Room room1 = new Room("TPR1", 50);
         roomRepository.save(room1);
-
         Room expected = roomRepository.getById(room1.getName());
         assertThat(expected).isNotNull();
         assertThat(expected.getName()).isEqualTo(room1.getName());
