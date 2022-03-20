@@ -21,13 +21,11 @@ export class InscriptionsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.inscriptionsService.findAll().subscribe(data=>{
-      let count = 0;
-      for(var inscription of data){
-        this.hoursAndMin[count] = this.minToHoursAndMin(inscription.ue.durationExam);
+      for(var inscription of data)
         this.inscriptions.push(inscription);
-        count++;
-      }
       this.inscriptions = this.inscriptions.sort((a,b) => b.year - a.year);
+      for(let i=0; i<this.inscriptions.length; i++)
+        this.hoursAndMin[i] = this.minToHoursAndMin(this.inscriptions[i].ue.durationExam);
     });
   }
 
