@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {Ue} from "../../model/ue/ue";
 import {UeService} from "../../service/ue/ue-service.service";
 import { LoginService } from 'src/app/service/login/login.service';
