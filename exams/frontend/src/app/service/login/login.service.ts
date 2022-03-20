@@ -12,14 +12,6 @@ export class LoginService {
   constructor(private http: HttpClient, private router: Router) {
   }
 
-  /*private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Authorization': 'Basic ' + btoa(localStorage.getItem('ident')+':' + localStorage.getItem('mdp'))
-    })
-  };*/
-
 
   redirectIfNotLogin(){
     if(!this.isConnected()){
@@ -50,7 +42,6 @@ export class LoginService {
 
   moveOnLoginPage(){
     this.router.navigateByUrl("/login");
-    //window.location.href = window.location.protocol + '//' + window.location.host + '/login'
   }
 
   moveOnIndexPage(){
@@ -63,35 +54,9 @@ export class LoginService {
   }
 
   loginToken(ident: string, mdp: string){
-    let canConnect: boolean = true;
     let params = new HttpParams().set("email", ident).set("password", mdp);
 
     return this.http.post<string>('http://localhost:8080/login', params, {headers:{skip:"true"}, responseType: 'text' as 'json'})
-        /*.subscribe((data)=>{
-          localStorage.setItem("token", JSON.parse(data).access_token);
-
-          this.http.put<string>('http://localhost:8080/loginRole', {}, {headers: this.getHeaders().headers, responseType:'text' as 'json'})
-            .pipe(
-              catchError(error => {
-                canConnect = false;
-                  if (error.error instanceof ErrorEvent) {
-                      console.log("test1");
-                      //this.errorMsg = `Error: ${error.error.message}`;
-                  } else {
-                      console.log("test2");
-                      //this.errorMsg = `Error: ${error.message}`;
-                  }
-                  return of([]);
-              })
-          )
-            .subscribe((data) => {
-              if(canConnect){
-                localStorage.setItem("role", String(data));
-                this.moveOnIndexPage();
-              }
-            });
-
-        });*/
   }
 
   loginRole(data: string){
