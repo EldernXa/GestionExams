@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {LoginService} from "../login/login.service";
 import {Observable} from "rxjs";
-import {Inscription} from "../../model/inscription/inscription";
 import {Grade} from "../../model/grade/grade";
 
 @Injectable()
@@ -15,8 +14,7 @@ export class GradesViewService {
   }
 
   public findAll() : Observable<Grade[]>{
-    let list = this.http.get<Grade[]>(this.usersUrl + "student", this.loginService.getHeaders());
-    return list;
+    return this.http.get<Grade[]>(this.usersUrl + "student", this.loginService.getHeaders());
   }
 
   public getHttp() :HttpClient {
