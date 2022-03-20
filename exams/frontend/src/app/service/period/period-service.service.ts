@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { Period } from '../../model/period/period';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { LoginService } from '../login/login.service';
 
 @Injectable()
@@ -15,26 +15,31 @@ export class PeriodService {
   }
 
   public findAll() : Observable<Period[]>{
-    let list = this.http.get<Period[]>(this.usersUrl + "periodList", this.loginService.getHeaders());
-
-    return list;
+    return this.http.get<Period[]>(this.usersUrl + "periodList");
   }
 
   public savePeriod(period: Period){
-    return this.http.post<Period>(this.usersUrl+"period", period, this.loginService.getHeaders());
+    return this.http.post<Period>(this.usersUrl+"period", period);
   }
 
   public getPeriod(index: number): Observable<Period>{
-    return this.http.get<Period>(this.usersUrl + "period/" + index, this.loginService.getHeaders());
+    return this.http.get<Period>(this.usersUrl + "period/" + index);
   }
 
-  public getNewBeginPeriod(idPeriod: number){
-    return this.http.get('http://localhost:8080/' + "periodList/" + idPeriod + "/beginDate",
-    {headers: this.loginService.getHeaders().headers, responseType:'text'});
+  public isPeriodDateGood(dateBegin: string, dateEnd: string){
+    return this.http.get(this.usersUrl+"verifyDatePeriod/"+dateBegin+"/"+dateEnd);
   }
 
-  public getNewEndPeriod(idPeriod: number){
-    return this.http.get('http://localhost:8080/periodList/'+idPeriod + "/endDate",
-    {headers: this.loginService.getHeaders().headers, responseType: 'text'});
+  public isPeriodNameGood(namePeriod: string){
+    return this.http.get(this.usersUrl + "verifyNamePeriod/" + namePeriod);
   }
+
+  public deletePeriod(idPeriod: number){
+    return this.http.delete(this.usersUrl + "period/" + idPeriod);
+  }
+
+  public isDisabled(idPeriod: number): Observable<boolean>{
+    return this.http.get<boolean>(this.usersUrl+"period/verifyPlanify/"+idPeriod);
+  }
+
 }

@@ -11,36 +11,56 @@ import { PeriodService } from 'src/app/service/period/period-service.service';
 export class PeriodListComponent implements OnInit {
 
   periods: Period[];
+  currentYear = new Date().getFullYear();
 
   constructor(private periodService: PeriodService, private loginService: LoginService) {
     this.loginService.redirectIfNotLogin();
     this.periods = [];
-    this.periodService.findAll().subscribe(data=>{
-      this.periods = data;
-    });
+
   }
 
   ngOnInit(){
     this.periodService.findAll().subscribe(data=>{
       this.periods = data;
-      this.periods.forEach((currentValue, index) =>{
-        /*this.periodService.getHttp().get('http://localhost:8080/' + "periodList/" + currentValue.id + "/beginDate", {responseType: 'text'}).subscribe(data2 => {
-          currentValue.beginDatePeriod = data2;
-        });*/
-
-        this.periodService.getNewBeginPeriod(currentValue.id).subscribe(data2 => {
-          currentValue.beginDatePeriod = data2;
-        });
-
-        /*this.periodService.getHttp().get('http://localhost:8080/periodList/' + currentValue.id + "/endDate", {responseType: 'text'}).subscribe(data2 => {
-          currentValue.endDatePeriod = data2;
-        });*/
-
-        this.periodService.getNewEndPeriod(currentValue.id).subscribe(data2 => {
-          currentValue.endDatePeriod = data2;
-        });
-      });
+      this.periods = this.periods.sort((a,b) => b.year - a.year);
+      for(let i = 0; i<this.periods.length; i++){
+        this.isDisabled(this.periods[i].id, i);
+        console.log(this.periods[i].year);
+      }
     });
+  }
+
+  deletePeriod(idPeriod: number){
+    this.periodService.deletePeriod(idPeriod).subscribe(
+      ()=>{
+        this.periods = [];
+        this.periodService.findAll().subscribe(data=>{
+          this.periods = data;
+          this.periods = this.periods.sort((a,b) => b.year - a.year);
+          for(let i = 0; i<this.periods.length; i++){
+            this.isDisabled(this.periods[i].id, i);
+          }
+        });
+      }
+    );
+  }
+
+  isDisabled(idPeriod: number, idTab: number){
+    this.periodService.isDisabled(idPeriod).subscribe((isDisabled)=>{
+      this.periods[idTab].isPlanify = isDisabled;
+    });
+  }
+
+  getToolTipTextDeleteButton(period: Period): string{
+    if(period.isPlanify)
+      return "La période est déjà planifiée ou terminée!";
+    return "";
+  }
+
+  getToolTipTextDetailsButton(period: Period): string{
+    if(!period.isPlanify && period.year >= this.currentYear)
+      return "La période est vide ou n'est pas encore planifiée !";
+    return "";
   }
 
 }

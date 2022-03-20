@@ -1,18 +1,26 @@
 package com.gestion.exams.controller;
 
 import com.gestion.exams.dto.UeDTO;
+import com.gestion.exams.entity.Exam;
+import com.gestion.exams.entity.Inscription;
 import com.gestion.exams.entity.Student;
 import com.gestion.exams.entity.UE;
+import com.gestion.exams.services.ExamService;
+import com.gestion.exams.services.GradeService;
 import com.gestion.exams.services.StudentService;
 import com.gestion.exams.services.UEService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +33,10 @@ public class UEController {
 	UEService ueService;
 	@Autowired
 	StudentService studentService;
+	@Autowired
+	ExamService examService;
+	@Autowired
+	GradeService gradeService;
 
 
 	@GetMapping("/allUE")
@@ -70,6 +82,36 @@ public class UEController {
 		return modelMapper.map(ue,UeDTO.class);
 	}
 
+	@GetMapping("/subscribeable/{year}")
+	@PreAuthorize("hasAuthority('STUDENT')")
+	public List<UE> getSubscribeableInscriptionsOfStudent(Principal principal, @PathVariable int year){ //student will be replaced with Principal
+		Student student = studentService.getStudentByEmail(principal.getName());
+		List<UE> all_ues = ueService.getAllUE();
+		List<Inscription> student_inscriptions = student.getInscriptions();
+		List<UE> subscribeable_ues = new ArrayList<>();
+		Date currentDate = Calendar.getInstance().getTime();
+		for(UE ue : all_ues) {
+			boolean isSubscribeable = true;
+			List<Exam> exams_of_ue_during_year = examService.getExamsByUeAndYear(ue,year);
+			for (Inscription i : student_inscriptions) {
+				if (i.getUe().getName() == ue.getName() && i.getYear() == year) {
+					isSubscribeable = false;
+				}
+			}
+			for(Exam e : exams_of_ue_during_year){
+				if(e.getBeginDateExam()!=null) {
+					isSubscribeable = false;
+				}
+			}
+			if(!gradeService.getGradesMoreThan10ByStudentAndUE(student.getIdStudent(),ue.getName()).isEmpty())
+				isSubscribeable = false;
+			if(isSubscribeable) {
+				subscribeable_ues.add(ue);
+			}
+		}
+		return subscribeable_ues;
+	}
+
 	@GetMapping("/testadmin")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String testAdmin(){
@@ -86,6 +128,17 @@ public class UEController {
 	@GetMapping("/accessall")
 	public String testAccessAll(){
 		return "Anyone is connected";
+	}
+
+	@GetMapping("/isUeNameGood/{nameUE}")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<Boolean> isUeNameGood(@PathVariable String nameUE){
+		for(UE ue : ueService.getAllUE()) {
+			if(ue.getName().contentEquals(nameUE)) {
+				return new ResponseEntity<>(false, HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<>(true, HttpStatus.OK);
 	}
 
 

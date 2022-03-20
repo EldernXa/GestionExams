@@ -1,19 +1,18 @@
 package com.gestion.exams.controller;
 
-import java.util.Map;
+import java.security.Principal;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import com.gestion.exams.entity.Student;
+import com.gestion.exams.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import com.gestion.exams.services.AuthentificationService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.gestion.exams.services.AuthentificationService;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:4200")
@@ -21,16 +20,28 @@ public class AuthentificationController {
 
 	@Autowired
 	private AuthentificationService authentificationService;
+	@Autowired
+	private StudentService studentService;
 
-	@PutMapping(value = "/login")
-	public ResponseEntity<String> login(@RequestBody Map<String, String> mapToLogin){
-		String username = mapToLogin.get("username");
-		String mdp = mapToLogin.get("mdp");
-		String role = authentificationService.getRole(username, mdp);
+	@PutMapping(value = "/loginRole")
+	public ResponseEntity<String> login(Principal principal){
+		String role = authentificationService.getRole(principal.getName());
 
 		return new ResponseEntity<>(role, HttpStatus.OK);
 	}
 
-
+	@GetMapping(value="/loggedMessage")
+	public ResponseEntity<String> getLoggedMessage(Principal principal){
+		System.out.println("logged message");
+		String role = authentificationService.getRole(principal.getName());
+		if(role.contentEquals("STUDENT")){
+			Student student = studentService.getStudentByEmail(principal.getName());
+			return new ResponseEntity<>("Bienvenue "+student.getFirstName()+" "+student.getLastName(), HttpStatus.OK);
+		}
+		else if(role.contentEquals("ADMIN")){
+			return new ResponseEntity<>("Bienvenue "+principal.getName(), HttpStatus.OK);
+		}
+		return new ResponseEntity<>("", HttpStatus.OK);
+	}
 
 }

@@ -1,6 +1,7 @@
 package com.gestion.exams.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,12 +51,14 @@ public class StudentController {
 	}
 
 	@GetMapping("/exams")
-	@PreAuthorize("hasRole('ROLE_STUDENT')")
+	@PreAuthorize("hasAuthority('STUDENT')")
 	public ResponseEntity<List<ExamDTO>> getNextPeriodOfExam(Principal principal) {
+		System.out.println("entering go next period");
 		Student currentStudent = studentService.getStudentByEmail(principal.getName());
 		Period nextPeriod = periodService.getNextPeriod();
-		List<ExamDTO> listExam = examService.getAllExamsForAStudentFromPeriod(nextPeriod.getId(), currentStudent);
-
+		List<ExamDTO> listExam = new ArrayList<>();
+		if(nextPeriod != null)
+			listExam = examService.getAllExamsForAStudentFromPeriod(nextPeriod.getId(), currentStudent);
 		return new ResponseEntity<>(listExam, HttpStatus.OK);
 	}
 

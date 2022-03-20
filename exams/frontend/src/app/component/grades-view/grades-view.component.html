@@ -1,0 +1,74 @@
+<div>
+  <h3>Toutes mes notes :</h3>
+</div>
+
+<span *ngIf="gradesS1.length>0">
+  <div class="card my-5">
+    <div class="card-body">
+      <table class="table table-bordered table-striped">
+        <caption></caption>
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">UE</th>
+            <th scope="col">Crédits</th>
+            <th scope="col">Note session 1</th>
+            <th scope="col">Note session 2</th>
+            <th scope="col">Année</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-template ngFor let-grade [ngForOf]="gradesS1" let-index="index">
+            <ng-template [ngIf] ="(index > 0 && grade.year != gradesS1[index-1].year) || index == 0">
+              <ng-template [ngIf] ="index > 0">
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td [matTooltip]="getToolTipText()" matTooltipPosition="below" >{{averages[gradesS1[index-1].year]}}/20</td>
+                </tr>
+              </ng-template>
+              <tr style="background-color : lightgrey;">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{grade.year}}</td>
+              </tr>
+              </ng-template>
+              <tr>
+                <td> {{ grade.ue_name }} </td>
+                <td> {{ grade.credit }} </td>
+                <ng-template *ngIf=" grade.value == -1 ;then content else other_content"></ng-template>
+                <ng-template #content><td> pas de note </td><td></td></ng-template>
+                <ng-template #other_content>
+                  <ng-template *ngIf=" hasSession2Grade(grade) ;then content2 else other_content2"></ng-template>
+                  <ng-template #content2><td> {{ grade.value }}/20 </td><td>{{getValueSession2Grade(grade)}}/20</td></ng-template>
+                  <ng-template #other_content2><td> {{ grade.value }}/20 </td><td> - </td></ng-template>
+                </ng-template>
+                <td></td>
+              </tr>
+            <ng-template [ngIf] ="index == gradesS1.length-1">
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td [matTooltip]="getToolTipText()" matTooltipPosition="below">{{averages[gradesS1[index].year]}}/20</td>
+              </tr>
+            </ng-template>
+          </ng-template>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</span>
+
+<span *ngIf="gradesS1.length<=0">
+  <div class="m-5 d-flex justify-content-center">
+      Aucune note.
+  </div>
+</span>
+
+
+

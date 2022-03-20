@@ -1,28 +1,37 @@
-<div *ngIf="listExam.length>0">
-    <p>Calendrier de vos prochain examens :</p>
-    <table class="table table-bordered table-striped">
+<div>
+  <h3>Calendrier de mes prochain examens :</h3>
+</div>
+
+<span *ngIf="listExam.length>0">
+  <div class="card my-5">
+    <div class="card-body">
+      <table class="table table-bordered table-striped">
+        <caption></caption>
         <thead class="thead-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nom de l'UE</th>
-            <th scope="col">session</th>
-            <th scope="col">La salle</th>
-            <th scope="col">Date de début</th>
-            <th scope="col">Date de fin</th>
-          </tr>
+        <tr>
+          <th scope="col">UE</th>
+          <th scope="col">Session</th>
+          <th scope="col">Salle</th>
+          <th scope="col">Début</th>
+          <th scope="col">Fin</th>
+        </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let exam of listExam">
-            <td>{{ exam.idExam }}</td>
-            <td>{{ exam.ue }}</td>
-            <td>{{ exam.session }}</td>
-            <td>{{ exam.nameRoom }}</td>
-            <td>{{ exam.beginDateExam }}</td>
-            <td>{{ exam.endDateExam }}</td>
-          </tr>
+        <tr [matTooltip]="getToolTipText(exam)" matTooltipPosition="below" *ngFor="let exam of listExam">
+          <td>{{ exam.ue }}</td>
+          <td>{{ exam.session }}</td>
+          <td>{{ exam.nameRoom }}</td>
+          <td>{{ exam.beginDateExam }}</td>
+          <td>{{ exam.endDateExam }}</td>
+        </tr>
         </tbody>
       </table>
+    </div>
   </div>
-  <div class="card-body" *ngIf="listExam.length<=0">
-      Pas encore d'examen de programmés.
+</span>
+
+<span *ngIf="listExam.length<=0">
+  <div class="m-5 d-flex justify-content-center">
+      Aucun examen dans la prochaine période.
   </div>
+</span>

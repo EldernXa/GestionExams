@@ -1,42 +1,50 @@
+<div>
+  <button type="button" [disabled]="!isValid" class="btn btn-info" (click)="saveAll()"><i class="arrow left"></i> Sauvegarder les notes et quitter</button>
+  <h3 class="mt-5">Gestion des notes :</h3>
+</div>
+
 <div class="card my-5">
   <div class="card-body">
-    <form (ngSubmit)="onSubmit()" #gradeForm="ngForm">
     <table class="table table-bordered table-striped">
+      <caption></caption>
       <thead class="thead-dark">
       <tr>
-        <th scope="col">FirstName</th>
-        <th scope="col">LastName</th>
+        <th scope="col">Prénom</th>
+        <th scope="col">Nom</th>
         <th scope="col">Note</th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let student of students;index as index;">
-        <td>{{ student.firstName }}</td>
-        <td>{{ student.lastName }}</td>
+      <tr *ngFor="let grade of grades; index as i;">
+        <td>{{ grade.firstName }}</td>
+        <td>{{ grade.lastName }}</td>
         <td>
-          <form (ngSubmit)="updateGrade(index)" #grade="ngForm">
+          <form #gradeform="ngForm">
           <div class="form-group">
             <div class="d-flex justify-content-between">
-              <input type="number" [(ngModel)]="student.grade"
+              <input type="number"
+                     [(ngModel)]="grades[i].value"
                      class="form-control mr-3"
                      id="grade"
                      name="grade"
                      min="0"
                      max="20"
                      placeholder="Entrer une note"
-                     required #grade="ngModel">
-              <button type="submit" [disabled]="!grade.form.valid"
-                      class="btn btn-info">Sauvegarder la note</button>
+                     required #gradeForm="ngModel"
+                     (ngModelChange)="checkValidity()">
             </div>
-            <div [hidden]="!grade.invalid" class="alert alert-danger">La note doit être comprise entre 0 et 20 !</div>
+            <div [hidden]="!gradeform.invalid" class="alert alert-danger">La note doit être comprise entre 0 et 20 !</div>
           </div>
           </form>
         </td>
       </tr>
       </tbody>
     </table>
-    <button type="submit" [disabled]="true"
-            class="btn btn-info">Sauvegarder les notes</button>
-    </form>
   </div>
 </div>
+
+<div class="mb-5">
+  <button type="button" [disabled]="!isValid" class="btn btn-info" (click)="saveAll()"><em class="arrow left"></em> Sauvegarder les notes et quitter</button>
+</div>
+
+

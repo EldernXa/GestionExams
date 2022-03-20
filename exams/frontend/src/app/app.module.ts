@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppComponent } from './app.component';
 import { PeriodListComponent } from './component/period-list/period-list.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { PeriodService } from './service/period/period-service.service';
 import { PeriodFormComponent } from './component/period-form/period-form.component';
@@ -21,6 +20,22 @@ import { LoginComponent } from './component/login/login.component';
 import { LoginService } from './service/login/login.service';
 import { ExamsViewComponent } from './component/exams-view/exams-view.component';
 import { ExamViewService } from './service/exam-view/exam-view.service';
+import { InscriptionsListComponent } from './component/inscriptions-list/inscriptions-list.component';
+import {InscriptionsService} from "./service/inscriptions/inscriptions-service.service";
+import { UeSubscribeableListComponent } from './component/ue-subscribeable-list/ue-subscribeable-list.component';
+import {UeSubscribeableService} from "./service/ue-subscribeable/ue-subscribeable-service.service";
+import {ModalModule} from "ngx-bootstrap";
+import {GradesViewComponent } from './component/grades-view/grades-view.component';
+import {GradesViewService} from "./service/grades-view/grades-view-service.service";
+import { AuthInterceptor } from './AuthInterceptor';
+import { Router } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { AuthGuard } from './service/auth/auth-guard.service';
+
 
 @NgModule({
   declarations: [
@@ -35,14 +50,33 @@ import { ExamViewService } from './service/exam-view/exam-view.service';
     UeManagementComponent,
     LoginComponent,
     ExamsViewComponent,
+    InscriptionsListComponent,
+    UeSubscribeableListComponent,
+    GradesViewComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ModalModule.forRoot(),
+    BrowserAnimationsModule,
+    MatTooltipModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatInputModule,
   ],
-  providers: [PeriodService, ExamService, GradeService, UeService, LoginService, ExamViewService],
+
+  providers: [PeriodService, AuthGuard, ExamService, GradeService, UeService, LoginService, ExamViewService,InscriptionsService, UeSubscribeableService, GradesViewService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useFactory: function(router: Router, loginService: LoginService){
+        return new AuthInterceptor(router, loginService);
+      },
+      multi: true,
+      deps: [Router, LoginService]
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

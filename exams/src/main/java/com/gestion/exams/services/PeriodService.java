@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import com.gestion.exams.entity.Period;
 import com.gestion.exams.entity.Room;
 import com.gestion.exams.entity.Student;
 import com.gestion.exams.entity.UE;
+import com.gestion.exams.repository.ExamRepository;
 import com.gestion.exams.repository.PeriodRepository;
 
 @Service
@@ -29,6 +31,9 @@ public class PeriodService {
 
 	@Autowired
 	private ExamService examService;
+
+	@Autowired
+	private ExamRepository examRepository;
 
 	@Autowired
 	private RoomService roomService;
@@ -44,6 +49,10 @@ public class PeriodService {
 			Date dateBeginWithHour = DateService.createDate(String.valueOf(DateService.getDay(dateBegin)),
 					String.valueOf(DateService.getMonth(dateBegin)), String.valueOf(DateService.getYear(dateBegin)), "08");
 			Date newDate = lastDateAvailable(periodToPlan, exam, dateBeginWithHour, DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()));
+			if(newDate != null) {
+				dateBeginWithHour = newDate;
+			}
+			newDate = correctDateInTheEndOfTheWeek(dateBeginWithHour);
 			if(newDate != null) {
 				dateBeginWithHour = newDate;
 			}
@@ -124,9 +133,11 @@ public class PeriodService {
 		Date newBeginDate = DateService.addMinute(beginDate, 1);
 		Date dateToReturn = null;
 		for(Inscription inscription : exam.getUe().getInscriptions()) {
-			Date date = isStudentAvailable(inscription.getStudent(), period, newBeginDate, endDate);
-			if (date != null && (dateToReturn == null || dateToReturn.after(date))) {
-				dateToReturn = date;
+			if(inscription.getYear() == DateService.getYear(period.getBeginDatePeriod())) {
+				Date date = isStudentAvailable(inscription.getStudent(), period, newBeginDate, endDate);
+				if (date != null && (dateToReturn == null || dateToReturn.after(date))) {
+					dateToReturn = date;
+				}
 			}
 		}
 		return dateToReturn;
@@ -136,7 +147,7 @@ public class PeriodService {
 		for(Exam exam : period.getExams()) {
 			if(examService.isExamDateBetweenOtherDate(exam, beginDate, endDate)) {
 				for(Inscription inscription : exam.getUe().getInscriptions()) {
-					if(inscription.getStudent().getIdStudent() == student.getIdStudent()) {
+					if(inscription.getYear() == exam.getYear() && inscription.getStudent().getIdStudent() == student.getIdStudent()) {
 						return exam.getEndDateExam();
 					}
 				}
@@ -164,10 +175,19 @@ public class PeriodService {
 		return null;
 	}
 
+	private Date correctDateInTheEndOfTheWeek(Date beginDate) throws ParseException {
+		String dayNameForBeginName = DateService.getDayInString(beginDate);
+		if(dayNameForBeginName.contentEquals("samedi") || dayNameForBeginName.contentEquals("dimanche")) {
+			return DateService.getTheDayAfterWeekEnd(beginDate);
+		}
+		return null;
+	}
+
 
 	private void changeExam(Exam exam, Date beginDate, Date endDate, Period periodToPlan) throws ParseException {
 		exam.setBeginDateExam(beginDate);
 		exam.setEndDateExam(endDate);
+		exam.setYear(DateService.getYear(beginDate));
 		setRoom(exam, periodToPlan);
 		examService.updateExam(exam);
 	}
@@ -195,10 +215,14 @@ public class PeriodService {
 		}
 	}
 
-	public boolean verifyIfExamAlreadyExist(UE ue, long id) {
+	public boolean verifyIfExamCanBeAddedToAPeriod(UE ue, long id) {
 		Period period = getPeriod(id);
+		if(period.getExams().isEmpty() && examService.getNextSessionOfAnExam(ue.getName(), id) == -1) {
+			return true;
+		}
 		for(Exam exam: period.getExams()) {
-			if(exam.getUe().getName().compareTo(ue.getName())==0) {
+			int nextSessionUe = examService.getNextSessionOfAnExam(ue.getName(), id);
+			if(exam.getUe().getName().compareTo(ue.getName())==0 || exam.getSession() != nextSessionUe || nextSessionUe == -1) {
 				return true;
 			}
 		}
@@ -207,7 +231,6 @@ public class PeriodService {
 
 	public List<PeriodDTO> getListPeriod(){
 		List<PeriodDTO> listPeriodDTO = new ArrayList<>();
-
 		for(Period period : periodRepository.findAll()) {
 			listPeriodDTO.add(convertToDTO(period));
 		}
@@ -219,15 +242,15 @@ public class PeriodService {
 		PeriodDTO periodDTO = modelMapper.map(period, PeriodDTO.class);
 		periodDTO.setBeginDatePeriod(period.getBeginDatePeriod());
 		periodDTO.setEndDatePeriod(period.getEndDatePeriod());
+		periodDTO.setYear(DateService.getYear(period.getBeginDatePeriod()));
 		return periodDTO;
 	}
 
 	public Period convertToEntity(PeriodDTO periodDTO) throws ParseException{
 		Period period = modelMapper.map(periodDTO, Period.class);
-		period.setBeginDatePeriod(periodDTO.getBeginDatePeriod());
-		period.setEndDatePeriod(periodDTO.getEndDatePeriod());
+		period.setBeginDatePeriod(periodDTO.getBeginDatePeriodInDateFormat());
+		period.setEndDatePeriod(periodDTO.getEndDatePeriodInDateFormat());
 		period.setId(periodDTO.getId());
-
 		return period;
 	}
 
@@ -256,7 +279,7 @@ public class PeriodService {
 		return periodRepository.save(periodToSave);
 	}
 
-	private void initPeriod(long idPeriod) {
+	public void initPeriod(long idPeriod) {
 		Period periodToInit = periodRepository.getById(idPeriod);
 		List<Exam> listExamFromAPeriod = periodToInit.getExams();
 		for(Exam exam : listExamFromAPeriod) {
@@ -265,6 +288,62 @@ public class PeriodService {
 			exam.setEndDateExam(null);
 			examService.updateExam(exam);
 		}
+	}
+
+	public int verifyPeriodDateIsGood(String beginDate, String endDate) throws ParseException {
+		Date beginDatePeriod = DateService.convertStringDateYearFirstToDateClass(beginDate);
+		Date endDatePeriod = DateService.convertStringDateYearFirstToDateClass(endDate);
+		for(Period period : periodRepository.findAll()) {
+			if(DateService.isBetweenDate(period.getBeginDatePeriod(), period.getEndDatePeriod(), beginDatePeriod)) {
+				return 1;
+			}
+			if(DateService.isBetweenDate(period.getBeginDatePeriod(), period.getEndDatePeriod(), endDatePeriod)) {
+				return 2;
+			}
+		}
+
+		return -1;
+	}
+
+	public boolean verifyIfNameIsAlreadyUsed(String namePeriod) {
+		for(Period period : periodRepository.findAll()) {
+			if(period.getName().contentEquals(namePeriod)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void deletePeriod(long idPeriod) {
+		Optional<Period> optionalPeriod = periodRepository.findById(idPeriod);
+		if(!optionalPeriod.isEmpty()) {
+			for(Exam exam : optionalPeriod.get().getExams()) {
+				examRepository.delete(exam);
+			}
+			periodRepository.deleteById(idPeriod);
+		}
+	}
+
+	public boolean verifyIfAPeriodIsPlanify(long idPeriod) {
+		Optional<Period> optionalPeriod = periodRepository.findById(idPeriod);
+		if(optionalPeriod.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
+		Period period = optionalPeriod.get();
+		return (!period.getExams().isEmpty() && period.getExams().get(0).getBeginDateExam() != null) ||
+				period.getBeginDatePeriod().before(Calendar.getInstance().getTime());
+	}
+
+	public boolean verifyIfAPeriodCanBeUndone (long idPeriod) {
+		Optional<Period> optionalPeriod = periodRepository.findById(idPeriod);
+		if(optionalPeriod.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
+		Period period = optionalPeriod.get();
+		if(period.getBeginDatePeriod().before(Calendar.getInstance().getTime())) {
+			return false;
+		}
+		return (!period.getExams().isEmpty() && period.getExams().get(0).getBeginDateExam() != null);
 	}
 
 }

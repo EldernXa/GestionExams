@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Exam } from '../../model/exam/exam';
@@ -14,26 +14,43 @@ export class ExamService {
   }
 
   public findAllExamFromPeriod(id:number):Observable<Exam[]>{
-    return this.http.get<Exam[]>(this.usersUrl + "list/"+id, this.loginService.getHeaders());
+    return this.http.get<Exam[]>(this.usersUrl + "list/"+id);
   }
 
   public findAllUeNameForCreatingExam(id:number):Observable<string[]>{
-    return this.http.get<string[]>(this.usersUrl+"listUE/"+id, this.loginService.getHeaders());
+    return this.http.get<string[]>(this.usersUrl+"listUE/"+id);
   }
 
   public save(exam: Exam){
-    return this.http.post<Exam>(this.usersUrl + "add", exam, this.loginService.getHeaders());
+    console.log(exam.year)
+    return this.http.post<Exam>(this.usersUrl + "add", exam);
   }
 
-  public getNewBeginDate(idExam: number){
-    return this.http.get(this.usersUrl + idExam + "/fullBeginDate", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
-  }
-
-  public getNewEndDate(idExam: number){
-    return this.http.get(this.usersUrl + idExam + "/fullEndDate", {headers: this.loginService.getHeaders().headers, responseType: 'text'});
+  public hasStudent(idExam: number): Observable<boolean>{
+    return this.http.get<boolean>(this.usersUrl + idExam +"/student");
   }
 
   public updatePlanning(idPeriod: number){
-    return this.http.put("http://localhost:8080/period/" + idPeriod,idPeriod, this.loginService.getHeaders());
+    return this.http.put("http://localhost:8080/period/" + idPeriod,idPeriod);
+  }
+
+  public getNextSessionForAnExam(nameUE: string, idPeriod: number):Observable<number>{
+    return this.http.get<number>(this.usersUrl + "session/" + nameUE+"/"+idPeriod);
+  }
+
+  public isExamFinished(idExam: number, idPeriod: number): Observable<boolean>{
+    return this.http.get<boolean>(this.usersUrl + "isFinish/" + idExam + "/" + idPeriod);
+  }
+
+  public isPeriodCanBeUndone(idPeriod: number): Observable<boolean>{
+    return this.http.get<boolean>("http://localhost:8080/period/undoPlanify/"+idPeriod);
+  }
+
+  public initPeriod(idPeriod: number){
+    return this.http.put("http://localhost:8080/period/initPeriod/" + idPeriod, idPeriod);
+  }
+
+  public isPeriodFinish(idPeriod: number):Observable<boolean>{
+    return this.http.get<boolean>("http://localhost:8080/period/isFinished/"+idPeriod);
   }
 }

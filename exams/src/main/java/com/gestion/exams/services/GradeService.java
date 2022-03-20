@@ -57,7 +57,19 @@ public class GradeService {
         List<Student> students = studentRepository.findStudentByExamId(idExam);
         Optional<Exam> exam = examRepository.findById(idExam);
         for(Student s : students) {
-            createGradeByStudentAndExamIfNotExists(s, exam.get());
+            boolean hasMoreThan10 = false;
+            if(exam.get().getSession() == 2){
+                List<Grade> grades = s.getGrades();
+                for(Grade g : grades)
+                    if(g.getGradePK().getExam().getUe().getName() == exam.get().getUe().getName()
+                        && g.getGradePK().getExam().getYear() == exam.get().getYear()
+                        && g.getGradePK().getExam().getSession() == 1
+                        && g.getValue() >= 10)
+                        hasMoreThan10 = true;
+
+            }
+            if(!hasMoreThan10)
+                createGradeByStudentAndExamIfNotExists(s, exam.get());
             System.out.println(s.hasGradeForExam(exam.get()));
         }
     }
@@ -65,12 +77,23 @@ public class GradeService {
     public void createGradeByStudentAndExamIfNotExists(Student student, Exam exam){
         if(!student.hasGradeForExam(exam)) {
             System.out.println("has no grade for exam !!!!!!!");
-            createGrade(student, exam, 0);
+            createGrade(student, exam, -1);
         }
     }
 
     public Optional<Grade> getGradeByStudentAndExam(long idStudent, long idExam){
         return gradeRepository.getGradeByStudentAndExam(idStudent,idExam);
+    }
+
+    public List<Grade> getGradesByExam(long idExam){
+        List<Grade> grades = gradeRepository.searchGradeByExam(idExam);
+        return grades;
+    }
+
+    public List<Grade> getGradesByStudent(long idStudent){
+        List<Grade> grades = gradeRepository.searchGradesByStudent(idStudent);
+        System.out.println("nombre notes dans grade service"+grades.size());
+        return grades;
     }
 
     public List<Grade> getAllGradesByExam(long idExam){
@@ -79,6 +102,10 @@ public class GradeService {
 
     public List<Grade> getAllGrades(){
         return gradeRepository.findAll();
+    }
+
+    public List<Grade> getGradesMoreThan10ByStudentAndUE(long idStudent, String ue_name){
+        return gradeRepository.getGradesMoreThan10ByStudentAndUE(idStudent,ue_name);
     }
 
 }

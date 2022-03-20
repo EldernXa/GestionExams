@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Exam } from 'src/app/model/exam/exam';
 import { ExamViewService } from 'src/app/service/exam-view/exam-view.service';
+import { LoginService } from 'src/app/service/login/login.service';
 
 @Component({
   selector: 'app-exams-view',
@@ -11,28 +12,20 @@ export class ExamsViewComponent implements OnInit {
 
   listExam: Exam[] = [];
 
-  constructor(private examViewService: ExamViewService) { }
+  constructor(private examViewService: ExamViewService, private loginService: LoginService) {
+    this.loginService.redirectIfNotLogin();
+  }
 
   ngOnInit(): void {
     this.examViewService.findAllNextExamForAStudent().subscribe(data=>{
       this.listExam = data;
-      for(let i=0; i<this.listExam.length; i++){
-        this.examViewService.getNewBeginDate(this.listExam[i].idExam).subscribe(
-          data2=>{
-            this.listExam[i].beginDateExam = data2;
-          }
-        );
-
-
-        this.examViewService.getNewEndDate(this.listExam[i].idExam).subscribe(
-          data2=>{
-            this.listExam[i].endDateExam = data2;
-          }
-        );
-
-      }
     });
+  }
 
+  getToolTipText(exam: Exam):string {
+    if(exam.session == 2)
+      return "Uniquement pour ceux ayant échoué en session 1 !"
+    return "";
   }
 
 }

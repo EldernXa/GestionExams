@@ -34,7 +34,8 @@ public class InscriptionController {
     
 
 @GetMapping("/all")
-@PreAuthorize("hasRole('ROLE_STUDENT')")
+@PreAuthorize("hasAuthority('STUDENT')")
+
 public List<Inscription> showInscriptionsOfStudent( Principal principal){ //student will be replaced with Principal
     Student student = studentRepository.getStudentByEmail(principal.getName());
     System.out.println("access");
@@ -42,7 +43,7 @@ public List<Inscription> showInscriptionsOfStudent( Principal principal){ //stud
 }
 
     @GetMapping("/all/{email}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<Inscription> showInscriptionsOfStudentByAdmin(@PathVariable String email){
         Student student = studentRepository.getStudentByEmail(email);
         System.out.println("access");
@@ -50,14 +51,14 @@ public List<Inscription> showInscriptionsOfStudent( Principal principal){ //stud
     }
 
 @PostMapping("/register/{year}/{nameUE}")
-@PreAuthorize("hasRole('ROLE_STUDENT')")
-public Inscription registerStudentToUE(Principal principal,@PathVariable int year , @PathVariable String nameUE,UE ue){
+@PreAuthorize("hasAuthority('STUDENT')")
+public Inscription registerStudentToUE(Principal principal,@PathVariable int year , @PathVariable String nameUE){
     Student student = studentService.getStudentByEmail(principal.getName());
     return inscriptionService.registerStudentToUE(student.getIdStudent(),year,nameUE);
 }
 
     @PostMapping("/register/{email}/{year}/{nameUE}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Inscription registerStudentToUeByAdmin(@PathVariable String email,@PathVariable int year , @PathVariable String nameUE){
         Student student = studentService.getStudentByEmail(email);
         return inscriptionService.registerStudentToUE(student.getIdStudent(),year,nameUE);
@@ -66,7 +67,7 @@ public Inscription registerStudentToUE(Principal principal,@PathVariable int yea
 
 
 @DeleteMapping("/unsubscribe/{year}/{nameUE}")
-@PreAuthorize("hasRole('ROLE_STUDENT')")
+@PreAuthorize("hasAuthority('STUDENT')")
 public void unsubscribeStudentFromInscription(Principal principal ,@PathVariable int year , @PathVariable String nameUE){
     Student student = studentService.getStudentByEmail(principal.getName());
     UE ue = ueService.getUeByName(nameUE);
@@ -82,7 +83,7 @@ public void unsubscribeStudentFromInscription(Principal principal ,@PathVariable
 
 
     @DeleteMapping("/unsubscribe/{email}/{year}/{nameUE}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void unsubscribeStudentFromInscriptionByAdmin(@PathVariable String email,@PathVariable int year , @PathVariable String nameUE){
         Student student = studentService.getStudentByEmail(email);
         UE ue = ueService.getUeByName(nameUE);

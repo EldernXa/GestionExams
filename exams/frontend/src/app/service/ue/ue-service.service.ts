@@ -15,8 +15,7 @@ export class UeService {
   }
 
   public findAll() : Observable<Ue[]>{
-    let list = this.http.get<Ue[]>(this.usersUrl + "allUE", this.loginService.getHeaders());
-    return list;
+    return this.http.get<Ue[]>(this.usersUrl + "allUE", this.loginService.getHeaders());
   }
 
   public addUe(ue: Ue){
@@ -38,5 +37,9 @@ export class UeService {
 
   public getHttp() :HttpClient {
     return this.http;
+  }
+
+  public isUeNameGood(ueName: string): Observable<boolean>{
+    return this.http.get<boolean>(this.usersUrl + "isUeNameGood/"+ueName);
   }
 }

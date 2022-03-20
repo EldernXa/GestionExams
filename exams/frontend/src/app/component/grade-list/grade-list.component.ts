@@ -1,8 +1,8 @@
 import { Component, OnInit} from '@angular/core';
 import {GradeService} from "../../service/grade/grade-service.service";
-import {Student} from "../../model/student/student";
 import {ActivatedRoute} from "@angular/router";
 import { LoginService } from 'src/app/service/login/login.service';
+import {Grade} from "../../model/grade/grade";
 
 @Component({
   selector: 'app-grade-list',
@@ -12,30 +12,45 @@ import { LoginService } from 'src/app/service/login/login.service';
 export class GradeListComponent implements OnInit {
 
   idExam : number = -1;
-  students: Student[];
+  grades: Grade[];
+  isValid: boolean = true;
 
   constructor(private route: ActivatedRoute, private gradeService: GradeService, private loginService:LoginService) {
     this.loginService.redirectIfNotLogin();
     this.idExam = Number(this.route.snapshot.paramMap.get('id'));
-    this.students = [];
-    this.gradeService.findAll(this.idExam).subscribe(data=>{
-      this.students = data;
-    });
+    this.grades = [];
   }
 
   ngOnInit(){
     this.gradeService.findAll(this.idExam).subscribe(data=>{
-      this.students = data;
-      this.students.forEach(value => {if(value.grade == -1)value.grade = undefined});
+      this.grades = data;
+      console.log(this.grades)
     });
   }
 
+
   onSubmit(){
-    this.gradeService.saveAllGrades(this.idExam,this.students);
+    console.log(this.grades);
+    this.gradeService.saveAllGrades(this.idExam,this.grades).subscribe();
   }
 
   updateGrade(index : number){
-    this.gradeService.saveGrade(this.idExam,this.students[index]).subscribe(res => console.log(res),error => console.log(error));
+    this.gradeService.saveGrade(this.idExam, this.grades[index]).subscribe(res => console.log(res),error => console.log(error));
   }
+
+  saveAll(){
+    this.gradeService.saveAllGrades(this.idExam,this.grades).subscribe();
+    window.history.back();
+  }
+
+  checkValidity(){
+    let bool = true;
+    for(let i=0; i<this.grades.length; i++){
+      if((this.grades[i].value < 0 || this.grades[i].value > 20 )|| this.grades[i].value == null)
+        bool = false;
+    }
+    this.isValid = bool;
+  }
+
 
 }

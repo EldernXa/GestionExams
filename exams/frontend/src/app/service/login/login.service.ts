@@ -1,29 +1,30 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor(private http: HttpClient) { }
 
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Authorization': 'Basic ' + btoa(localStorage.getItem('ident')+':' + localStorage.getItem('mdp'))
-    })
-  };
+  constructor(private http: HttpClient, private router: Router) {
+  }
+
 
   redirectIfNotLogin(){
     if(!this.isConnected()){
       this.moveOnLoginPage();
     }
   }
-  
+
   getRole(){
     return localStorage.getItem("role");
+  }
+
+  getName(): Observable<string>{
+    return this.http.get<string>('http://localhost:8080/loggedMessage', {responseType: 'text' as 'json'});
   }
 
   redirectIfLogin(){
@@ -40,7 +41,7 @@ export class LoginService {
   }
 
   moveOnLoginPage(){
-    window.location.href = window.location.protocol + '//' + window.location.host + '/login'
+    this.router.navigateByUrl("/login");
   }
 
   moveOnIndexPage(){
@@ -52,23 +53,45 @@ export class LoginService {
     window.location.href = window.location.protocol + '//' + window.location.host + '/login';
   }
 
-  login(ident: string, mdp: string){
-    const map = {
-      'username' : ident,
-      'mdp' : mdp,
-    }
+  loginToken(ident: string, mdp: string){
+    let params = new HttpParams().set("email", ident).set("password", mdp);
 
-    this.http.put<string>('http://localhost:8080/login', map, {responseType: 'text' as 'json'})
-        .subscribe((data)=>{
-          localStorage.setItem("ident", ident);
-          localStorage.setItem("mdp", mdp);
-          localStorage.setItem("role", data);
-          this.moveOnIndexPage();
-        });
+    return this.http.post<string>('http://localhost:8080/login', params, {headers:{skip:"true"}, responseType: 'text' as 'json'})
+  }
+
+  loginRole(data: string){
+    localStorage.setItem("token", JSON.parse(data).access_token);
+    return this.http.put<string>('http://localhost:8080/loginRole', {}, {headers: this.getHeadersForLogin().headers, responseType:'text' as 'json'});
+  }
+
+  getHeadersForLogin(){
+    return {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': 'Bearer ' + String(localStorage.getItem("token")),
+        'skip': "true"
+      })
+    };
   }
 
   getHeaders(){
-    return this.httpOptions;
+    if(this.isConnected()){
+      return {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': 'Bearer ' + String(localStorage.getItem("token"))
+        })
+      };
+    }
+
+    return {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
   }
 
 }

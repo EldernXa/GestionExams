@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long>{
 
-    @Query("SELECT i.inscriptionPK.student FROM Inscription i, Exam e WHERE ( i.inscriptionPK.ue = e.ue AND e.idExam = :idExam ) ")
+    @Query("SELECT i.inscriptionPK.student FROM Inscription i, Exam e WHERE ( i.inscriptionPK.ue = e.ue AND e.idExam = :idExam AND i.inscriptionPK.year = e.year) ")
     List<Student> findStudentByExamId(@PathVariable("idExam") long idExam);
    
     Student getStudentByEmail(String email);

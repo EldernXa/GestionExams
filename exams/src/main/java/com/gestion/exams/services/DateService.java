@@ -39,6 +39,13 @@ public class DateService {
 		return createDate(String.valueOf(getDay(date)+1), String.valueOf(getMonth(date)), String.valueOf(getYear(date)), "08");
 	}
 
+	public static Date getTheDayAfterWeekEnd(Date date) throws ParseException{
+		if(getDayInString(date).contentEquals("samedi")) {
+			return createDate(String.valueOf(getDay(date)+2), String.valueOf(getMonth(date)), String.valueOf(getYear(date)), "08");
+		}
+		return createDate(String.valueOf(getDay(date)+1), String.valueOf(getMonth(date)), String.valueOf(getYear(date)), "08");
+	}
+
 	public static String convertDateClassToStringDate(Date date) {
 		return new SimpleDateFormat(FORMAT_DISPLAY_DATE).format(date);
 	}
@@ -95,6 +102,13 @@ public class DateService {
 	public static int getHour(Date date) {
 		Calendar cal = getCalendar(date);
 		return cal.get(Calendar.HOUR_OF_DAY);
+	}
+
+	public static String getDayInString(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEEE");
+		return dateFormat.format(c.getTime());
 	}
 
 	private static Calendar getCalendar(Date date) {

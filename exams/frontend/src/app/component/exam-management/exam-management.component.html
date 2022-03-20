@@ -1,63 +1,73 @@
 <div *ngIf="listExam.length>0">
-  <p>Exam qui sont actuellement enregistrée dans la période :</p>
-  <table class="table table-bordered table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Nom de l'UE</th>
-          <th scope="col">session</th>
-          <th scope="col">La salle</th>
-          <th scope="col">Date de début</th>
-          <th scope="col">Date de fin</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let exam of listExam">
-          <td>{{ exam.idExam }}</td>
-          <td>{{ exam.ue }}</td>
-          <td>{{ exam.session }}</td>
-          <td>{{ exam.nameRoom }}</td>
-          <td>{{ exam.beginDateExam }}</td>
-          <td>{{ exam.endDateExam }}</td>
-          <td><a [routerLink]="['/grades/exam/',exam.idExam]" class="btn btn-info">Gérer les notes</a></td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="m-5 d-flex justify-content-around">
+    <button *ngIf="listExam.length>0 && !isPeriodFinish" (click)="onPlan()" class="btn btn-info">Planifier les salles et les horaires</button>
+    <button *ngIf="isDisable" (click)="initPeriod() " class="btn btn-danger">Réinitialiser les salles et les horaires</button>
+  </div>
+
+  <div>
+    <h3>Liste des examens :</h3>
+  </div>
+
+  <div class="card my-5">
+    <div class="card-body">
+      <table class="table table-bordered table-striped">
+        <caption></caption>
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">UE</th>
+            <th scope="col">Session</th>
+            <th scope="col">Salle</th>
+            <th scope="col">Début</th>
+            <th scope="col">Fin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let exam of listExam, index as i">
+            <td>{{ exam.ue }}</td>
+            <td>{{ exam.session }}</td>
+            <td>{{ exam.nameRoom }}</td>
+            <td>{{ exam.beginDateExam }}</td>
+            <td>{{ exam.endDateExam }}</td>
+            <td>
+              <div [matTooltip]="getToolTipText(exam,i)" matTooltipPosition="below">
+                <a [routerLink]="['/grades/exam/',exam.idExam]" [class.disabled]="!exam.isFinish ||!listHasStudent[i]" class="btn btn-info">Gérer les notes</a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
-  <div class="card-body" *ngIf="listUE.length>0">
-    <p>Nouvelle exam : </p>
+<span *ngIf="listExam.length==0">
+  <div class="mt-5">
+    <h3>Liste des examens :</h3>
+  </div>
+  <div class="m-5 d-flex justify-content-center">
+      Aucun examen dans la période.
+  </div>
+</span>
+
+<span class="mb-5" *ngIf="listUE.length>0 && !isPeriodFinish && !isDisable">
+  <div>
+    <h3>Ajouter un examen à la période :</h3>
+  </div>
+  <div class="card-body w-75 mb-5">
     <form #periodForm="ngForm">
       <div class="form-group">
-        <label for="name">Nom de l'UE</label>
-        <select class="custom-select form-control" [(ngModel)]="exam.ue" id="ueName" name="ueName" required #ueName="ngModel">
-            <option value="" disabled>Choisisez le nom de l'UE</option>
-            <option *ngFor="let ue of listUE" [ngValue]="ue">{{ue}}</option>
-         </select>
+        <label>Nom de l'UE</label>
+        <select class="custom-select form-control" [(ngModel)]="exam.ue" id="ueName" name="ueName" (ngModelChange)="onChange($event)">
+          <option value="" disabled>Choisisez le nom de l'UE</option>
+          <option *ngFor="let ue of listUE" [ngValue]="ue">{{ue}}</option>
+        </select>
       </div>
-      <div [hidden]="!ueName.invalid" class="alert alert-danger">Le nom de l'ue est requise</div>
-      <div class="form-group">
-        <label for="beginDatePeriod">session</label>
-        <input type="number" [(ngModel)]="exam.session"
-          class="form-control"
-          id="session"
-          name="session"
-          placeholder="Entrer le numéro de la session"
-          required #session="ngModel">
-        <div [hidden]="!session.invalid" class="alert alert-danger">Le numéro de la session est requise.</div>
+      <div *ngIf="!ueNameVerif" class="alert alert-danger">{{msgNameUe}}</div>
+      <div class="form-group" *ngIf="sessionVerif">
+        <label>session : {{this.exam.session}}</label>
       </div>
-      <div class="form-group">
-          <label for="endDatePeriod">année</label>
-          <input type="number" [(ngModel)]="exam.year"
-              class="form-control"
-              id="year"
-              name="year"
-              placeholder="Entrer l'année de l'examen"
-              required #year="ngModel">
-          <div [hidden]="!year.invalid" class="alert alert-danger">L'année est requise.</div>
-      </div>
-      <button (click)="onSubmit()" [disabled]="!periodForm.form.valid" 
-        class="btn btn-info">Submit</button>
+      <button (click)="onSubmit()" class="btn btn-info">Ajouter l'examen</button>
     </form>
   </div>
-  <button *ngIf="listExam.length>0" (click)="onPlan()" class="btn btn-info">Planifier les salles et les horaires</button>
+</span>
+

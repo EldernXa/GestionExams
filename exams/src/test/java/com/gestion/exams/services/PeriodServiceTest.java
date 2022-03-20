@@ -94,7 +94,7 @@ class PeriodServiceTest {
 
 	@Test
 	void testVerifyingIfExamAlreadyExist() {
-		assertTrue(periodService.verifyIfExamAlreadyExist(ueRepository.findById(nameUe).get(), period.getId()));
+		assertTrue(periodService.verifyIfExamCanBeAddedToAPeriod(ueRepository.findById(nameUe).get(), period.getId()));
 	}
 
 	@Test
@@ -107,7 +107,7 @@ class PeriodServiceTest {
 			}
 		}
 
-		assertFalse(periodService.verifyIfExamAlreadyExist(uefinal, period.getId()));
+		assertFalse(periodService.verifyIfExamCanBeAddedToAPeriod(uefinal, period.getId()));
 	}
 
 	@Test
