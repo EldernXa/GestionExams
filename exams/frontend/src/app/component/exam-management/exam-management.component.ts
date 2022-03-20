@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Exam } from 'src/app/model/exam/exam';
 import { ExamService } from 'src/app/service/exam/exam.service';
+import { LoginService } from 'src/app/service/login/login.service';
 
 @Component({
   selector: 'app-exam-management',
@@ -27,7 +28,9 @@ export class ExamManagementComponent implements OnInit {
   isPeriodFinish = false;
 
   constructor(private route:ActivatedRoute, private examService:ExamService,
-              private router: Router) { }
+              private router: Router, private loginService: LoginService) {
+                this.loginService.redirectIfNotLogin();
+              }
 
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
