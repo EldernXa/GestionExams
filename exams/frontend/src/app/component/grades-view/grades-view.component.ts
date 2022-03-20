@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Inscription} from "../../model/inscription/inscription";
 import {ActivatedRoute} from "@angular/router";
-import {InscriptionsService} from "../../service/inscriptions/inscriptions-service.service";
 import {LoginService} from "../../service/login/login.service";
 import {Grade} from "../../model/grade/grade";
 import {GradesViewService} from "../../service/grades-view/grades-view-service.service";
