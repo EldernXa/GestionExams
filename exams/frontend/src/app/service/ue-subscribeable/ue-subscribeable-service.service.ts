@@ -20,18 +20,15 @@ export class UeSubscribeableService {
   }
 
   public findAllUe() : Observable<Ue[]>{
-    let list = this.http.get<Ue[]>(this.ueUrl + "allUE", this.loginService.getHeaders());
-    return list;
+    return this.http.get<Ue[]>(this.ueUrl + "allUE", this.loginService.getHeaders());
   }
 
   public findAllInscriptions() : Observable<Inscription[]>{
-    let list = this.http.get<Inscription[]>(this.inscriptionUrl + "all", this.loginService.getHeaders());
-    return list;
+    return this.http.get<Inscription[]>(this.inscriptionUrl + "all", this.loginService.getHeaders());
   }
 
   public findAllSubscribeableUes(year: number): Observable<Ue[]>{
-    let list = this.http.get<Ue[]>(this.ueUrl + "subscribeable/"+year, this.loginService.getHeaders());
-    return list;
+    return this.http.get<Ue[]>(this.ueUrl + "subscribeable/"+year, this.loginService.getHeaders());
   }
 
   public subscribeToUe(year: number, ue: Ue){
