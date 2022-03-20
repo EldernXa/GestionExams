@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { Period } from '../../model/period/period';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { LoginService } from '../login/login.service';
 
 @Injectable()
@@ -15,9 +15,7 @@ export class PeriodService {
   }
 
   public findAll() : Observable<Period[]>{
-    let list = this.http.get<Period[]>(this.usersUrl + "periodList");
-
-    return list;
+    return this.http.get<Period[]>(this.usersUrl + "periodList");
   }
 
   public savePeriod(period: Period){
