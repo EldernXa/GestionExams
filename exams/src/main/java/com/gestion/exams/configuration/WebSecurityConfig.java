@@ -50,11 +50,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors();
 		http.sessionManagement().sessionCreationPolicy(STATELESS);
 		http.authorizeRequests().antMatchers("/login").permitAll();
-		//http.authorizeRequests().antMatchers(GET, "/ue/allUE").hasAnyRole("ROlE_STUDENT");
-		//http.authorizeRequests().antMatchers(POST, "/ue/**").hasAnyAuthority("ADMIN");
+		http.headers().frameOptions().disable();
 		http.authorizeRequests().anyRequest().authenticated();
 		http.addFilter(customAuthenticationFilter);
-		//http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
 		http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 
