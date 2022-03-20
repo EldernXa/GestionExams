@@ -53,4 +53,15 @@ public class StudentRepositoryTest {
         List<Student> students = studentRepository.findAll();
         assertThat(students).hasSize(0);
     }
+
+    @Test
+    public void findAllStudentsTest(){
+        Student George = new Student("Georges", "BARDAGHJI", "george@gmail.com");
+        studentRepository.save(George);
+        Student Salem = new Student("Salem", "Doub", "Salem@gmail.com");
+        studentRepository.save(Salem);
+
+        List<Student> students = studentRepository.findAll();
+        assertThat(students).hasSize(2);
+    }
 }
