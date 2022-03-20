@@ -23,7 +23,6 @@ export class InscriptionsListComponent implements OnInit {
     this.inscriptionsService.findAll().subscribe(data=>{
       let count = 0;
       for(var inscription of data){
-        //inscription.ue.durationExam = Number(inscription.ue.durationExam)/60;
         this.hoursAndMin[count] = this.minToHoursAndMin(inscription.ue.durationExam);
         this.inscriptions.push(inscription);
         count++;

@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {LoginService} from "../login/login.service";
 import {Observable} from "rxjs";
-import {Student} from "../../model/student/student";
-import {Ue} from "../../model/ue/ue";
 import {Inscription} from "../../model/inscription/inscription";
 
 @Injectable()
@@ -16,8 +14,7 @@ export class InscriptionsService {
   }
 
   public findAll() : Observable<Inscription[]>{
-    let list = this.http.get<Inscription[]>(this.usersUrl + "all", this.loginService.getHeaders());
-    return list;
+    return this.http.get<Inscription[]>(this.usersUrl + "all", this.loginService.getHeaders());
   }
 
   public getHttp() :HttpClient {

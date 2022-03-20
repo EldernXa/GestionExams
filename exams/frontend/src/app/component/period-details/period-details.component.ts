@@ -4,7 +4,6 @@ import { Period } from 'src/app/model/period/period';
 import { PeriodService } from 'src/app/service/period/period-service.service';
 import {ExamService} from "../../service/exam/exam.service";
 import {Exam} from "../../model/exam/exam";
-import {Observable} from "rxjs";
 import { LoginService } from 'src/app/service/login/login.service';
 
 @Component({

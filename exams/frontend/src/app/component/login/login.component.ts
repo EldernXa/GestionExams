@@ -16,8 +16,7 @@ export class LoginComponent implements OnInit {
   role: string = "";
   msg: string | null = "";
 
-  constructor(private route: ActivatedRoute,
-    private router: Router, private http: HttpClient, private loginService: LoginService) { }
+  constructor(private loginService: LoginService) { }
 
   ngOnInit(): void {
     this.loginService.redirectIfLogin();

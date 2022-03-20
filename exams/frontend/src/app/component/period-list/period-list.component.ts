@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Period } from 'src/app/model/period/period';
 import { LoginService } from 'src/app/service/login/login.service';
 import { PeriodService } from 'src/app/service/period/period-service.service';
-import {Exam} from "../../model/exam/exam";
 
 @Component({
   selector: 'app-period-list',

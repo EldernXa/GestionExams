@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import {Period} from "../../model/period/period";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {Ue} from "../../model/ue/ue";
 import {UeService} from "../../service/ue/ue-service.service";
 import { LoginService } from 'src/app/service/login/login.service';
@@ -15,7 +14,7 @@ export class UeFormComponent {
   ue: Ue;
   isNameGood = true;
 
-  constructor(private route: ActivatedRoute, private router: Router, private ueService: UeService, private loginService: LoginService){
+  constructor(private router: Router, private ueService: UeService, private loginService: LoginService){
     this.loginService.redirectIfNotLogin();
     this.ue = new Ue();
   }

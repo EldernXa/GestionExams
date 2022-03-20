@@ -1,4 +1,3 @@
-import { Period } from "../period/period";
 import {Ue} from "../ue/ue";
 
 export class Exam {
