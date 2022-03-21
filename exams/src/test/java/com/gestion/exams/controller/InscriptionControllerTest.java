@@ -19,8 +19,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.util.List;
 import java.util.Map;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -92,5 +91,21 @@ public class InscriptionControllerTest {
                         .header("Authorization", "Bearer " + studentToken))
                         .andExpect(status().isOk())
                         .andReturn();
+    }
+
+    @Test
+    public void registerStudentToUeByAdminTest() throws Exception {
+        String nameUE = "Introduction à la programmation";
+        int year = 2021;
+        String email = "student1@noteplus.fr";
+        mvc.perform(post("/inscription/register/"+ email+"/"+ year+"/"+ nameUE).contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + Admintoken))
+                        .andExpect(status().isOk())
+                        .andReturn();
+    }
+
+    @Test
+    public void unsubscribeStudentFromInscriptiontest(){
+
     }
 }
