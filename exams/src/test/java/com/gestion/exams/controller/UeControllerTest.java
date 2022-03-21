@@ -5,8 +5,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gestion.exams.dto.UeDTO;
 import com.gestion.exams.entity.Discipline;
+import com.gestion.exams.entity.Student;
 import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.UERepository;
+import com.gestion.exams.services.StudentService;
 import com.gestion.exams.services.UEService;
 import org.hibernate.metamodel.spi.MetamodelImplementor;
 import org.junit.Before;
@@ -52,6 +54,9 @@ public class UeControllerTest{
 
     @MockBean
     private UEService ueService;
+
+    @MockBean
+    private StudentService studentService;
 
     @MockBean
     UERepository ueRepository;
@@ -156,5 +161,10 @@ public class UeControllerTest{
         String result = mvcResult.getResponse().getContentAsString();
         UeDTO ueDTOUpdate = mapper.readValue(result, UeDTO.class);
         assertThat(ueDTOUpdate.getName()).isEqualTo(ueDTOToBeUpdated.getName());
+    }
+
+    @Test
+    public void getSubscribeableInscriptionsOfStudentTest(){
+        //TO DO
     }
 }
