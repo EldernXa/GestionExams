@@ -122,6 +122,6 @@ public class UeControllerTest{
     @Test
     @Transactional
     public void deleteUeTest(){
-
+        UeDTO ueDTO = modelMapper.map(ue1,UeDTO.class);
     }
 }
