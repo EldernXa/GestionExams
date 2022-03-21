@@ -1,11 +1,16 @@
 package com.gestion.exams.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gestion.exams.dto.ExamDTO;
+import com.gestion.exams.dto.GradeDTO;
+import com.gestion.exams.dto.UeDTO;
 import com.gestion.exams.entity.Exam;
+import com.gestion.exams.entity.Grade;
 import com.gestion.exams.repository.ExamRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,8 +19,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -63,14 +72,22 @@ public class GradeControllerTest {
     @Test
     public void getGradesByExamTest() throws Exception {
         Exam exam  = examRepository.findAll().get(0);
-        mvc.perform(get("/grades//exam/"+ exam.getIdExam()).contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(get("/grades/exam/"+ exam.getIdExam()).contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer " + Admintoken))
-                .andExpect(status().isOk())
-                .andReturn();
+                        .andExpect(status().isOk())
+                        .andReturn();
     }
 
     @Test
-    public void getGradesOfStudentTest(){
+    public void getGradesOfStudentTest() throws Exception {
+        mvc.perform(get("/grades/student").contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + studentToken))
+                        .andExpect(status().isOk())
+                        .andReturn();
+    }
+
+    @Test
+    public void updateAllGradesTest(){
 
     }
 
