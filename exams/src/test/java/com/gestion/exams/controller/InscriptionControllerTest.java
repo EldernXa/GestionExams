@@ -1,6 +1,9 @@
 package com.gestion.exams.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gestion.exams.entity.Inscription;
+import com.gestion.exams.entity.Student;
+import com.gestion.exams.repository.StudentRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,11 +15,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -25,6 +30,9 @@ public class InscriptionControllerTest {
 
     @Autowired
     private MockMvc mvc;
+
+    @Autowired
+    StudentRepository studentRepository;
 
     String Admintoken;
 
@@ -63,4 +71,12 @@ public class InscriptionControllerTest {
                         .andReturn();
     }
 
+    @Test
+    public void showInscriptionsOfStudentByAdminTest() throws Exception {
+        Student george = studentRepository.findAll().get(0);
+        mvc.perform(get("/inscription/all/"+ george.getEmail()).contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + Admintoken))
+                        .andExpect(status().isOk())
+                        .andReturn();
+    }
 }
