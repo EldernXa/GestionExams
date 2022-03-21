@@ -93,9 +93,11 @@ class PeriodControllerTest {
 		Period period = periodRepository.findAll().get(0);
 		long id = period.getId();
 		String endDatePeriodInString = DateService.convertDateClassToStringDate(period.getEndDatePeriod());
-		mockMvc.perform(get("/periodList/"+id+"/endDate"))
-		.andExpect(status().isOk())
-		.andExpect(content().string(endDatePeriodInString));
+		mockMvc.perform(get("/periodList/"+id+"/endDate")
+						.contentType(MediaType.APPLICATION_JSON)
+						.header("Authorization", "Bearer " + token))
+						.andExpect(status().isOk())
+						.andExpect(content().string(endDatePeriodInString));
 	}
 
 	@Test
