@@ -69,21 +69,16 @@ public class UeControllerTest{
 
     @Before
     public void authenticate() throws Exception {
-        Map<String, String> user = Map.of(
-                "email", "school1@noteplus.fr",
-                "password", "password2"
-        );
-       MvcResult mvcResult =  mvc.perform(post("/login")
+        MvcResult mvcResult =  mvc.perform(post("/login")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("email", "school1@noteplus.fr")
                 .param("password", "password2"))
                 .andExpect(status().isOk())
                 .andReturn();
-        String json = mvcResult.getResponse().getContentAsString();
-        Map<String, String> response = new ObjectMapper().readValue(json, Map.class);
-        token = response.get("access_token");
-        System.out.println(token);
-
+       String json = mvcResult.getResponse().getContentAsString();
+       Map<String, String> response = new ObjectMapper().readValue(json, Map.class);
+       token = response.get("access_token");
+       System.out.println(token);
     }
 
     @BeforeClass
@@ -101,7 +96,7 @@ public class UeControllerTest{
     public void getAllUETest() throws Exception {
         List<UE> allUe = List.of(ue1);
         List<UeDTO> expectedUe = allUe.stream().map(ue -> modelMapper.map(ue, UeDTO.class)).collect(Collectors.toList());
-        given(ueRepository.findAll()).willReturn(allUe);
+        given(ueService.getAllUE()).willReturn(allUe);
 
         MvcResult mvcResult = mvc.perform(get("/ue/allUE")
                 .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
@@ -116,6 +111,7 @@ public class UeControllerTest{
     public void getUeByNameTest() throws Exception {
         UeDTO ueDTO = modelMapper.map(ue1,UeDTO.class);
         given(ueService.getUeByName(ue1.getName())).willReturn(ue1);
+
         MvcResult mvcResult = mvc.perform(get("/ue/"+ ue1.getName())
                         .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())

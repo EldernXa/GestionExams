@@ -11,18 +11,26 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gestion.exams.entity.Period;
 import com.gestion.exams.repository.PeriodRepository;
 import com.gestion.exams.services.DateService;
+import org.springframework.test.web.servlet.MvcResult;
 
+//@RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public
@@ -36,11 +44,29 @@ class PeriodControllerTest {
 	@Autowired
 	private PeriodRepository periodRepository;
 
+	String token;
+
+	@BeforeEach
+	public void authenticate() throws Exception {
+		MvcResult mvcResult =  mockMvc.perform(post("/login")
+						.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+						.param("email", "school1@noteplus.fr")
+						.param("password", "password2"))
+						.andExpect(status().isOk())
+						.andReturn();
+		String json = mvcResult.getResponse().getContentAsString();
+		Map<String, String> response = new ObjectMapper().readValue(json, Map.class);
+		token = response.get("access_token");
+		System.out.println(token);
+	}
+
 
 	@Test
 	void testGetListPeriod() throws Exception {
-		mockMvc.perform(get("/periodList"))
-		.andExpect(status().isOk());
+		mockMvc.perform(get("/periodList")
+						.contentType(MediaType.APPLICATION_JSON)
+						.header("Authorization", "Bearer " + token))
+						.andExpect(status().isOk());
 	}
 
 	@Test
@@ -48,15 +74,18 @@ class PeriodControllerTest {
 		Period period = periodRepository.findAll().get(0);
 		long id = period.getId();
 		String beginDatePeriod = DateService.convertDateClassToStringDate(period.getBeginDatePeriod());
-		mockMvc.perform(get("/periodList/"+id+"/beginDate"))
+		mockMvc.perform(get("/periodList/"+id+"/beginDate").contentType(MediaType.APPLICATION_JSON)
+						.header("Authorization", "Bearer " + token))
 		.andExpect(status().isOk())
 		.andExpect(content().string(beginDatePeriod));
 	}
 
 	@Test
 	void testGettingBeginDatePeriodWithPeriodWhoDoesntExist() throws Exception {
-		mockMvc.perform(get("/periodList/0/beginDate"))
-		.andExpect(status().isBadRequest());
+		mockMvc.perform(get("/periodList/0/beginDate")
+						.contentType(MediaType.APPLICATION_JSON)
+						.header("Authorization", "Bearer " + token))
+						.andExpect(status().isBadRequest());
 	}
 
 	@Test
