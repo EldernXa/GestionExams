@@ -2,6 +2,7 @@ package com.gestion.exams.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,6 +14,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Map;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -47,11 +49,18 @@ public class InscriptionControllerTest {
                         .param("password", "password"))
                 .andExpect(status().isOk())
                 .andReturn();
-        String json2 = mvcResult.getResponse().getContentAsString();
-        Map<String, String> response2 = new ObjectMapper().readValue(json, Map.class);
-        studentToken = response.get("access_token");
+        String json2 = mvcResult2.getResponse().getContentAsString();
+        Map<String, String> response2 = new ObjectMapper().readValue(json2, Map.class);
+        studentToken = response2.get("access_token");
         System.out.println(studentToken);
     }
 
+    @Test
+    public void showInscriptionsOfStudentTest() throws Exception {
+        mvc.perform(get("/inscription/all").contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + studentToken))
+                        .andExpect(status().isOk())
+                        .andReturn();
+    }
 
 }
