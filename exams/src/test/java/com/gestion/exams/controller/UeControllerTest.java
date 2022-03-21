@@ -49,7 +49,7 @@ public class UeControllerTest{
     @Autowired
     private MockMvc mvc;
 
-    @Autowired
+    @MockBean
     private UEService ueService;
 
     @MockBean
@@ -107,7 +107,21 @@ public class UeControllerTest{
     }
 
     @Test
-    public void test(){
-        assertTrue(true);
+    public void getUeByNameTest() throws Exception {
+        UeDTO ueDTO = modelMapper.map(ue1,UeDTO.class);
+        given(ueService.getUeByName(ue1.getName())).willReturn(ue1);
+        MvcResult mvcResult = mvc.perform(get("/ue/"+ ue1.getName())
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andReturn();
+        String result = mvcResult.getResponse().getContentAsString();
+        UeDTO ueDTO1 = mapper.readValue(result, UeDTO.class);
+        assertThat(ueDTO1.getName()).isEqualTo(ueDTO.getName());
+    }
+
+    @Test
+    @Transactional
+    public void deleteUeTest(){
+
     }
 }
