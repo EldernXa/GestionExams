@@ -30,7 +30,9 @@ import com.gestion.exams.repository.PeriodRepository;
 import com.gestion.exams.services.DateService;
 import org.springframework.test.web.servlet.MvcResult;
 
-//@RunWith(SpringRunner.class)
+import javax.transaction.Transactional;
+
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public
@@ -117,13 +119,6 @@ class PeriodControllerTest {
 	}
 
 	@Test
-	void testGettingPeriodWithPeriodWhoDoesntExist() throws Exception {
-		mockMvc.perform(get("/period/0").contentType(MediaType.APPLICATION_JSON)
-						.header("Authorization", "Bearer " + token))
-						.andExpect(status().isBadRequest());
-	}
-
-	@Test
 	void testPostPeriod() throws Exception {
 		String namePeriod = "period1";
 		ObjectMapper mapper = new ObjectMapper();
@@ -132,8 +127,10 @@ class PeriodControllerTest {
 		mapPeriod.put("endDatePeriod", "2022-01-03");
 		mapPeriod.put("name", namePeriod);
 		String requestedJson = mapper.writeValueAsString(mapPeriod);
-		mockMvc.perform(post("/period").contentType(APPLICATION_JSON_UTF8).content(requestedJson))
-		.andExpect(status().isOk());
+		mockMvc.perform(post("/period").contentType(APPLICATION_JSON_UTF8).content(requestedJson)
+						.contentType(MediaType.APPLICATION_JSON)
+						.header("Authorization", "Bearer " + token))
+						.andExpect(status().isOk());
 	}
 
 
