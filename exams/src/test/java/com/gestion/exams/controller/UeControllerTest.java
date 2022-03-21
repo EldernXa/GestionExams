@@ -1,5 +1,6 @@
 package com.gestion.exams.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gestion.exams.dto.UeDTO;
@@ -134,8 +135,8 @@ public class UeControllerTest{
         UeDTO ueDTOToBeCreated = modelMapper.map(ue1,UeDTO.class);
         given(ueService.createUE(ue1)).willReturn(ue1);
         MvcResult mvcResult = mvc.perform(post("/ue/add")
-                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token)
-                        .content(JsonUtil.toJson(ue1)))
+                        .content(mapper.writeValueAsString(ue1))
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
                         .andExpect(status().isOk())
                         .andReturn();
         String result = mvcResult.getResponse().getContentAsString();
@@ -144,7 +145,16 @@ public class UeControllerTest{
     }
 
     @Test
-    public void updateUeTest(){
-
+    public void updateUeTest() throws Exception {
+        UeDTO ueDTOToBeUpdated = modelMapper.map(ue1,UeDTO.class);
+        given(ueService.updateUE(ue1, ue1.getName())).willReturn(ue1);
+        MvcResult mvcResult = mvc.perform(put("/ue/update/"+ue1.getName())
+                        .content(mapper.writeValueAsString(ue1))
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andReturn();
+        String result = mvcResult.getResponse().getContentAsString();
+        UeDTO ueDTOUpdate = mapper.readValue(result, UeDTO.class);
+        assertThat(ueDTOUpdate.getName()).isEqualTo(ueDTOToBeUpdated.getName());
     }
 }
