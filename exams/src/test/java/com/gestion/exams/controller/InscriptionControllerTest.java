@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 
@@ -105,7 +106,24 @@ public class InscriptionControllerTest {
     }
 
     @Test
-    public void unsubscribeStudentFromInscriptiontest(){
+    public void unsubscribeStudentFromInscriptionTest() throws Exception {
+        String nameUE = "Introduction à la programmation";
+        int year = 2021;
+        mvc.perform(delete("/inscription/unsubscribe/"+ year+"/"+ nameUE).contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + studentToken))
+                        .andExpect(status().isOk())
+                        .andReturn();
+    }
 
+    @Test
+    @Transactional
+    public void unsubscribeStudentFromInscriptionByAdminTest() throws Exception {
+        String nameUE = "Introduction à la programmation";
+        int year = 2021;
+        String email = "student1@noteplus.fr";
+        mvc.perform(delete("/inscription/unsubscribe/"+ email+"/"+ year+"/"+ nameUE).contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + Admintoken))
+                .andExpect(status().isOk())
+                .andReturn();
     }
 }
