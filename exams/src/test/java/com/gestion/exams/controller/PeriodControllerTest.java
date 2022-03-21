@@ -102,8 +102,9 @@ class PeriodControllerTest {
 
 	@Test
 	void testGettingEndDatePeriodWithPeriodWhoDoesntExist() throws Exception {
-		mockMvc.perform(get("/periodList/0/endDate"))
-		.andExpect(status().isBadRequest());
+		mockMvc.perform(get("/periodList/0/endDate").contentType(MediaType.APPLICATION_JSON)
+						.header("Authorization", "Bearer " + token))
+						.andExpect(status().isBadRequest());
 	}
 
 	@Test
