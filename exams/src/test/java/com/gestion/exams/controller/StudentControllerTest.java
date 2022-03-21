@@ -34,20 +34,7 @@ public class StudentControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @MockBean
-    private StudentService studentService;
-    @Autowired
-    ExamService examService;
-    @Autowired
-    AuthentificationRepository authentificationRepository;
-
     String token;
-
-    ObjectMapper mapper = new ObjectMapper();
-
-    ModelMapper modelMapper = new ModelMapper();
-
-
 
     @Before
     public void authenticate() throws Exception {
@@ -73,6 +60,14 @@ public class StudentControllerTest {
     @Test
     public void getAuthTest() throws Exception {
         mvc.perform(get("/student/auth").contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token))
+                        .andExpect(status().isOk())
+                        .andReturn();
+    }
+
+    @Test
+    public void getStudentsTest() throws Exception {
+        mvc.perform(get("/student/students").contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer " + token))
                         .andExpect(status().isOk())
                         .andReturn();
