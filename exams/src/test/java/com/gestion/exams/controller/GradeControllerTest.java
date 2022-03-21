@@ -25,8 +25,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -87,8 +86,29 @@ public class GradeControllerTest {
     }
 
     @Test
-    public void updateAllGradesTest(){
+    public void updateAllGradesTest() throws Exception {
+       /* Exam exam  = examRepository.findAll().get(0);
+        mvc.perform(post("/grades/exams/"+ exam.getIdExam()).contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + Admintoken))
+                        .andExpect(status().isOk())
+                        .andReturn();*/
+    }
 
+    @Test
+    public void updateGradeTest() throws Exception {
+        /*Exam exam  = examRepository.findAll().get(0);
+        mvc.perform(post("/grades/exam/"+ exam.getIdExam()).contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + Admintoken))
+                .andExpect(status().isOk())
+                .andReturn();*/
+    }
+
+    @Test
+    public void deleteGradeTest() throws Exception {
+        /*Exam exam  = examRepository.findAll().get(1);
+        mvc.perform(delete("/grades/exam/"+ exam.getIdExam()).contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + Admintoken))
+                        .andExpect(status().isOk());*/
     }
 
 }
