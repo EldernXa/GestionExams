@@ -1,6 +1,8 @@
 package com.gestion.exams.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gestion.exams.entity.Exam;
+import com.gestion.exams.repository.ExamRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +16,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Map;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,6 +27,9 @@ public class GradeControllerTest {
 
     @Autowired
     private MockMvc mvc;
+
+    @Autowired
+    ExamRepository examRepository;
 
     String Admintoken;
 
@@ -54,5 +60,18 @@ public class GradeControllerTest {
         System.out.println(studentToken);
     }
 
+    @Test
+    public void getGradesByExamTest() throws Exception {
+        Exam exam  = examRepository.findAll().get(0);
+        mvc.perform(get("/grades//exam/"+ exam.getIdExam()).contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + Admintoken))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    public void getGradesOfStudentTest(){
+
+    }
 
 }
