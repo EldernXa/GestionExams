@@ -33,10 +33,10 @@ import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -121,7 +121,16 @@ public class UeControllerTest{
 
     @Test
     @Transactional
-    public void deleteUeTest(){
-        UeDTO ueDTO = modelMapper.map(ue1,UeDTO.class);
+    public void deleteUeTest() throws Exception {
+        doNothing().when(ueService).deleteUE(ue1.getName());
+        mvc.perform(delete("/ue/"+ ue1.getName())
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
+                        .andExpect(status().isNoContent())
+                        .andReturn();
+    }
+
+    @Test
+    public void addNewUeTest(){
+
     }
 }
