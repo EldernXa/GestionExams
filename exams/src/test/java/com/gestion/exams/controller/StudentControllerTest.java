@@ -1,7 +1,8 @@
 package com.gestion.exams.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gestion.exams.dto.ExamDTO;
+import com.gestion.exams.entity.Authentification;
+import com.gestion.exams.repository.AuthentificationRepository;
 import com.gestion.exams.services.ExamService;
 import com.gestion.exams.services.StudentService;
 import org.junit.Before;
@@ -17,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +38,8 @@ public class StudentControllerTest {
     private StudentService studentService;
     @Autowired
     ExamService examService;
+    @Autowired
+    AuthentificationRepository authentificationRepository;
 
     String token;
 
@@ -43,11 +47,11 @@ public class StudentControllerTest {
 
     ModelMapper modelMapper = new ModelMapper();
 
-    MvcResult mvcResult;
+
 
     @Before
     public void authenticate() throws Exception {
-        mvcResult =  mvc.perform(post("/login")
+      MvcResult  mvcResult =  mvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("email", "student1@noteplus.fr")
                         .param("password", "password"))
@@ -61,9 +65,17 @@ public class StudentControllerTest {
 
     @Test
     public void getNextPeriodOfExamTest() throws Exception {
-        mvc.perform(get("/exams").contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(get("/student/exams").contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getAuthTest() throws Exception {
+        mvc.perform(get("/student/auth").contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token))
+                        .andExpect(status().isOk())
+                        .andReturn();
     }
 
 }
