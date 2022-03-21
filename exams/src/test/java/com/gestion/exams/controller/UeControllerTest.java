@@ -130,7 +130,21 @@ public class UeControllerTest{
     }
 
     @Test
-    public void addNewUeTest(){
+    public void addNewUeTest() throws Exception {
+        UeDTO ueDTOToBeCreated = modelMapper.map(ue1,UeDTO.class);
+        given(ueService.createUE(ue1)).willReturn(ue1);
+        MvcResult mvcResult = mvc.perform(post("/ue/add")
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token)
+                        .content(JsonUtil.toJson(ue1)))
+                        .andExpect(status().isOk())
+                        .andReturn();
+        String result = mvcResult.getResponse().getContentAsString();
+        UeDTO ueDTOCreated = mapper.readValue(result, UeDTO.class);
+        assertThat(ueDTOCreated.getName()).isEqualTo(ueDTOToBeCreated.getName());
+    }
+
+    @Test
+    public void updateUeTest(){
 
     }
 }
