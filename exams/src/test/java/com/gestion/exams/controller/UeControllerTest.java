@@ -42,9 +42,6 @@ public class UeControllerTest{
     private UEService ueService;
 
     @MockBean
-    private StudentService studentService;
-
-    @MockBean
     UERepository ueRepository;
 
     String token;
