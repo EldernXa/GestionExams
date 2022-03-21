@@ -110,9 +110,10 @@ class PeriodControllerTest {
 	@Test
 	void testGettingPeriod() throws Exception{
 		Period period = periodRepository.findAll().get(0);
-		mockMvc.perform(get("/period/"+period.getId()))
-		.andExpect(status().isOk())
-		.andExpect(jsonPath("name", is(period.getName())));
+		mockMvc.perform(get("/period/"+period.getId()).contentType(MediaType.APPLICATION_JSON)
+						.header("Authorization", "Bearer " + token))
+						.andExpect(status().isOk())
+						.andExpect(jsonPath("name", is(period.getName())));
 	}
 
 	@Test
