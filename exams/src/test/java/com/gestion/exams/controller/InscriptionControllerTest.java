@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gestion.exams.entity.Inscription;
 import com.gestion.exams.entity.Student;
 import com.gestion.exams.repository.StudentRepository;
+import com.gestion.exams.services.InscriptionService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +35,9 @@ public class InscriptionControllerTest {
     @Autowired
     StudentRepository studentRepository;
 
+    @Autowired
+    InscriptionService inscriptionService;
+
     String Admintoken;
 
     String studentToken;
@@ -44,8 +48,8 @@ public class InscriptionControllerTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("email", "school1@noteplus.fr")
                         .param("password", "password2"))
-                .andExpect(status().isOk())
-                .andReturn();
+                        .andExpect(status().isOk())
+                        .andReturn();
         String json = mvcResult.getResponse().getContentAsString();
         Map<String, String> response = new ObjectMapper().readValue(json, Map.class);
         Admintoken = response.get("access_token");
@@ -55,8 +59,8 @@ public class InscriptionControllerTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("email", "student1@noteplus.fr")
                         .param("password", "password"))
-                .andExpect(status().isOk())
-                .andReturn();
+                        .andExpect(status().isOk())
+                        .andReturn();
         String json2 = mvcResult2.getResponse().getContentAsString();
         Map<String, String> response2 = new ObjectMapper().readValue(json2, Map.class);
         studentToken = response2.get("access_token");
@@ -76,6 +80,16 @@ public class InscriptionControllerTest {
         Student george = studentRepository.findAll().get(0);
         mvc.perform(get("/inscription/all/"+ george.getEmail()).contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer " + Admintoken))
+                        .andExpect(status().isOk())
+                        .andReturn();
+    }
+
+    @Test
+    public void registerStudentToUETest() throws Exception {
+        String nameUE = "Introduction à la programmation";
+        int year = 2021;
+        mvc.perform(post("/inscription/register/"+ year+"/"+ nameUE).contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + studentToken))
                         .andExpect(status().isOk())
                         .andReturn();
     }
