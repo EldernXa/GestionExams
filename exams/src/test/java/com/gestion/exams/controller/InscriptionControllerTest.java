@@ -52,4 +52,6 @@ public class InscriptionControllerTest {
         studentToken = response.get("access_token");
         System.out.println(studentToken);
     }
+
+
 }
