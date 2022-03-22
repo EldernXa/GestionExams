@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -86,6 +87,7 @@ public class GradeControllerTest {
     }
 
     @Test
+    @Transactional
     public void updateAllGradesTest() throws Exception {
        /* Exam exam  = examRepository.findAll().get(0);
         mvc.perform(post("/grades/exams/"+ exam.getIdExam()).contentType(MediaType.APPLICATION_JSON)
