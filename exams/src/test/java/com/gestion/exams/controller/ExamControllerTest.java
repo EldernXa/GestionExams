@@ -1,11 +1,21 @@
 package com.gestion.exams.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gestion.exams.entity.Discipline;
+import com.gestion.exams.entity.Exam;
+import com.gestion.exams.entity.UE;
+import com.gestion.exams.repository.ExamRepository;
+import com.gestion.exams.repository.PeriodRepository;
+import com.gestion.exams.repository.UERepository;
+import com.gestion.exams.services.ExamService;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -13,6 +23,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Map;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -23,6 +34,16 @@ public class ExamControllerTest {
 
     @Autowired
     private MockMvc mvc;
+    @Autowired
+    PeriodRepository periodRepository;
+    @Autowired
+    ExamRepository examRepository;
+    @Autowired
+    UERepository ueRepository;
+    @MockBean
+    ExamService examService;
+
+    static private Exam exam = new Exam();
 
     String token;
 
@@ -38,6 +59,14 @@ public class ExamControllerTest {
         Map<String, String> response = new ObjectMapper().readValue(json, Map.class);
         token = response.get("access_token");
         System.out.println(token);
+    }
+
+    @Test
+    public void addNewExamsNullTest() throws Exception {
+        mvc.perform(post("/exam/add").contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token))
+                        .andExpect(status().isBadRequest())
+                        .andReturn();
     }
 
 
