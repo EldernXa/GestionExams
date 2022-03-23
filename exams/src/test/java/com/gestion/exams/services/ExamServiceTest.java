@@ -64,8 +64,8 @@ class ExamServiceTest {
 	@BeforeAll
 	void init() throws ParseException {
 		sizeExamListBeforeAdding = examRepository.findAll().size();
-		beginDate = DateService.convertStringDateToDateClass("03/01/2022");
-		endDate = DateService.convertStringDateToDateClass("14/01/2022");
+		beginDate = DateService.convertStringDateToDateClass("lundi 3 janvier 2022");
+		endDate = DateService.convertStringDateToDateClass("vendredi 14 janvier 2022");
 		session = 1;
 		year = 2022;
 		room = roomRepository.findAll().get(0);
@@ -94,29 +94,12 @@ class ExamServiceTest {
 	}
 
 	@Test
-	void testGettingAllExamsFromAPeriodWithInvalidId() {
-		assertThrows(NoSuchElementException.class, ()->{
-			examService.getAllExamsFromPeriod(-1);
-		});
-	}
-
-	@Test
 	void testConvertToDTO() {
 		ExamDTO examDTO = examService.convertToDTO(exam);
 		assertEquals(exam.getIdExam(), examDTO.getIdExam());
 		assertEquals(exam.getUe().getName(), examDTO.getUe());
 		assertEquals(exam.getPeriod().getId(), examDTO.getPeriod().getId());
 	}
-
-	@Test
-	void testConvertToEntity() {
-		ExamDTO examDTO = examService.convertToDTO(exam);
-		Exam newExam = examService.convertToEntity(examDTO);
-		assertEquals(exam.getIdExam(), newExam.getIdExam());
-		assertEquals(exam.getUe().getName(), newExam.getUe().getName());
-		assertEquals(exam.getPeriod().getId(), newExam.getPeriod().getId());
-	}
-
 
 	@Test
 	void testGettingNameUE() {
