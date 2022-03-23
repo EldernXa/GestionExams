@@ -101,6 +101,24 @@ public class ExamControllerTest {
                         .andReturn();
     }
 
+    @Test
+    public void getListUETest() throws Exception {
+        mvc.perform(get("/exam/listUE").contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    public void getListUEThatAreNotInAPeriodTest() throws Exception {
+        Exam exam = examRepository.findAll().get(1);
+        long idPeriod  = exam.getPeriod().getId();
+        Optional<Period> period = periodRepository.findById(idPeriod);
+        mvc.perform(get("/exam/listUE/"+period.get().getId()).contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
 
 
 }
