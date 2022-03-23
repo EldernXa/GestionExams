@@ -120,5 +120,13 @@ public class ExamControllerTest {
                 .andReturn();
     }
 
+    @Test
+    public void hasStudentTest() throws Exception {
+        Exam exam = examRepository.findAll().get(0);
+        mvc.perform(get("/exam/"+exam.getIdExam()+"/student").contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
 
 }
