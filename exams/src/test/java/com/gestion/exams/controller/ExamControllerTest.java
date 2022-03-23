@@ -129,4 +129,14 @@ public class ExamControllerTest {
                 .andReturn();
     }
 
+    @Test
+    public void isFinishTest() throws Exception {
+        Exam exam = examRepository.findAll().get(0);
+        long idPeriod  = exam.getPeriod().getId();
+        mvc.perform(get("/exam/isFinish/"+exam.getIdExam()+"/"+idPeriod).contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
 }
