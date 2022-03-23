@@ -1,15 +1,13 @@
 package com.gestion.exams.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gestion.exams.entity.Discipline;
 import com.gestion.exams.entity.Exam;
-import com.gestion.exams.entity.UE;
+import com.gestion.exams.entity.Period;
 import com.gestion.exams.repository.ExamRepository;
 import com.gestion.exams.repository.PeriodRepository;
 import com.gestion.exams.repository.UERepository;
 import com.gestion.exams.services.ExamService;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Map;
+import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -43,9 +42,11 @@ public class ExamControllerTest {
     @MockBean
     ExamService examService;
 
-    static private Exam exam = new Exam();
+    static private Exam exam;
 
     String token;
+
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
     public void authenticate() throws Exception {
@@ -66,6 +67,18 @@ public class ExamControllerTest {
         mvc.perform(post("/exam/add").contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer " + token))
                         .andExpect(status().isBadRequest())
+                        .andReturn();
+    }
+
+    @Test
+    public void getNextSessionOfAnExamTest() throws Exception {
+        Exam exam = examRepository.findAll().get(1);
+        String nameUe = exam.getUe().getName();
+        long idPeriode  = exam.getPeriod().getId();
+        Optional<Period> period = periodRepository.findById(idPeriode);
+        mvc.perform(get("/session/"+nameUe+"/"+period.get().getId()).contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token))
+                        .andExpect(status().isOk())
                         .andReturn();
     }
 

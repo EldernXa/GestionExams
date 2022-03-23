@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gestion.exams.dto.ExamDTO;
 import com.gestion.exams.dto.GradeDTO;
 import com.gestion.exams.dto.UeDTO;
+import com.gestion.exams.dto.mapper.GradeMapper;
 import com.gestion.exams.entity.Exam;
 import com.gestion.exams.entity.Grade;
 import com.gestion.exams.repository.ExamRepository;
+import com.gestion.exams.repository.GradeRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -40,9 +43,15 @@ public class GradeControllerTest {
     @Autowired
     ExamRepository examRepository;
 
+    @Autowired
+    GradeRepository gradeRepository;
+
     String Admintoken;
 
     String studentToken;
+
+    ObjectMapper mapper = new ObjectMapper();
+    ModelMapper modelMapper = new ModelMapper();
 
     @Before
     public void authenticate() throws Exception {
@@ -89,28 +98,30 @@ public class GradeControllerTest {
     @Test
     @Transactional
     public void updateAllGradesTest() throws Exception {
-       /* Exam exam  = examRepository.findAll().get(0);
-        mvc.perform(post("/grades/exams/"+ exam.getIdExam()).contentType(MediaType.APPLICATION_JSON)
+        Exam exam  = examRepository.findAll().get(0);
+        List<Grade> grades  = gradeRepository.searchGradeByExam(exam.getIdExam());
+        List<GradeDTO> gradeDTOS = new ArrayList<>();
+        for(Grade grade : grades){
+            gradeDTOS.add(GradeMapper.gradeToGradeDTO(grade));
+        }
+        mvc.perform(post("/grades/exams/"+exam.getIdExam())
+                        .content(mapper.writeValueAsString(gradeDTOS))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer " + Admintoken))
                         .andExpect(status().isOk())
-                        .andReturn();*/
+                        .andReturn();
     }
 
     @Test
     public void updateGradeTest() throws Exception {
-        /*Exam exam  = examRepository.findAll().get(0);
-        mvc.perform(post("/grades/exam/"+ exam.getIdExam()).contentType(MediaType.APPLICATION_JSON)
+        Exam exam  = examRepository.findAll().get(0);
+        Grade grade  = gradeRepository.searchGradeByExam(exam.getIdExam()).get(0);
+        GradeDTO gradeDTO = GradeMapper.gradeToGradeDTO(grade);
+
+        mvc.perform(post("/grades/exam/"+ exam.getIdExam()).content(mapper.writeValueAsString(gradeDTO))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer " + Admintoken))
                 .andExpect(status().isOk())
-                .andReturn();*/
+                .andReturn();
     }
-
-    @Test
-    public void deleteGradeTest() throws Exception {
-        /*Exam exam  = examRepository.findAll().get(1);
-        mvc.perform(delete("/grades/exam/"+ exam.getIdExam()).contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Bearer " + Admintoken))
-                        .andExpect(status().isOk());*/
-    }
-
 }
