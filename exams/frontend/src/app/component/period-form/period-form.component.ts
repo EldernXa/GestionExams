@@ -56,7 +56,7 @@ export class PeriodFormComponent{
             if(verifySubmit){
               this.periodService.isPeriodNameGood(this.period.name).subscribe(
                 (isNameGood) =>{
-                  
+
                   if(!this.verifyNamePeriodGood(Boolean(isNameGood))){
                     verifySubmit = false;
                   }
@@ -74,7 +74,7 @@ export class PeriodFormComponent{
         );
       }
     }
-    
+
   }
 
   verifyNamePeriodGood(data: boolean){
@@ -131,7 +131,6 @@ export class PeriodFormComponent{
     let myDate = new Date();
     let tabCurrentDate = myDate.toLocaleDateString().split('/');
     let tabBeginDatePeriod = this.period.beginDatePeriod.split('-');
-    console.log(tabBeginDatePeriod + " -- " + tabCurrentDate);
     if(tabBeginDatePeriod[0]<tabCurrentDate[2] || (tabBeginDatePeriod[0]=== tabCurrentDate[2] && tabBeginDatePeriod[1]<tabCurrentDate[1]) ||
       (tabBeginDatePeriod[0]===tabCurrentDate[2] && tabBeginDatePeriod[1]===tabCurrentDate[1] && tabBeginDatePeriod[2]<tabCurrentDate[0])){
       this.beginDatePeriodVerif = false;

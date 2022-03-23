@@ -5,7 +5,6 @@ export class Exam {
         idExam: number = -1;
         idPeriod: number = -1;
         session?: number;
-        //ue: string = "";
         ue : Ue = new Ue();
         supervisors: string = "";
         year : number = -1;
@@ -13,6 +12,5 @@ export class Exam {
         beginDateExam: string = "";
         endDateExam: string = "";
         isFinish = false;
-
 
 }

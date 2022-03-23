@@ -23,7 +23,7 @@ export class InscriptionsListComponent implements OnInit {
     this.inscriptionsService.findAll().subscribe(data=>{
       for(var inscription of data)
         this.inscriptions.push(inscription);
-      this.inscriptions = this.inscriptions.sort((a,b) => b.year - a.year);
+      this.inscriptions.sort((a,b) => b.year - a.year);
       for(let i=0; i<this.inscriptions.length; i++)
         this.hoursAndMin[i] = this.minToHoursAndMin(this.inscriptions[i].ue.durationExam);
     });
@@ -34,8 +34,6 @@ export class InscriptionsListComponent implements OnInit {
     let hours = h.toString();
     let m = minutes%60;
     let min = (m<10) ? ("0"+m.toString()) : (m.toString());
-    let hoursAndMin = hours + "h" + min;
-    console.log(hoursAndMin);
-    return hoursAndMin;
+    return hours + "h" + min;
   }
 }

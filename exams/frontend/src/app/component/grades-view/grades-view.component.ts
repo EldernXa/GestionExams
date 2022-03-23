@@ -27,7 +27,7 @@ export class GradesViewComponent implements OnInit {
   ngOnInit(): void {
     this.gradeViewService.findAll().subscribe(data=>{
       this.grades = data;
-      this.grades = this.grades.sort((a,b) => b.year - a.year);
+      this.grades.sort((a,b) => b.year - a.year);
       for(const i in this.grades){
         if(this.grades[i].session == 1)
           this.gradesS1.push(this.grades[i]);
@@ -76,7 +76,6 @@ export class GradesViewComponent implements OnInit {
 
   averageCalculation(): number{
     this.current_average = this.current_points / this.current_credits;
-    console.log(this.current_points + " / " + this.current_credits + " = " + this.current_average)
     this.current_points = 0;
     this.current_credits = 0;
     return this.current_average;
@@ -98,10 +97,6 @@ export class GradesViewComponent implements OnInit {
         this.valueS2G = g.value;
     });
     return this.valueS2G;
-  }
-
-  showMessage(message : string): void{
-    console.log(message);
   }
 
   getToolTipText():string {
