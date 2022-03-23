@@ -32,7 +32,7 @@ import com.gestion.exams.repository.UERepository;
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
 @Transactional
-class PeriodServiceTest {
+public class PeriodServiceTest {
 
 	@Autowired
 	private PeriodService periodService;
@@ -73,32 +73,32 @@ class PeriodServiceTest {
 	}
 
 	@Test
-	void testBeginDatePeriodToString() {
+	public void testBeginDatePeriodToString() {
 		assertEquals(DateService.convertDateClassToStringDate(beginDate), periodService.beginDatePeriodToString(period.getId()));
 	}
 
 	@Test
-	void testBeginDatePeriodToStringWithFalseId() {
+	public void testBeginDatePeriodToStringWithFalseId() {
 		assertNull(periodService.beginDatePeriodToString(-1));
 	}
 
 	@Test
-	void testEndDatePeriodToString() {
+	public void testEndDatePeriodToString() {
 		assertEquals(DateService.convertDateClassToStringDate(endDate), periodService.endDatePeriodToString(period.getId()));
 	}
 
 	@Test
-	void testEndDatePeriodToStringWithFalseId() {
+	public void testEndDatePeriodToStringWithFalseId() {
 		assertNull(periodService.endDatePeriodToString(-1));
 	}
 
 	@Test
-	void testVerifyingIfExamAlreadyExist() {
+	public void testVerifyingIfExamAlreadyExist() {
 		assertTrue(periodService.verifyIfExamCanBeAddedToAPeriod(ueRepository.findById(nameUe).get(), period.getId()));
 	}
 
 	@Test
-	void testVerifyingThatExamDoesntExist() {
+	public void testVerifyingThatExamDoesntExist() {
 		UE uefinal = null;
 		for(UE ue : ueRepository.findAll()) {
 			if(ue.getName() != nameUe) {
@@ -111,12 +111,12 @@ class PeriodServiceTest {
 	}
 
 	@Test
-	void testGettingListPeriod() {
+	public void testGettingListPeriod() {
 		assertTrue(periodService.getListPeriod().size()>=1);
 	}
 
 	@Test
-	void testConvertToDTO(){
+	public void testConvertToDTO(){
 		PeriodDTO periodDTO = periodService.convertToDTO(period);
 
 		assertNotNull(periodDTO);
@@ -124,7 +124,7 @@ class PeriodServiceTest {
 	}
 
 	@Test
-	void testGetPeriodFromMap() {
+	public void testGetPeriodFromMap() {
 		String newBeginDate = "2022-01-03";
 		String newEndDate = "2022-01-14";
 		Map<String, String> mapPeriod = new HashMap<>();
@@ -138,13 +138,13 @@ class PeriodServiceTest {
 	}
 
 	@Test
-	void testGetPeriodFromMapWithErrorInMap() {
+	public void testGetPeriodFromMapWithErrorInMap() {
 		Period newPeriod = periodService.getPeriodFromMap(null);
 		assertNull(newPeriod);
 	}
 
 	@Test
-	void testSaveNewPeriod() throws ParseException {
+	public void testSaveNewPeriod() throws ParseException {
 		Period newPeriod = new Period(DateService.convertStringDateToDateClass("lundi 3 janvier 2022"),
 				DateService.convertStringDateToDateClass("vendredi 14 janvier 2022"), "period2");
 		newPeriod = periodService.savePeriod(period);

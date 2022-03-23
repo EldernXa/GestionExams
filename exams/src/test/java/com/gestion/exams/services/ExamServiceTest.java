@@ -13,9 +13,11 @@ import java.util.NoSuchElementException;
 
 import javax.transaction.Transactional;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+
+
+import org.junit.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +34,9 @@ import com.gestion.exams.repository.RoomRepository;
 import com.gestion.exams.repository.UERepository;
 
 @SpringBootTest
-@TestInstance(Lifecycle.PER_CLASS)
+//@TestInstance(Lifecycle.PER_CLASS)
 @Transactional
-class ExamServiceTest {
+public class ExamServiceTest {
 
 	@Autowired
 	private ExamRepository examRepository;
@@ -61,8 +63,8 @@ class ExamServiceTest {
 	private Exam exam;
 	private int sizeExamListBeforeAdding;
 
-	@BeforeAll
-	void init() throws ParseException {
+	@Before
+	public void init() throws ParseException {
 		sizeExamListBeforeAdding = examRepository.findAll().size();
 		beginDate = DateService.convertStringDateToDateClass("lundi 3 janvier 2022");
 		endDate = DateService.convertStringDateToDateClass("vendredi 14 janvier 2022");
@@ -76,25 +78,23 @@ class ExamServiceTest {
 
 	}
 
-	private
-
-	@AfterAll
-	void afterTests() {
+	@After
+	public void afterTests() {
 		examRepository.delete(exam);
 	}
 
 	@Test
-	void testGettingAllExams() {
+	public void testGettingAllExams() {
 		assertEquals(sizeExamListBeforeAdding+1, examService.getAllExams().size());
 	}
 
 	@Test
-	void testGettingAllExamsFromAPeriod() {
+	public void testGettingAllExamsFromAPeriod() {
 		assertTrue(examService.getAllExamsFromPeriod(period.getId()).size()>=1);
 	}
 
 	@Test
-	void testConvertToDTO() {
+	public void testConvertToDTO() {
 		ExamDTO examDTO = examService.convertToDTO(exam);
 		assertEquals(exam.getIdExam(), examDTO.getIdExam());
 		assertEquals(exam.getUe().getName(), examDTO.getUe());
@@ -102,17 +102,17 @@ class ExamServiceTest {
 	}
 
 	@Test
-	void testGettingNameUE() {
+	public void testGettingNameUE() {
 		assertEquals(ue.getName(), examService.getNameUE(exam.getIdExam()));
 	}
 
 	@Test
-	void testGettingNameUEWhenExamDoesntExist() {
+	public void testGettingNameUEWhenExamDoesntExist() {
 		assertNull(examService.getNameUE(-1));
 	}
 
 	@Test
-	void testSaveNewExam() {
+	public void testSaveNewExam() {
 		Map<String, String> mapExam = new HashMap<>();
 		mapExam.put("idPeriod", String.valueOf(period.getId()));
 		mapExam.put("ue", ue.getName());
