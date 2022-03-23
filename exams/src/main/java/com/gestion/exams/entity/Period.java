@@ -2,6 +2,7 @@ package com.gestion.exams.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,7 +10,9 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-public class Period {
+public class Period  implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Column(nullable = false)
 	private Date beginDatePeriod;

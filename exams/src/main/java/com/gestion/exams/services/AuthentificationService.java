@@ -32,9 +32,8 @@ public class AuthentificationService implements UserDetailsService {
 		if(authentification == null){
 			throw new UsernameNotFoundException("user not found");
 		}
-		System.out.println("User is found");
 		Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-		authentification.getRoles().forEach(role ->{authorities.add(new SimpleGrantedAuthority(role.getName()));});
+		authentification.getRoles().forEach(role ->authorities.add(new SimpleGrantedAuthority(role.getName())));
 		return new org.springframework.security.core.userdetails.User(authentification.getEmail(), authentification.getPassword(), authorities);
 	}
 

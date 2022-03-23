@@ -1,6 +1,4 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, of} from 'rxjs';
 import { LoginService } from 'src/app/service/login/login.service';
 

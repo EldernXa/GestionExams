@@ -18,12 +18,10 @@ export class GradeService {
   }
 
   public saveAllGrades(idExam: number, grades : Grade[]){
-    console.log("save all grades");
     return this.http.post<void>(this.usersUrl+"exams/"+idExam, grades, this.loginService.getHeaders());
   }
 
   public saveGrade(idExam: number, grade: Grade){
-    console.log("save grade of student  "+grade.idStudent + " for exam :"+grade.idExam);
     return this.http.post<void>(this.usersUrl+"exam/"+idExam,grade, this.loginService.getHeaders());
   }
 

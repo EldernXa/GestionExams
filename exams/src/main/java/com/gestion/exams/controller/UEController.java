@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +38,6 @@ public class UEController {
 
 
 	@GetMapping("/allUE")
-	//@PreAuthorize("hasAuthority('STUDENT')")
 	public List<UeDTO> getAllUE(){
 		ModelMapper modelMapper = new ModelMapper();
 		List<UE> listUe = ueService.getAllUE();
@@ -48,7 +45,6 @@ public class UEController {
 	}
 
 	@GetMapping("/{name}")
-	//@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')")
 	public UeDTO getUeByName(@PathVariable String name){
 		ModelMapper modelMapper = new ModelMapper();
 		UE ue = ueService.getUeByName(name);
@@ -60,7 +56,6 @@ public class UEController {
 	@Transactional
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public void deleteUe(@PathVariable String name){
-		System.out.println(name + " deleted (controller back)");
 		ueService.deleteUE(name);
 	}
 
@@ -77,7 +72,6 @@ public class UEController {
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public UeDTO updateUe(@PathVariable String name, @RequestBody UE ue){
 		ModelMapper modelMapper = new ModelMapper();
-		UE ueToBeUpdated = ueService.getUeByName(name);
 		ueService.updateUE(ue, name);
 		return modelMapper.map(ue,UeDTO.class);
 	}
@@ -86,30 +80,31 @@ public class UEController {
 	@PreAuthorize("hasAuthority('STUDENT')")
 	public List<UE> getSubscribeableInscriptionsOfStudent(Principal principal, @PathVariable int year){ //student will be replaced with Principal
 		Student student = studentService.getStudentByEmail(principal.getName());
-		List<UE> all_ues = ueService.getAllUE();
-		List<Inscription> student_inscriptions = student.getInscriptions();
-		List<UE> subscribeable_ues = new ArrayList<>();
-		Date currentDate = Calendar.getInstance().getTime();
-		for(UE ue : all_ues) {
+		List<UE> allUes = ueService.getAllUE();
+		List<Inscription> studentInscriptions = student.getInscriptions();
+		List<UE> subscribeableUes = new ArrayList<>();
+		for(UE ue : allUes) {
 			boolean isSubscribeable = true;
-			List<Exam> exams_of_ue_during_year = examService.getExamsByUeAndYear(ue,year);
-			for (Inscription i : student_inscriptions) {
-				if (i.getUe().getName() == ue.getName() && i.getYear() == year) {
+			List<Exam> examsOfUeDuringYear = examService.getExamsByUeAndYear(ue,year);
+			for (Inscription i : studentInscriptions) {
+				if (i.getUe().getName().equals(ue.getName()) && i.getYear() == year) {
 					isSubscribeable = false;
 				}
 			}
-			for(Exam e : exams_of_ue_during_year){
-				if(e.getBeginDateExam()!=null) {
+			for(Exam e : examsOfUeDuringYear) {
+				if (e.getBeginDateExam() != null) {
 					isSubscribeable = false;
+					break;
 				}
 			}
+
 			if(!gradeService.getGradesMoreThan10ByStudentAndUE(student.getIdStudent(),ue.getName()).isEmpty())
 				isSubscribeable = false;
 			if(isSubscribeable) {
-				subscribeable_ues.add(ue);
+				subscribeableUes.add(ue);
 			}
 		}
-		return subscribeable_ues;
+		return subscribeableUes;
 	}
 
 	@GetMapping("/testadmin")

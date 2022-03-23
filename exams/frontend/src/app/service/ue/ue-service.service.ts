@@ -31,7 +31,6 @@ export class UeService {
   }
 
   public deleteUe(ue_name: string) {
-    console.log("delete " + ue_name + " (front) : " + this.usersUrl + ue_name);
     return this.http.delete<void>(this.usersUrl + ue_name, this.loginService.getHeaders()); // Not tested
   }
 

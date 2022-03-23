@@ -3,7 +3,6 @@ package com.gestion.exams.entity;
 public enum Discipline {
 	INFORMATIQUE, MATH, SPORT, PHYSIQUE, AUTRE;
 
-	// TODO à tester
 	public String toString(Discipline discipline) {
 
 		switch(discipline) {
@@ -22,7 +21,6 @@ public enum Discipline {
 		}
 	}
 
-	// TODO à tester
 	public Discipline toEnum(String stringToEnum) {
 
 		switch(stringToEnum.toLowerCase()) {

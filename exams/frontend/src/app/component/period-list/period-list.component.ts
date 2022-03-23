@@ -22,10 +22,9 @@ export class PeriodListComponent implements OnInit {
   ngOnInit(){
     this.periodService.findAll().subscribe(data=>{
       this.periods = data;
-      this.periods = this.periods.sort((a,b) => b.year - a.year);
+      this.periods.sort((a,b) => b.year - a.year);
       for(let i = 0; i<this.periods.length; i++){
         this.isDisabled(this.periods[i].id, i);
-        console.log(this.periods[i].year);
       }
     });
   }
@@ -34,13 +33,7 @@ export class PeriodListComponent implements OnInit {
     this.periodService.deletePeriod(idPeriod).subscribe(
       ()=>{
         this.periods = [];
-        this.periodService.findAll().subscribe(data=>{
-          this.periods = data;
-          this.periods = this.periods.sort((a,b) => b.year - a.year);
-          for(let i = 0; i<this.periods.length; i++){
-            this.isDisabled(this.periods[i].id, i);
-          }
-        });
+        this.ngOnInit();
       }
     );
   }

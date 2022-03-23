@@ -58,8 +58,7 @@ public class UEService {
 	}
 
 	public UE getUeByName(String name){
-		UE ue = ueRepository.getUEByName(name);
-		return ue;
+		return ueRepository.getUEByName(name);
 	}
 
 }

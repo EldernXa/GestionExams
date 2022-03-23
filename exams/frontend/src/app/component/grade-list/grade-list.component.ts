@@ -24,18 +24,12 @@ export class GradeListComponent implements OnInit {
   ngOnInit(){
     this.gradeService.findAll(this.idExam).subscribe(data=>{
       this.grades = data;
-      console.log(this.grades)
     });
   }
 
 
   onSubmit(){
-    console.log(this.grades);
     this.gradeService.saveAllGrades(this.idExam,this.grades).subscribe();
-  }
-
-  updateGrade(index : number){
-    this.gradeService.saveGrade(this.idExam, this.grades[index]).subscribe(res => console.log(res),error => console.log(error));
   }
 
   saveAll(){
@@ -45,12 +39,11 @@ export class GradeListComponent implements OnInit {
 
   checkValidity(){
     let bool = true;
-    for(let i=0; i<this.grades.length; i++){
-      if((this.grades[i].value < 0 || this.grades[i].value > 20 )|| this.grades[i].value == null)
+    for(let g of this.grades){
+      if((g.value < 0 || g.value > 20 )|| g.value == null)
         bool = false;
     }
     this.isValid = bool;
   }
-
 
 }

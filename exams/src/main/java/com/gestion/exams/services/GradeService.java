@@ -29,7 +29,6 @@ public class GradeService {
             grade.setValue(0);
         else if(grade.getValue()>20)
             grade.setValue(20);
-        System.out.println(grade + " : new value : " + grade.getValue());
         return gradeRepository.save(grade);
     }
 
@@ -39,7 +38,6 @@ public class GradeService {
         else if(gradeValue>20)
             gradeValue=20;
         Grade grade = new Grade(student, exam, gradeValue);
-        System.out.println(grade + " -> created with value : " + grade.getValue() + " id student : " + student.getIdStudent() + " id exam : " + exam.getIdExam());
         return gradeRepository.save(grade);
     }
 
@@ -49,7 +47,6 @@ public class GradeService {
     }
 
     public void deleteGrade(Grade g){
-        //Grade g = gradeRepository.getGradeByStudentAndExam(s.getIdStudent(),e.getIdExam()).get();
         gradeRepository.delete(g);
     }
 
@@ -58,25 +55,23 @@ public class GradeService {
         Optional<Exam> exam = examRepository.findById(idExam);
         for(Student s : students) {
             boolean hasMoreThan10 = false;
-            if(exam.get().getSession() == 2){
+            if(exam.isPresent() && exam.get().getSession() == 2){
                 List<Grade> grades = s.getGrades();
                 for(Grade g : grades)
-                    if(g.getGradePK().getExam().getUe().getName() == exam.get().getUe().getName()
+                    if(g.getGradePK().getExam().getUe().getName().equals(exam.get().getUe().getName())
                         && g.getGradePK().getExam().getYear() == exam.get().getYear()
                         && g.getGradePK().getExam().getSession() == 1
                         && g.getValue() >= 10)
                         hasMoreThan10 = true;
 
             }
-            if(!hasMoreThan10)
+            if(!hasMoreThan10 && exam.isPresent())
                 createGradeByStudentAndExamIfNotExists(s, exam.get());
-            System.out.println(s.hasGradeForExam(exam.get()));
         }
     }
 
     public void createGradeByStudentAndExamIfNotExists(Student student, Exam exam){
         if(!student.hasGradeForExam(exam)) {
-            System.out.println("has no grade for exam !!!!!!!");
             createGrade(student, exam, -1);
         }
     }
@@ -86,14 +81,11 @@ public class GradeService {
     }
 
     public List<Grade> getGradesByExam(long idExam){
-        List<Grade> grades = gradeRepository.searchGradeByExam(idExam);
-        return grades;
+        return gradeRepository.searchGradeByExam(idExam);
     }
 
     public List<Grade> getGradesByStudent(long idStudent){
-        List<Grade> grades = gradeRepository.searchGradesByStudent(idStudent);
-        System.out.println("nombre notes dans grade service"+grades.size());
-        return grades;
+        return gradeRepository.searchGradesByStudent(idStudent);
     }
 
     public List<Grade> getAllGradesByExam(long idExam){
@@ -104,8 +96,8 @@ public class GradeService {
         return gradeRepository.findAll();
     }
 
-    public List<Grade> getGradesMoreThan10ByStudentAndUE(long idStudent, String ue_name){
-        return gradeRepository.getGradesMoreThan10ByStudentAndUE(idStudent,ue_name);
+    public List<Grade> getGradesMoreThan10ByStudentAndUE(long idStudent, String ueName){
+        return gradeRepository.getGradesMoreThan10ByStudentAndUE(idStudent,ueName);
     }
 
 }

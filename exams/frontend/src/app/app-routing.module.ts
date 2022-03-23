@@ -28,7 +28,6 @@ const routes: Routes = [
   { path: 'inscriptions', component: InscriptionsListComponent, canActivate:[AuthGuard], data:{role: 'STUDENT'}},
   { path: 'ueSubscribeable', component: UeSubscribeableListComponent, canActivate:[AuthGuard], data:{role: 'STUDENT'}},
   { path: 'gradesView', component: GradesViewComponent, canActivate:[AuthGuard], data:{role: 'STUDENT'}},
-  //{ path: '**', component: PageNotFoundComponent },  // TODO Wildcard route for a 404 page
 ];
 
 @NgModule({

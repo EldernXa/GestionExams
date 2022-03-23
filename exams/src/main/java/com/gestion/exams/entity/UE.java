@@ -1,6 +1,8 @@
 package com.gestion.exams.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class UE {
+public class UE  implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Basic(optional = false)
 	private int credit;

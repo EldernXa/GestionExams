@@ -44,7 +44,6 @@ export class ExamManagementComponent implements OnInit {
       for(let i=0 ; i<this.listExam.length; i++){
          this.examService.hasStudent(this.listExam[i].idExam).subscribe( hasStudent => {
            this.listHasStudent[i] = hasStudent;
-           console.log(hasStudent)
         });
         this.examService.isExamFinished(this.listExam[i].idExam, this.id).subscribe((isExamFinished)=>{
           this.listExam[i].isFinish = isExamFinished;

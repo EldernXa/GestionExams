@@ -1,20 +1,12 @@
 package com.gestion.exams.dto;
 
-
-import com.gestion.exams.dto.mapper.ExamMapper;
-import com.gestion.exams.dto.mapper.StudentMapper;
-import com.gestion.exams.entity.Exam;
-import com.gestion.exams.entity.Student;
-
 public class GradeDTO {
 
-    //private ExamDTO exam;
 		private long idExam;
 		private int year;
 		private int session;
-		private String ue_name;
+		private String ueName;
 		private int credit;
-    //private StudentDTO student;
 		private long idStudent;
 		private String firstName;
 		private String lastName;
@@ -27,24 +19,6 @@ public class GradeDTO {
 	public double getValue() {
 		return value;
 	}
-
-	/*
-	public void setExam(Exam exam) {
-		this.exam = ExamMapper.examToExamDTO(exam);
-	}
-
-	public ExamDTO getExam() {
-		return exam;
-	}
-
-	public void setStudent(Student student) {
-		this.student = StudentMapper.studentToStudentDTO(student);
-	}
-
-	public StudentDTO getStudent() {
-		return student;
-	}
-	 */
 
 	public void setYear(int year) {
 		this.year = year;
@@ -70,8 +44,8 @@ public class GradeDTO {
 		this.session = session;
 	}
 
-	public void setUe_name(String ue_name) {
-		this.ue_name = ue_name;
+	public void setUeName(String ueName) {
+		this.ueName = ueName;
 	}
 
 	public void setCredit(int credit) {
@@ -102,8 +76,8 @@ public class GradeDTO {
 		return idExam;
 	}
 
-	public String getUe_name() {
-		return ue_name;
+	public String getUeName() {
+		return ueName;
 	}
 
 	public int getCredit() {

@@ -38,9 +38,7 @@ export class UeListComponent implements OnInit {
     let hours = h.toString();
     let m = minutes%60;
     let min = (m<10) ? ("0"+m.toString()) : (m.toString());
-    let hoursAndMin = hours + "h" + min;
-    console.log(hoursAndMin);
-    return hoursAndMin;
+    return hours + "h" + min;
   }
 
 }
