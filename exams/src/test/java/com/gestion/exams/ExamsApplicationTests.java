@@ -43,6 +43,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SelectPackages({"com.gestion.exams.controller", "com.gestion.exams.services", "com.gestion.exams.jpa"})
 @RunWith(JUnitPlatform.class)
 
-class ExamsApplicationTests {
+public class ExamsApplicationTests {
 
 }
