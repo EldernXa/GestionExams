@@ -139,4 +139,22 @@ public class ExamControllerTest {
                 .andReturn();
     }
 
+    @Test
+    public void getNameUEExamTest() throws Exception {
+        Exam exam = examRepository.findAll().get(2);
+        mvc.perform(get("/exam/"+exam.getIdExam()+"/nameUE").contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    public void getNameUEExamWithErronedValuesTest() throws Exception {
+        mvc.perform(get("/exam/"+0+"/nameUE").contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+
 }

@@ -3,6 +3,7 @@ package com.gestion.exams.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gestion.exams.dto.UeDTO;
 import com.gestion.exams.entity.Discipline;
+import com.gestion.exams.entity.Exam;
 import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.UERepository;
 import com.gestion.exams.services.StudentService;
@@ -45,6 +46,7 @@ public class UeControllerTest{
     UERepository ueRepository;
 
     String token;
+    String studentToken;
 
    static private UE ue1;
    ObjectMapper mapper = new ObjectMapper();
@@ -62,6 +64,17 @@ public class UeControllerTest{
        Map<String, String> response = new ObjectMapper().readValue(json, Map.class);
        token = response.get("access_token");
        System.out.println(token);
+
+        MvcResult mvcResult2 =  mvc.perform(post("/login")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("email", "student1@noteplus.fr")
+                        .param("password", "password"))
+                .andExpect(status().isOk())
+                .andReturn();
+        String json2 = mvcResult2.getResponse().getContentAsString();
+        Map<String, String> response2 = new ObjectMapper().readValue(json2, Map.class);
+        studentToken = response2.get("access_token");
+        System.out.println(token);
     }
 
     @BeforeClass
@@ -143,7 +156,26 @@ public class UeControllerTest{
     }
 
     @Test
-    public void getSubscribeableInscriptionsOfStudentTest(){
-        //TO DO
+    public void getSubscribeableInscriptionsOfStudentTest() throws Exception {
+        mvc.perform(get("/ue/subscribeable/"+2022)
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + studentToken))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    public void isUeNameGoodTest() throws Exception {
+        mvc.perform(get("/ue/isUeNameGood/"+ue1.getName())
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    public void isUeNameGoodBadNameTest() throws Exception {
+        mvc.perform(get("/ue/isUeNameGood/BADName")
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andReturn();
     }
 }
