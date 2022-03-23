@@ -1,14 +1,18 @@
 package com.gestion.exams.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gestion.exams.dto.UeDTO;
 import com.gestion.exams.entity.Discipline;
+import com.gestion.exams.entity.Exam;
 import com.gestion.exams.entity.UE;
+import com.gestion.exams.repository.UERepository;
+import com.gestion.exams.services.StudentService;
 import com.gestion.exams.services.UEService;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,19 +21,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultMatcher;
-
 import javax.transaction.Transactional;
 import java.util.*;
-
-import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.*;
+import java.util.stream.Collectors;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.doNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -42,51 +42,140 @@ public class UeControllerTest{
     @MockBean
     private UEService ueService;
 
-    String token;
+    @MockBean
+    UERepository ueRepository;
 
-   static UE ue1 = new UE();
+    String token;
+    String studentToken;
+
+   static private UE ue1;
+   ObjectMapper mapper = new ObjectMapper();
+   ModelMapper modelMapper = new ModelMapper();
 
     @Before
     public void authenticate() throws Exception {
-        Map<String, String> user = Map.of(
-                "email", "school1@noteplus.fr",
-                "password", "password2"
-        );
-       MvcResult mvcResult =  mvc.perform(post("/login")
+        MvcResult mvcResult =  mvc.perform(post("/login")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("email", "school1@noteplus.fr")
                 .param("password", "password2"))
                 .andExpect(status().isOk())
                 .andReturn();
-        String json = mvcResult.getResponse().getContentAsString();
-        Map<String, String> response = new ObjectMapper().readValue(json, Map.class);
-        token = response.get("access_token");
+       String json = mvcResult.getResponse().getContentAsString();
+       Map<String, String> response = new ObjectMapper().readValue(json, Map.class);
+       token = response.get("access_token");
+       System.out.println(token);
+
+        MvcResult mvcResult2 =  mvc.perform(post("/login")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("email", "student1@noteplus.fr")
+                        .param("password", "password"))
+                .andExpect(status().isOk())
+                .andReturn();
+        String json2 = mvcResult2.getResponse().getContentAsString();
+        Map<String, String> response2 = new ObjectMapper().readValue(json2, Map.class);
+        studentToken = response2.get("access_token");
         System.out.println(token);
     }
 
-    @BeforeAll
+    @BeforeClass
     public static void initUeForTest() {
+        ue1 = new UE();
         ue1.setName("ASR");
         ue1.setCredit(3);
         ue1.setDurationExam(2);
         ue1.setDiscipline(Discipline.INFORMATIQUE);
+
     }
 
     @Test
     @Transactional
     public void getAllUETest() throws Exception {
-       List<UE> allUe = Arrays.asList(ue1);
+        List<UE> allUe = List.of(ue1);
+        List<UeDTO> expectedUe = allUe.stream().map(ue -> modelMapper.map(ue, UeDTO.class)).collect(Collectors.toList());
         given(ueService.getAllUE()).willReturn(allUe);
 
-        mvc.perform(get("/ue/allUE")
-                .contentType(MediaType.APPLICATION_JSON).header("Authorization", "bearer " + token))
+        MvcResult mvcResult = mvc.perform(get("/ue/allUE")
+                .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
-                .andExpect((ResultMatcher) jsonPath("$", hasSize(1)))
-                .andExpect((ResultMatcher) jsonPath("$[0].name", is(ue1.getName())));
+                .andReturn();
+        String result = mvcResult.getResponse().getContentAsString();
+        List<UeDTO> myObjects = Arrays.asList(mapper.readValue(result, UeDTO[].class));
+        assertThat(myObjects).isEqualTo(expectedUe);
     }
 
     @Test
-    public void test(){
-        assertTrue(true);
+    public void getUeByNameTest() throws Exception {
+        UeDTO ueDTO = modelMapper.map(ue1,UeDTO.class);
+        given(ueService.getUeByName(ue1.getName())).willReturn(ue1);
+
+        MvcResult mvcResult = mvc.perform(get("/ue/"+ ue1.getName())
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andReturn();
+        String result = mvcResult.getResponse().getContentAsString();
+        UeDTO ueDTO1 = mapper.readValue(result, UeDTO.class);
+        assertThat(ueDTO1.getName()).isEqualTo(ueDTO.getName());
+    }
+
+    @Test
+    @Transactional
+    public void deleteUeTest() throws Exception {
+        doNothing().when(ueService).deleteUE(ue1.getName());
+        mvc.perform(delete("/ue/"+ ue1.getName())
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
+                        .andExpect(status().isNoContent())
+                        .andReturn();
+    }
+
+    @Test
+    public void addNewUeTest() throws Exception {
+        UeDTO ueDTOToBeCreated = modelMapper.map(ue1,UeDTO.class);
+        given(ueService.createUE(ue1)).willReturn(ue1);
+        MvcResult mvcResult = mvc.perform(post("/ue/add")
+                        .content(mapper.writeValueAsString(ue1))
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
+                        .andExpect(status().isOk())
+                        .andReturn();
+        String result = mvcResult.getResponse().getContentAsString();
+        UeDTO ueDTOCreated = mapper.readValue(result, UeDTO.class);
+        assertThat(ueDTOCreated.getName()).isEqualTo(ueDTOToBeCreated.getName());
+    }
+
+    @Test
+    public void updateUeTest() throws Exception {
+        UeDTO ueDTOToBeUpdated = modelMapper.map(ue1,UeDTO.class);
+        given(ueService.updateUE(ue1, ue1.getName())).willReturn(ue1);
+        MvcResult mvcResult = mvc.perform(put("/ue/update/"+ue1.getName())
+                        .content(mapper.writeValueAsString(ue1))
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andReturn();
+        String result = mvcResult.getResponse().getContentAsString();
+        UeDTO ueDTOUpdate = mapper.readValue(result, UeDTO.class);
+        assertThat(ueDTOUpdate.getName()).isEqualTo(ueDTOToBeUpdated.getName());
+    }
+
+    @Test
+    public void getSubscribeableInscriptionsOfStudentTest() throws Exception {
+        mvc.perform(get("/ue/subscribeable/"+2022)
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + studentToken))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    public void isUeNameGoodTest() throws Exception {
+        mvc.perform(get("/ue/isUeNameGood/"+ue1.getName())
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    public void isUeNameGoodBadNameTest() throws Exception {
+        mvc.perform(get("/ue/isUeNameGood/BADName")
+                        .contentType(MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andReturn();
     }
 }

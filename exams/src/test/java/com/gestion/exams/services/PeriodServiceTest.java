@@ -32,7 +32,7 @@ import com.gestion.exams.repository.UERepository;
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
 @Transactional
-class PeriodServiceTest {
+public class PeriodServiceTest {
 
 	@Autowired
 	private PeriodService periodService;
@@ -55,8 +55,8 @@ class PeriodServiceTest {
 
 	@BeforeAll
 	public void init() throws ParseException {
-		beginDate = DateService.convertStringDateToDateClass("03/01/2022");
-		endDate = DateService.convertStringDateToDateClass("14/01/2022");
+		beginDate = DateService.convertStringDateToDateClass("lundi 3 janvier 2022");
+		endDate = DateService.convertStringDateToDateClass("vendredi 14 janvier 2022");
 		namePeriod = "period1";
 		period = new Period(beginDate, endDate, namePeriod);
 		period = periodRepository.save(period);
@@ -73,32 +73,32 @@ class PeriodServiceTest {
 	}
 
 	@Test
-	void testBeginDatePeriodToString() {
+	public void testBeginDatePeriodToString() {
 		assertEquals(DateService.convertDateClassToStringDate(beginDate), periodService.beginDatePeriodToString(period.getId()));
 	}
 
 	@Test
-	void testBeginDatePeriodToStringWithFalseId() {
+	public void testBeginDatePeriodToStringWithFalseId() {
 		assertNull(periodService.beginDatePeriodToString(-1));
 	}
 
 	@Test
-	void testEndDatePeriodToString() {
+	public void testEndDatePeriodToString() {
 		assertEquals(DateService.convertDateClassToStringDate(endDate), periodService.endDatePeriodToString(period.getId()));
 	}
 
 	@Test
-	void testEndDatePeriodToStringWithFalseId() {
+	public void testEndDatePeriodToStringWithFalseId() {
 		assertNull(periodService.endDatePeriodToString(-1));
 	}
 
 	@Test
-	void testVerifyingIfExamAlreadyExist() {
+	public void testVerifyingIfExamAlreadyExist() {
 		assertTrue(periodService.verifyIfExamCanBeAddedToAPeriod(ueRepository.findById(nameUe).get(), period.getId()));
 	}
 
 	@Test
-	void testVerifyingThatExamDoesntExist() {
+	public void testVerifyingThatExamDoesntExist() {
 		UE uefinal = null;
 		for(UE ue : ueRepository.findAll()) {
 			if(ue.getName() != nameUe) {
@@ -111,12 +111,12 @@ class PeriodServiceTest {
 	}
 
 	@Test
-	void testGettingListPeriod() {
+	public void testGettingListPeriod() {
 		assertTrue(periodService.getListPeriod().size()>=1);
 	}
 
 	@Test
-	void testConvertToDTO(){
+	public void testConvertToDTO(){
 		PeriodDTO periodDTO = periodService.convertToDTO(period);
 
 		assertNotNull(periodDTO);
@@ -124,19 +124,7 @@ class PeriodServiceTest {
 	}
 
 	@Test
-	void testConvertToEntity() throws ParseException {
-		PeriodDTO periodDTO = new PeriodDTO();
-		periodDTO.setId(period.getId());
-		periodDTO.setName(namePeriod);
-		periodDTO.setBeginDatePeriod(beginDate);
-		periodDTO.setEndDatePeriod(endDate);
-		Period newPeriod = periodService.convertToEntity(periodDTO);
-		assertNotNull(newPeriod);
-		assertEquals(periodDTO.getId(), newPeriod.getId());
-	}
-
-	@Test
-	void testGetPeriodFromMap() {
+	public void testGetPeriodFromMap() {
 		String newBeginDate = "2022-01-03";
 		String newEndDate = "2022-01-14";
 		Map<String, String> mapPeriod = new HashMap<>();
@@ -150,15 +138,15 @@ class PeriodServiceTest {
 	}
 
 	@Test
-	void testGetPeriodFromMapWithErrorInMap() {
+	public void testGetPeriodFromMapWithErrorInMap() {
 		Period newPeriod = periodService.getPeriodFromMap(null);
 		assertNull(newPeriod);
 	}
 
 	@Test
-	void testSaveNewPeriod() throws ParseException {
-		Period newPeriod = new Period(DateService.convertStringDateToDateClass("03/01/2022"),
-				DateService.convertStringDateToDateClass("14/01/2022"), "period2");
+	public void testSaveNewPeriod() throws ParseException {
+		Period newPeriod = new Period(DateService.convertStringDateToDateClass("lundi 3 janvier 2022"),
+				DateService.convertStringDateToDateClass("vendredi 14 janvier 2022"), "period2");
 		newPeriod = periodService.savePeriod(period);
 		assertNotNull(periodRepository.findById(newPeriod.getId()).get());
 		periodRepository.delete(newPeriod);
