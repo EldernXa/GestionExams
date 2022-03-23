@@ -21,7 +21,6 @@ public class RoomService {
 	private PeriodService periodService;
 
 	public Room getAvailableRoom(Date beginDate, Date endDate, long idPeriod) throws ParseException {
-		// TODO use all exam of a period in place of all exam.
 		for(Room room : roomRepository.findAll()) {
 			int indExam;
 			List<Exam> listExam = periodService.getPeriod(idPeriod).getExams();

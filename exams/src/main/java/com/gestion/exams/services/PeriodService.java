@@ -58,7 +58,7 @@ public class PeriodService {
 			}
 
 			dateBeginWithHour = getBestDateForAnExam(dateBeginWithHour, newDate, periodToPlan, exam);
-			// TODO if not room available repeat loop for date
+
 			changeExam(exam, dateBeginWithHour, DateService.addHours(dateBeginWithHour, exam.getUe().getDurationExam()), periodToPlan);
 		}
 
@@ -316,10 +316,8 @@ public class PeriodService {
 
 	public void deletePeriod(long idPeriod) {
 		Optional<Period> optionalPeriod = periodRepository.findById(idPeriod);
-		if(!optionalPeriod.isEmpty()) {
-			for(Exam exam : optionalPeriod.get().getExams()) {
-				examRepository.delete(exam);
-			}
+		if(optionalPeriod.isPresent()) {
+			examRepository.deleteAll(optionalPeriod.get().getExams());
 			periodRepository.deleteById(idPeriod);
 		}
 	}

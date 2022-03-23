@@ -3,7 +3,6 @@ package com.gestion.exams.controller;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.gestion.exams.dto.GradeDTO;
 import com.gestion.exams.dto.mapper.GradeMapper;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gestion.exams.dto.StudentDTO;
-import com.gestion.exams.dto.mapper.StudentMapper;
 import com.gestion.exams.entity.Grade;
 import com.gestion.exams.entity.Student;
 import com.gestion.exams.services.ExamService;
@@ -51,11 +47,6 @@ public class GradeController {
 		List<Grade> grades = gradeService.getGradesByExam(idExam);
 		for(Grade g : grades) {
 			gradesDTO.add(GradeMapper.gradeToGradeDTO(g));
-			System.out.println("value of grade :"+g.getValue());
-			System.out.println("grade dto value:"+gradesDTO.get(gradesDTO.size()-1).getValue());
-			System.out.println("id exam of grade :"+g.getGradePK().getExam().getIdExam());
-			System.out.println("grade dto value:"+gradesDTO.get(gradesDTO.size()-1).getIdExam());
-			System.out.println();
 		}
 		return gradesDTO;
 
@@ -67,11 +58,8 @@ public class GradeController {
 		Student student = studentRepository.getStudentByEmail(principal.getName());
 		List<GradeDTO> gradesDTO = new ArrayList<>();
 		List<Grade> grades = gradeService.getGradesByStudent(student.getIdStudent());
-		//return grades;
-
 		for(Grade g : grades)
 			gradesDTO.add(GradeMapper.gradeToGradeDTO(g));
-		System.out.println("nombre de notes de "+student.getIdStudent()+" : "+ grades.size());
 		return gradesDTO;
 
 	}
@@ -79,10 +67,10 @@ public class GradeController {
 	@PostMapping(path="/exams/{id}")
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public void updateAllGrades(@PathVariable("id") long idExam, @RequestBody List<GradeDTO> gradesDTO){
-		System.out.println("SAVING GRADES OF EXAM "+idExam + " " + gradesDTO.get(0).getValue());
 		for(GradeDTO gDto : gradesDTO){
 			Grade g = GradeMapper.gradeDTOToGrade(gDto,gradeService);
-			gradeService.createGrade(g);
+			if(g != null)
+				gradeService.createGrade(g);
 		}
 	}
 
@@ -91,18 +79,10 @@ public class GradeController {
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public void updateGrade(@PathVariable("id") long idExam, @RequestBody GradeDTO gradeDTO){
 		Grade g = GradeMapper.gradeDTOToGrade(gradeDTO,gradeService);
-		g.setValue(gradeDTO.getValue());
-		System.out.println("SAVING GRADE OF EXAM :"+idExam + " / " + g.getGradePK().getExam().getIdExam());
-		//Grade g = new Grade(this.studentService.getStudentById(Long.parseLong(map.get("idStudent"))).get(),this.examService.getExamById(idExam).get(),Double.parseDouble(map.get("grade")));
-		gradeService.createGrade(g);
-		//return g;
+		if(g != null){
+			g.setValue(gradeDTO.getValue());
+			gradeService.createGrade(g);
+		}
 	}
-
-	@DeleteMapping(path="/exam/{id}")
-	@PreAuthorize("hasAuthority('ADMIN')")
-	public void deleteGrade(@PathVariable("id") long idExam, @RequestBody Grade g){
-		gradeService.deleteGrade(g);
-	}
-
 
 }

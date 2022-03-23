@@ -1,9 +1,7 @@
 package com.gestion.exams.services;
 
 import com.gestion.exams.entity.Inscription;
-import com.gestion.exams.entity.InscriptionPK;
 import com.gestion.exams.entity.Student;
-import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.InscriptionRepository;
 import com.gestion.exams.repository.StudentRepository;
 import com.gestion.exams.repository.UERepository;
@@ -39,9 +37,5 @@ public class InscriptionService {
         inscriptionRepository.delete(inscription);
 
     }
-     /*public Inscription getInscriptionByStudentAndUeAndYear(Student student,UE ue,int year){
-        return inscriptionRepository.getInscriptionByStudentAndUeAndYear(student,ue,year);
-     }*/
-
 
 }

@@ -1,13 +1,13 @@
 package com.gestion.exams.dto.mapper;
-
 import com.gestion.exams.dto.ExamDTO;
 import com.gestion.exams.entity.Exam;
-import com.gestion.exams.services.ExamService;
 import org.modelmapper.ModelMapper;
 
 public class ExamMapper {
 
 	private static final ModelMapper modelMapper = new ModelMapper() ;
+
+	private ExamMapper(){}
 
 	public static ExamDTO examToExamDTO(Exam exam) {
 		String mstNotRoomYet = "Pas de salle pour l'instant";
@@ -19,7 +19,4 @@ public class ExamMapper {
 		return examDTO;
 	}
 
-	public Exam examDTOToExam(ExamDTO examDTO, ExamService examService) {
-		return examService.getExamById(examDTO.getIdExam()).get();
-	}
 }

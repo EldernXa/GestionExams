@@ -27,16 +27,15 @@ import com.gestion.exams.services.StudentService;
 @RequestMapping("/student")
 @CrossOrigin(origins = "http://localhost:4200")
 public class StudentController {
+
 	@Autowired
 	private StudentService studentService;
 	@Autowired
 	private StudentRepository studentRepository;
 	@Autowired
 	private AuthentificationRepository authentificationRepository;
-
 	@Autowired
 	private PeriodService periodService;
-
 	@Autowired
 	private ExamService examService;
 
@@ -53,7 +52,6 @@ public class StudentController {
 	@GetMapping("/exams")
 	@PreAuthorize("hasAuthority('STUDENT')")
 	public ResponseEntity<List<ExamDTO>> getNextPeriodOfExam(Principal principal) {
-		System.out.println("entering go next period");
 		Student currentStudent = studentService.getStudentByEmail(principal.getName());
 		Period nextPeriod = periodService.getNextPeriod();
 		List<ExamDTO> listExam = new ArrayList<>();

@@ -2,8 +2,6 @@ package com.gestion.exams.dto;
 
 import com.gestion.exams.entity.Discipline;
 
-import java.util.Objects;
-
 public class UeDTO {
 
 	String name;
@@ -59,5 +57,10 @@ public class UeDTO {
 		if (!(o instanceof UeDTO)) return false;
 		UeDTO ueDTO = (UeDTO) o;
 		return getCredit() == ueDTO.getCredit() && getDurationExam() == ueDTO.getDurationExam() && getName().equals(ueDTO.getName()) && getDiscipline() == ueDTO.getDiscipline();
+	}
+
+	@Override
+	public int hashCode(){
+		return 0;
 	}
 }

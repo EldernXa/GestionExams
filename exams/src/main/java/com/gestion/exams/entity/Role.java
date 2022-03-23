@@ -11,9 +11,6 @@ public class Role {
     @Column(unique=true)
     String name ;
 
-
-
-
     public String getName() {
         return name;
     }

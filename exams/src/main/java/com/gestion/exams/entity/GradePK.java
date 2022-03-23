@@ -1,8 +1,6 @@
 package com.gestion.exams.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -15,7 +13,6 @@ import javax.persistence.ManyToOne;
 @Embeddable
 public class GradePK implements Serializable{
 
-	// TODO do compareTo
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne

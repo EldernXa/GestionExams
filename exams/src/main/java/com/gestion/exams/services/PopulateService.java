@@ -10,9 +10,7 @@ import com.gestion.exams.entity.*;
 import com.gestion.exams.repository.*;
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -79,7 +77,7 @@ public class PopulateService{
 		ueRepository.save(ue3);
 		UE ue4 = new UE("Optique", 3, 2*60, Discipline.PHYSIQUE);
 		ueRepository.save(ue4);
-		UE ue5 = new UE("Badminton", 1, 1*60, Discipline.SPORT);
+		UE ue5 = new UE("Badminton", 1, 60, Discipline.SPORT);
 		ueRepository.save(ue5);
 		UE ue6 = new UE("Communication", 3, 2*60, Discipline.AUTRE);
 		ueRepository.save(ue6);
@@ -119,24 +117,14 @@ public class PopulateService{
 	}
 
 	private void populateInscription() {
-		/*
-		Student student1 = studentRepository.findAll().get(0);
-		Student student2 = studentRepository.findAll().get(1);
-		Student student3 = studentRepository.findAll().get(2);
-		 */
-		List<Student> students = new ArrayList<>();
-		students = studentRepository.findAll();
-		/*
-		students.add(student1);
-		students.add(student2);
-		students.add(student3);
-		 */
+
+		List<Student> students = studentRepository.findAll();
+
 		List<UE> listUE = ueRepository.findAll();
-		Random r = new Random();
 		for(int year=2020 ; year<=2021; year++){
 			for (UE element : listUE) {
 				for(Student s : students) {
-					if(r.nextBoolean()){
+					if(random.nextBoolean()){
 						Inscription inscription = new Inscription(s, year , element);
 						inscriptionRepository.save(inscription);
 					}
@@ -176,12 +164,10 @@ public class PopulateService{
 	}
 
 	private void populateExam() {
-		List<Period> listPeriod = periodRepository.findAll();
-		List<Room> listRoom = roomRepository.findAll();
 		List<Inscription> inscriptions = inscriptionRepository.findAll();
-		for(int i = 0; i<inscriptions.size(); i++) {
-				UE ue = inscriptions.get(i).getUe();
-				int year = inscriptions.get(i).getYear();
+		for(Inscription i : inscriptions) {
+				UE ue = i.getUe();
+				int year = i.getYear();
 				Period period = periodRepository.getPeriodByName("période "+year).get(0);
 				List<Exam> exams = examRepository.searchExamsByUeAndYear(ue,year);
 				if(exams.isEmpty() && (year != 2022 || period.getExams().size() < 2)) {
@@ -192,52 +178,18 @@ public class PopulateService{
 	}
 
 	private void populateGrade() {
-		/*
-		Student student1 = studentRepository.findAll().get(0);
-		Student student2 = studentRepository.findAll().get(1);
-		Student student3 = studentRepository.findAll().get(2);
-		 */
+
 		List<Inscription> inscriptions = inscriptionRepository.findAll();
-		List<Student> students = new ArrayList<>();
-		students = studentRepository.findAll();
-		/*
-		students.add(student1);
-		students.add(student2);
-		students.add(student3);
-		 */
+
 		for(Exam exam : examRepository.findAll()) {
-			//Grade grade = new Grade(student, exam, random.nextInt()*20);
 			for(Inscription i : inscriptions){
-				if(i.getUe().getName() == exam.getUe().getName() && i.getYear() == exam.getYear()){
-					//if(i.getYear()!=2022){
-						Grade grade = new Grade(i.getStudent(),exam, random.nextInt((20 - 0) + 1 ) + 0);
+				if(i.getUe().getName().equals(exam.getUe().getName()) && i.getYear() == exam.getYear()){
+						Grade grade = new Grade(i.getStudent(),exam, random.nextInt((20 ) + 1));
 						gradeRepository.save(grade);
-					//}
-					/*
-					List<Grade> grades = i.getStudent().getGrades();
-					int count2022Grades = 0;
-					for(Grade g : grades) {
-						if (g.getGradePK().getExam().getYear() == i.getYear())
-							count2022Grades++;
-					}
-					if(count2022Grades <= 2) {
-						Grade grade = new Grade(i.getStudent(), exam, random.nextInt((20 - 0) + 1) + 0);
-						gradeRepository.save(grade);
-					}
-					 */
 				}
 			}
-			/*
-			for(Student s : students) {
-				Grade grade = new Grade(s, exam, random.nextInt((20 - 0) + 1 ) + 0);
-				gradeRepository.save(grade);
-			}
-			 */
 		}
-
-
 	}
-
 }
 
 

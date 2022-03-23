@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -56,8 +56,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 
+	@Override
 	@Bean
-	public AuthenticationManager AuthenticationManagerBean()throws Exception{
+	public AuthenticationManager authenticationManagerBean()throws Exception{
 		return super.authenticationManagerBean();
 
 	}

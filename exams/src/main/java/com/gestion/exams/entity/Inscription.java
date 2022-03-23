@@ -12,11 +12,6 @@ public class Inscription implements Serializable{
 	@EmbeddedId
 	private InscriptionPK inscriptionPK;
 
-	/*
-	@Basic(optional = false)
-	private int year;
-	*/
-
 	public Inscription() {
 		super();
 	}
@@ -24,8 +19,6 @@ public class Inscription implements Serializable{
 	public Inscription(Student student, int year, UE ue) {
 		super();
 		this.inscriptionPK = new InscriptionPK(ue, student, year);
-		//this.inscriptionPK = new InscriptionPK(ue, student);
-		//this.year = year;
 	}
 
 	public Student getStudent() {
@@ -37,12 +30,10 @@ public class Inscription implements Serializable{
 	}
 
 	public int getYear() {
-		//return year;
 		return this.inscriptionPK.getYear();
 	}
 
 	public void setYear(int year) {
-		//this.year = year;
 		this.inscriptionPK.setYear(year);
 	}
 

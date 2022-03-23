@@ -1,17 +1,17 @@
 package com.gestion.exams.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
-public class Room {
+public class Room  implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Basic(optional = false)
 	private int capacity;

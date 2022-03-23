@@ -32,7 +32,6 @@ public class AuthentificationController {
 
 	@GetMapping(value="/loggedMessage")
 	public ResponseEntity<String> getLoggedMessage(Principal principal){
-		System.out.println("logged message");
 		String role = authentificationService.getRole(principal.getName());
 		if(role.contentEquals("STUDENT")){
 			Student student = studentService.getStudentByEmail(principal.getName());
