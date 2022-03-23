@@ -74,13 +74,33 @@ public class ExamControllerTest {
     public void getNextSessionOfAnExamTest() throws Exception {
         Exam exam = examRepository.findAll().get(1);
         String nameUe = exam.getUe().getName();
-        long idPeriode  = exam.getPeriod().getId();
-        Optional<Period> period = periodRepository.findById(idPeriode);
-        mvc.perform(get("/session/"+nameUe+"/"+period.get().getId()).contentType(MediaType.APPLICATION_JSON)
+        long idPeriod  = exam.getPeriod().getId();
+        Optional<Period> period = periodRepository.findById(idPeriod);
+        mvc.perform(get("/exam/session/"+nameUe+"/"+period.get().getId()).contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer " + token))
                         .andExpect(status().isOk())
                         .andReturn();
     }
+
+    @Test
+    public void getAllExams() throws Exception {
+        mvc.perform(get("/exam/list").contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    public void getAllExamsFromPeriodTest() throws Exception {
+        Exam exam = examRepository.findAll().get(1);
+        long idPeriod  = exam.getPeriod().getId();
+        Optional<Period> period = periodRepository.findById(idPeriod);
+        mvc.perform(get("/exam/list/"+period.get().getId()).contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token))
+                        .andExpect(status().isOk())
+                        .andReturn();
+    }
+
 
 
 }
