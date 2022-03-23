@@ -25,7 +25,7 @@ class DateServiceTest {
 	@BeforeAll
 	void init() throws ParseException {
 		date = new SimpleDateFormat("dd/MM/yyyy").parse("25/01/2022");
-		dateIntoStringWithYearInLast = "1/1/2022";
+		dateIntoStringWithYearInLast = "mardi 25 janvier 2022";
 		dateIntoStringWithYearFirst = "2022-4-2";
 		calendar = Calendar.getInstance();
 	}
@@ -33,20 +33,16 @@ class DateServiceTest {
 	@Test
 	void testConvertDateClassToStringDate() {
 		calendar.setTime(date);
-		String[] newDateIntoString = DateService.convertDateClassToStringDate(date).split("/");
-		assertEquals(DateService.getDay(date), Integer.valueOf(newDateIntoString[0]));
-		assertEquals(DateService.getMonth(date), Integer.valueOf(newDateIntoString[1]));
-		assertEquals(DateService.getYear(date), Integer.valueOf(newDateIntoString[2]));
+		assertEquals("mardi 25 janvier 2022", DateService.convertDateClassToStringDate(date));
 	}
 
 	@Test
 	void testConvertStringDateToDateClass() throws ParseException {
 		Date newDateAfterConverting = DateService.convertStringDateToDateClass(dateIntoStringWithYearInLast);
-		String[] dateSplitted = dateIntoStringWithYearInLast.split("/");
 		calendar.setTime(newDateAfterConverting);
-		assertEquals(Integer.valueOf(dateSplitted[0]), DateService.getDay(newDateAfterConverting));
-		assertEquals(Integer.valueOf(dateSplitted[1]), DateService.getMonth(newDateAfterConverting));
-		assertEquals(Integer.valueOf(dateSplitted[2]), DateService.getYear(newDateAfterConverting));
+		assertEquals(25, DateService.getDay(newDateAfterConverting));
+		assertEquals(1, DateService.getMonth(newDateAfterConverting));
+		assertEquals(2022, DateService.getYear(newDateAfterConverting));
 	}
 
 	@Test
