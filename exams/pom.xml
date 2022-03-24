@@ -16,13 +16,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
-		<!--
-		<tomcat.version>8.0.3</tomcat.version>
-		-->
-
-
-			<sonar.qualitygate.wait>true</sonar.qualitygate.wait>
-
+		<sonar.qualitygate.wait>true</sonar.qualitygate.wait>
 	</properties>
 
 	<dependencies>
@@ -217,7 +211,6 @@
 			<version>4.13</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
 		<dependency>
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
@@ -248,7 +241,6 @@
 			<artifactId>vue</artifactId>
 			<version>3.2.19</version>
 		</dependency>
-		<!-- Pour Axios -->
 		<dependency>
 			<groupId>org.webjars.npm</groupId>
 			<artifactId>axios</artifactId>
@@ -259,18 +251,6 @@
 			<artifactId>bootstrap</artifactId>
 			<version>4.6.0-1</version>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		-->
 
 	</dependencies>
 
