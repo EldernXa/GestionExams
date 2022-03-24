@@ -61,19 +61,21 @@ public class UEController {
 
 	@PostMapping("/add")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public UeDTO addNewUe(@RequestBody UE ue){
-		ueService.createUE(ue);
+	public UeDTO addNewUe(@RequestBody UeDTO uedto){
 		ModelMapper modelMapper = new ModelMapper();
-		return modelMapper.map(ue, UeDTO.class);
+		UE ue = modelMapper.map(uedto, UE.class);
+		ueService.createUE(ue);
+		return uedto;
 	}
 
 	@Transactional
 	@PutMapping("/update/{name}")
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public UeDTO updateUe(@PathVariable String name, @RequestBody UE ue){
+	public UeDTO updateUe(@PathVariable String name, @RequestBody UeDTO uedto){
 		ModelMapper modelMapper = new ModelMapper();
+		UE ue = modelMapper.map(uedto,UE.class);
 		ueService.updateUE(ue, name);
-		return modelMapper.map(ue,UeDTO.class);
+		return uedto;
 	}
 
 	@GetMapping("/subscribeable/{year}")
@@ -105,24 +107,6 @@ public class UEController {
 			}
 		}
 		return subscribeableUes;
-	}
-
-	@GetMapping("/testadmin")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public String testAdmin(){
-		return "Admin is connected";
-	}
-
-
-	@GetMapping("/teststudent")
-	@PreAuthorize("hasRole('ROLE_STUDENT')")
-	public String testStudent(){
-		return "Student is connected";
-	}
-
-	@GetMapping("/accessall")
-	public String testAccessAll(){
-		return "Anyone is connected";
 	}
 
 	@GetMapping("/isUeNameGood/{nameUE}")
