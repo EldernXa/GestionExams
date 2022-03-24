@@ -13,7 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
             this.loginService.logout();
             return of(err.message);
         }
-        return throwError(err);
+        return throwError(() => err);
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
