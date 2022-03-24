@@ -1,17 +1,18 @@
 package com.gestion.exams.services;
 
 
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
 import javax.annotation.PostConstruct;
-
 import com.gestion.exams.entity.*;
 import com.gestion.exams.repository.*;
 import com.github.javafaker.Faker;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
 
 @Service
 public class PopulateService{
@@ -47,7 +48,7 @@ public class PopulateService{
 
 
 
-	private Random random = new Random();
+	private SecureRandom random = new SecureRandom();
 
 	@PostConstruct
 	public void populate() {
@@ -158,7 +159,7 @@ public class PopulateService{
 						new SimpleDateFormat("dd/MM/yyyy").parse(strEndDate), "période "+year);
 				periodRepository.save(period);
 			}catch(Exception exception) {
-				exception.printStackTrace();
+				LOGGER.log(Logger.Level.valueOf("context"),exception);
 			}
 		}
 	}

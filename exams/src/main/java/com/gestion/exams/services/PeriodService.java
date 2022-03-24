@@ -270,7 +270,6 @@ public class PeriodService {
 					DateService.convertStringDateYearFirstToDateClass(mapPeriod.get("endDatePeriod")), mapPeriod.get("name"));
 		}catch(Exception exception)
 		{
-			exception.printStackTrace();
 			return null;
 		}
 	}
