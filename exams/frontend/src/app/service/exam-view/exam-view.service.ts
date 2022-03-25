@@ -9,7 +9,7 @@ export class ExamViewService {
   private usersUrl: string;
 
   constructor(private http: HttpClient) {
-    this.usersUrl = 'http://localhost:8080/';
+    this.usersUrl = 'http://localhost:11003/';
   }
 
   public findAllNextExamForAStudent():Observable<Exam[]>{

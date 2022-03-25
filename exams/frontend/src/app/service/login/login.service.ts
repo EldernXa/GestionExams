@@ -24,7 +24,7 @@ export class LoginService {
   }
 
   getName(): Observable<string>{
-    return this.http.get<string>('http://localhost:8080/loggedMessage', {responseType: 'text' as 'json'});
+    return this.http.get<string>('http://localhost:11003/loggedMessage', {responseType: 'text' as 'json'});
   }
 
   redirectIfLogin(){
@@ -56,12 +56,12 @@ export class LoginService {
   loginToken(ident: string, mdp: string){
     let params = new HttpParams().set("email", ident).set("password", mdp);
 
-    return this.http.post<string>('http://localhost:8080/login', params, {headers:{skip:"true"}, responseType: 'text' as 'json'})
+    return this.http.post<string>('http://localhost:11003/login', params, {headers:{skip:"true"}, responseType: 'text' as 'json'})
   }
 
   loginRole(data: string){
     localStorage.setItem("token", JSON.parse(data).access_token);
-    return this.http.put<string>('http://localhost:8080/loginRole', {}, {headers: this.getHeadersForLogin().headers, responseType:'text' as 'json'});
+    return this.http.put<string>('http://localhost:11003/loginRole', {}, {headers: this.getHeadersForLogin().headers, responseType:'text' as 'json'});
   }
 
   getHeadersForLogin(){

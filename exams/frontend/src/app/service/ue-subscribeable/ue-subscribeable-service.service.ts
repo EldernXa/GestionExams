@@ -14,9 +14,9 @@ export class UeSubscribeableService {
   private inscriptionUrl
 
   constructor(private http: HttpClient, private loginService:LoginService) {
-    this.usersUrl = 'http://localhost:8080/ue/';
-    this.ueUrl = 'http://localhost:8080/ue/';
-    this.inscriptionUrl = 'http://localhost:8080/inscription/';
+    this.usersUrl = 'http://localhost:11003/ue/';
+    this.ueUrl = 'http://localhost:11003/ue/';
+    this.inscriptionUrl = 'http://localhost:11003/inscription/';
   }
 
   public findAllUe() : Observable<Ue[]>{

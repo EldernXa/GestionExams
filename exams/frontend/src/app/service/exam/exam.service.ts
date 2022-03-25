@@ -10,7 +10,7 @@ export class ExamService {
   private usersUrl: string;
 
   constructor(private http: HttpClient, private loginService:LoginService) {
-    this.usersUrl = 'http://localhost:8080/exam/';
+    this.usersUrl = 'http://localhost:11003/exam/';
   }
 
   public findAllExamFromPeriod(id:number):Observable<Exam[]>{
@@ -31,7 +31,7 @@ export class ExamService {
   }
 
   public updatePlanning(idPeriod: number){
-    return this.http.put("http://localhost:8080/period/" + idPeriod,idPeriod);
+    return this.http.put("http://localhost:11003/period/" + idPeriod,idPeriod);
   }
 
   public getNextSessionForAnExam(nameUE: string, idPeriod: number):Observable<number>{
@@ -43,14 +43,14 @@ export class ExamService {
   }
 
   public isPeriodCanBeUndone(idPeriod: number): Observable<boolean>{
-    return this.http.get<boolean>("http://localhost:8080/period/undoPlanify/"+idPeriod);
+    return this.http.get<boolean>("http://localhost:11003/period/undoPlanify/"+idPeriod);
   }
 
   public initPeriod(idPeriod: number){
-    return this.http.put("http://localhost:8080/period/initPeriod/" + idPeriod, idPeriod);
+    return this.http.put("http://localhost:11003/period/initPeriod/" + idPeriod, idPeriod);
   }
 
   public isPeriodFinish(idPeriod: number):Observable<boolean>{
-    return this.http.get<boolean>("http://localhost:8080/period/isFinished/"+idPeriod);
+    return this.http.get<boolean>("http://localhost:11003/period/isFinished/"+idPeriod);
   }
 }

@@ -11,7 +11,7 @@ export class UeService {
   private usersUrl: string;
 
   constructor(private http: HttpClient, private loginService:LoginService) {
-    this.usersUrl = 'http://localhost:8080/ue/';
+    this.usersUrl = 'http://localhost:11003/ue/';
   }
 
   public findAll() : Observable<Ue[]>{

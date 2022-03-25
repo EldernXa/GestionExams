@@ -10,7 +10,7 @@ export class GradesViewService {
   private usersUrl: string;
 
   constructor(private http: HttpClient, private loginService:LoginService) {
-    this.usersUrl = 'http://localhost:8080/grades/';
+    this.usersUrl = 'http://localhost:11003/grades/';
   }
 
   public findAll() : Observable<Grade[]>{
