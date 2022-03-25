@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import com.gestion.exams.services.AuthentificationService;
 
 @Controller
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:10003")
 public class AuthentificationController {
 
 	@Autowired

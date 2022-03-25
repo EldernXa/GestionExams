@@ -27,7 +27,7 @@ import com.gestion.exams.services.StudentService;
 @RestController
 @Transactional
 @RequestMapping("/grades")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:10003")
 public class GradeController {
 
 	@Autowired

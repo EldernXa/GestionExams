@@ -17,7 +17,7 @@ import com.gestion.exams.services.PeriodService;
 
 @RestController
 @RequestMapping
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:10003")
 public class PeriodController {
 
 	@Autowired

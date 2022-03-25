@@ -25,7 +25,7 @@ import com.gestion.exams.services.UEService;
 
 @Controller
 @RequestMapping("/exam")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:10003")
 public class ExamController {
 
 	@Autowired

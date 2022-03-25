@@ -25,7 +25,7 @@ import com.gestion.exams.services.StudentService;
 
 @Controller
 @RequestMapping("/student")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:10003")
 public class StudentController {
 
 	@Autowired
