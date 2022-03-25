@@ -37,7 +37,7 @@
               </tr>
               </ng-template>
               <tr>
-                <td> {{ grade.ue_name }} </td>
+                <td> {{ grade.ueName }} </td>
                 <td> {{ grade.credit }} </td>
                 <ng-template *ngIf=" grade.value == -1 ;then content else other_content"></ng-template>
                 <ng-template #content><td> pas de note </td><td></td></ng-template>
