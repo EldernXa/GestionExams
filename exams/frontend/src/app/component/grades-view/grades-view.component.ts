@@ -84,7 +84,7 @@ export class GradesViewComponent implements OnInit {
   hasSession2Grade(grade : Grade): boolean{
       this.hasS2G = false;
       this.grades.forEach((g) => {
-        if (grade.ue_name == g.ue_name && grade.year == g.year && g.session == 2)
+        if (grade.ueName == g.ueName && grade.year == g.year && g.session == 2)
           this.hasS2G = true;
       });
       return this.hasS2G;
@@ -93,7 +93,7 @@ export class GradesViewComponent implements OnInit {
   getValueSession2Grade(grade : Grade): number{
     this.valueS2G = 0;
     this.grades.forEach((g) => {
-      if(grade.ue_name == g.ue_name && grade.year == g.year && g.session == 2)
+      if(grade.ueName == g.ueName && grade.year == g.year && g.session == 2)
         this.valueS2G = g.value;
     });
     return this.valueS2G;
