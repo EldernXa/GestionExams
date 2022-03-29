@@ -12,11 +12,11 @@ Prérequis :**
     package manager npm 8.1.2
 
 **Déploiement sur Windows :** 
-Back : dans le dossier exams > **mvn spring-boot:run **
-Front : dans le dossier exams/frontend > **npm install && ng serve**
-OU
-Dans exams > Exécuter en mode administrateur le start.bat
+    Back : dans le dossier exams > **mvn spring-boot:run **
+    Front : dans le dossier exams/frontend > **npm install && ng serve**
+    OU
+    Dans exams > Exécuter en mode administrateur le start.bat
 
 **Déploiement sur Linux :** 
-Back : dans le dossier exams > **mvn spring-boot:run **
-Front : dans le dossier exams/frontend > **npm install && ng serve**
+    Back : dans le dossier exams > **mvn spring-boot:run **
+    Front : dans le dossier exams/frontend > **npm install && ng serve**
