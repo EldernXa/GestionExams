@@ -14,12 +14,12 @@ Membres du groupe : Bardaghji Georges, Doub Salem, Gounin Thibaut & Lemaire Anth
 
 **Déploiement sur Windows :** 
 
-    Back : dans le dossier exams > **mvn spring-boot:run **
-    Front : dans le dossier exams/frontend > **npm install && ng serve**
+    Back : dans le dossier exams > mvn spring-boot:run
+    Front : dans le dossier exams/frontend > npm install && ng serve
     OU
     Dans exams > Exécuter en mode administrateur le start.bat
 
 **Déploiement sur Linux :** 
 
-    Back : dans le dossier exams > **mvn spring-boot:run **
-    Front : dans le dossier exams/frontend > **npm install && ng serve**
+    Back : dans le dossier exams > mvn spring-boot:run 
+    Front : dans le dossier exams/frontend > npm install && ng serve
