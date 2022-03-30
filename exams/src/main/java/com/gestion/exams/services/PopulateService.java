@@ -2,6 +2,7 @@ package com.gestion.exams.services;
 
 
 import java.security.SecureRandom;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.annotation.PostConstruct;
@@ -51,6 +52,9 @@ public class PopulateService{
 
 	@Autowired
 	private GradeService gradeService;
+
+	@Autowired
+	private PeriodService periodService;
 
 
 	private SecureRandom random = new SecureRandom();
@@ -256,6 +260,12 @@ public class PopulateService{
 				if (exams.isEmpty()) {
 					Exam exam = new Exam(null, null, 1, year, /*listRoom.get(0)*/null, period, ue);
 					examRepository.save(exam);
+					try{
+						periodService.planRoomAndDateOfExams(period.getId());
+					}
+					catch (ParseException exception) {
+						LOGGER.log(Logger.Level.valueOf("context"),exception);
+					}
 				}
 			}
 		}
