@@ -61,7 +61,7 @@ public class PopulateService{
 
 	private SecureRandom random = new SecureRandom();
 
-	//@PostConstruct
+	@PostConstruct
 	public void populate() {
 
 		populateRoom();
