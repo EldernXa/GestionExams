@@ -81,6 +81,7 @@ public class UEController {
 	@GetMapping("/subscribeable/{year}")
 	@PreAuthorize("hasAuthority('STUDENT')")
 	public List<UE> getSubscribeableInscriptionsOfStudent(Principal principal, @PathVariable int year){ //student will be replaced with Principal
+		/*
 		Student student = studentService.getStudentByEmail(principal.getName());
 		List<UE> allUes = ueService.getAllUE();
 		List<Inscription> studentInscriptions = student.getInscriptions();
@@ -107,6 +108,8 @@ public class UEController {
 			}
 		}
 		return subscribeableUes;
+		 */
+		return ueService.getSubscribeableInscriptionsOfStudent(studentService.getStudentByEmail(principal.getName()),year);
 	}
 
 	@GetMapping("/isUeNameGood/{nameUE}")

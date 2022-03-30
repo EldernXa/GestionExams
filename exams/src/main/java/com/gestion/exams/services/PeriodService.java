@@ -22,7 +22,9 @@ import com.gestion.exams.entity.Student;
 import com.gestion.exams.entity.UE;
 import com.gestion.exams.repository.ExamRepository;
 import com.gestion.exams.repository.PeriodRepository;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Service
 public class PeriodService {
 

@@ -1,6 +1,8 @@
 package com.gestion.exams.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ public class Student  implements Serializable {
 	private List<Grade> grades = new ArrayList<>();
 
 	@OneToMany(mappedBy = "inscriptionPK.student")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@JsonIgnore
 	private List<Inscription> inscriptions = new ArrayList<>();
 
