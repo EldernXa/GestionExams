@@ -73,7 +73,7 @@ public class PopulateService{
 		populatePeriod();
 		populateExam();
 		populateGrade();
-		 */
+		*/
 		for(int year=2020; year<=2022; year++){
 			populateInscription(year);
 			populatePeriod(year);
