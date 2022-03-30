@@ -39,4 +39,9 @@ export class UeManagementComponent implements OnInit {
       this.router.navigate([uri]));
   }
 
+  isEmpty(str: string): boolean{
+    str.replace(' ','');
+    return str.length == 0;
+  }
+
 }

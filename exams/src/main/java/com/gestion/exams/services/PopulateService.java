@@ -13,6 +13,8 @@ import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
 
 @Service
@@ -80,6 +82,7 @@ public class PopulateService{
 			populateExam(year,2);
 			populateGrade(year,2);
 		}
+		planifyPeriods();
 	}
 
 	private void populateRoom() {
@@ -110,7 +113,7 @@ public class PopulateService{
 			Student student = new Student(faker.name().firstName(), faker.name().lastName(), "student"+i+"@noteplus.fr");
 			studentRepository.save(student);
 		}
-		Student student = new Student("Jean", "BADOGOLE", "student10@noteplus.fr");
+		Student student = new Student("Jean", "BADOGOLE", "jean-badogole@noteplus.fr");
 		studentRepository.save(student);
 	}
 
@@ -171,7 +174,7 @@ public class PopulateService{
 		List<Student> students = studentRepository.findAll();
 
 		for(Student s : students) {
-			if(s.getLastName() != "BADOGOLE"){
+			if(!s.getLastName().equals("BADOGOLE")){
 				List<UE> listUE = ueService.getSubscribeableInscriptionsOfStudent(s,year);
 				for(UE ue : listUE){
 					if(random.nextBoolean()){
@@ -195,6 +198,8 @@ public class PopulateService{
 				}
 				if(year == 2022){
 					Inscription inscription = new Inscription(s, year , ueService.getUeByName("Optique"));
+					inscriptionRepository.save(inscription);
+					inscription = new Inscription(s, year , ueService.getUeByName("Communication"));
 					inscriptionRepository.save(inscription);
 				}
 			}
@@ -226,10 +231,10 @@ public class PopulateService{
 			String strEndDate2 = "15/03/"+year;
 			try {
 				Period period1 = new Period(new SimpleDateFormat("dd/MM/yyyy").parse(strBeginDate1),
-						new SimpleDateFormat("dd/MM/yyyy").parse(strEndDate1), "période session 1"+year);
+						new SimpleDateFormat("dd/MM/yyyy").parse(strEndDate1), "période session 1 "+year);
 				periodRepository.save(period1);
 				Period period2 = new Period(new SimpleDateFormat("dd/MM/yyyy").parse(strBeginDate2),
-						new SimpleDateFormat("dd/MM/yyyy").parse(strEndDate2), "période session 2"+year);
+						new SimpleDateFormat("dd/MM/yyyy").parse(strEndDate2), "période session 2 "+year);
 				periodRepository.save(period2);
 			}catch(Exception exception) {
 				LOGGER.log(Logger.Level.valueOf("context"),exception);
@@ -253,24 +258,17 @@ public class PopulateService{
 	private void populateExam(int year, int session) {
 		List<Inscription> inscriptions = inscriptionRepository.findAll();
 		for(Inscription i : inscriptions) {
-			if(i.getYear() == year) {
+			if(i.getYear() == year && !periodRepository.getPeriodByName("période session "+session+ " " + year).isEmpty()) {
 				UE ue = i.getUe();
 				Period period = periodRepository.getPeriodByName("période session "+session+ " " + year).get(0);
 				List<Exam> exams = examRepository.searchExamsByUeAndYear(ue, year);
-				if (exams.isEmpty()) {
-					Exam exam = new Exam(null, null, 1, year, /*listRoom.get(0)*/null, period, ue);
+				if (exams.isEmpty() || (exams.size()==1 && session == 2)) {
+					Exam exam = new Exam(null, null, session, year, /*listRoom.get(0)*/null, period, ue);
 					examRepository.save(exam);
-					try{
-						periodService.planRoomAndDateOfExams(period.getId());
-					}
-					catch (ParseException exception) {
-						LOGGER.log(Logger.Level.valueOf("context"),exception);
-					}
 				}
 			}
 		}
 	}
-
 
 	private void populateGrade() {
 
@@ -289,45 +287,65 @@ public class PopulateService{
 	private void populateGrade(int year, int session) {
 
 		List<Inscription> inscriptions = inscriptionRepository.findAll();
-
 		for(Exam exam : examRepository.findAll()) {
-			if(exam.getSession() == session && year != 2022)
-			for(Inscription i : inscriptions){
-				if(i.getStudent().getLastName() != "BADOGOLE"){
-					if(i.getUe().getName().equals(exam.getUe().getName()) && i.getYear() == exam.getYear() && i.getYear() == year){
-						if(session == 1 || (gradeService.getGradesMoreThan10ByStudentAndUE(i.getStudent().getIdStudent(),i.getUe().getName()).isEmpty() && session == 2)){
-							Grade grade = new Grade(i.getStudent(),exam, random.nextInt((20 ) + 1));
-							gradeRepository.save(grade);
-						}
+			if(exam.getSession() == session && (year != 2022 || session == 1)) {
+				for (Inscription i : inscriptions) {
+					if (!i.getStudent().getLastName().equals("BADOGOLE")) {
+						if (i.getUe().getName().equals(exam.getUe().getName()) && i.getYear() == exam.getYear() && i.getYear() == year) {
+							if (session == 1 || (gradeService.getGradesMoreThan10ByStudentAndUE(i.getStudent().getIdStudent(), i.getUe().getName()).isEmpty() && session == 2)) {
+								Grade grade = new Grade(i.getStudent(), exam, random.nextInt((20) + 1));
+								gradeRepository.save(grade);
+							}
 
+						}
+					} else {
+						if (year == 2020 && i.getUe().getName().equals(exam.getUe().getName()) && i.getYear() == exam.getYear() && i.getYear() == year) {
+							if (session == 1 && i.getUe().getName().equals("Introduction à la programmation")) {
+								Grade grade = new Grade(i.getStudent(), exam, 15);
+								gradeRepository.save(grade);
+							}
+							if (session == 1 && i.getUe().getName().equals("Mathématique avancée")) {
+								Grade grade = new Grade(i.getStudent(), exam, 5);
+								gradeRepository.save(grade);
+							}
+							if (session == 2 && i.getUe().getName().equals("Mathématique avancée")) {
+								Grade grade = new Grade(i.getStudent(), exam, 9);
+								gradeRepository.save(grade);
+							}
+						}
+						if (year == 2021 && i.getUe().getName().equals(exam.getUe().getName()) && i.getYear() == exam.getYear() && i.getYear() == year) {
+							if (session == 1 && i.getUe().getName().equals("Génie Logiciel")) {
+								Grade grade = new Grade(i.getStudent(), exam, 18);
+								gradeRepository.save(grade);
+							}
+							if (session == 1 && i.getUe().getName().equals("Mathématique avancée")) {
+								Grade grade = new Grade(i.getStudent(), exam, 12);
+								gradeRepository.save(grade);
+							}
+						}
+						if (year == 2022 && i.getUe().getName().equals(exam.getUe().getName()) && i.getYear() == exam.getYear() && i.getYear() == year) {
+							if (i.getUe().getName().equals("Optique")) {
+								Grade grade = new Grade(i.getStudent(), exam, 5);
+								gradeRepository.save(grade);
+							}
+							if (i.getUe().getName().equals("Communication")) {
+								Grade grade = new Grade(i.getStudent(), exam, 15);
+								gradeRepository.save(grade);
+							}
+						}
 					}
 				}
-				else{
-					if(year == 2020 && i.getUe().getName().equals(exam.getUe().getName()) && i.getYear() == exam.getYear() && i.getYear() == year){
-						if(session == 1 && i.getUe().getName() == "Introduction à la programmation"){
-							Grade grade = new Grade(i.getStudent(),exam, 15);
-							gradeRepository.save(grade);
-						}
-						if(session == 1 && i.getUe().getName() == "Mathématique avancée"){
-							Grade grade = new Grade(i.getStudent(),exam, 5);
-							gradeRepository.save(grade);
-						}
-						if(session == 2 && i.getUe().getName() == "Mathématique avancée"){
-							Grade grade = new Grade(i.getStudent(),exam, 9);
-							gradeRepository.save(grade);
-						}
-					}
-					if(year == 2021 && i.getUe().getName().equals(exam.getUe().getName()) && i.getYear() == exam.getYear() && i.getYear() == year){
-						if(session == 1 && i.getUe().getName() == "Génie Logiciel"){
-							Grade grade = new Grade(i.getStudent(),exam, 18);
-							gradeRepository.save(grade);
-						}
-						if(session == 1 && i.getUe().getName() == "Mathématique avancée"){
-							Grade grade = new Grade(i.getStudent(),exam, 12);
-							gradeRepository.save(grade);
-						}
-					}
-				}
+			}
+		}
+	}
+
+	private void planifyPeriods(){
+		List<Period> periods = periodRepository.findAll();
+		for(Period period: periods){
+			try {
+				periodService.planRoomAndDateOfExams(period.getId());
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
 		}
 	}

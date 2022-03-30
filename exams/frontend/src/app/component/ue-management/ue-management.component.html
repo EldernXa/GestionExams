@@ -15,7 +15,7 @@
                name="name"
                placeholder="Entrer le nom de l'UE"
                required #name="ngModel" readonly>
-        <div [hidden]="!name.invalid" class="alert alert-danger">Le nom de l'UE est requis.</div>
+        <div [hidden]="!name.invalid || !isEmpty(this.ue.name)" class="alert alert-danger">Le nom de l'UE est requis.</div>
       </div>
 
       <div class="form-group">

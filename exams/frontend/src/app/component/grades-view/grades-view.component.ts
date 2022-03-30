@@ -69,6 +69,8 @@ export class GradesViewComponent implements OnInit {
         s2 = this.getValueSession2Grade(grade);
         if(grade.value < s2)
           this.addAverageVariables(s2,grade.credit)
+        else
+          this.addAverageVariables(grade.value,grade.credit)
       }
       else
         this.addAverageVariables(grade.value,grade.credit)
