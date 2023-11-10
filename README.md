@@ -4,6 +4,12 @@ Membres du groupe : Bardaghji Georges, Doub Salem, Gounin Thibaut & Lemaire Anth
 
 **Utilisation :**
 
+    LOGIN ADMIN :
+
+    Identifiant : school0@noteplus.fr
+
+    mdp: password2
+
 **Prérequis :**
 
     maven
